@@ -1,0 +1,1336 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QUANTENWELT — Die Physik des Unmöglichen</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C97A;
+    --gold-dim: #8A6A28;
+    --gold-glow: rgba(201,168,76,0.18);
+    --deep-black: #04050A;
+    --cosmic-black: #080B14;
+    --navy-deep: #060B1A;
+    --navy-mid: #0D1535;
+    --blue-rich: #112255;
+    --blue-accent: #1A3A8A;
+    --blue-glow: rgba(30,80,200,0.25);
+    --blue-bright: #3B6FD4;
+    --text-cream: #F0E8D5;
+    --text-muted: #9A9280;
+    --text-dim: #4A4838;
+    --white: #FDFAF4;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--deep-black);
+    color: var(--text-cream);
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.85;
+    overflow-x: hidden;
+    cursor: crosshair;
+  }
+
+  /* ── STAR CANVAS ── */
+  #stars-canvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.6;
+  }
+
+  /* ── WRAPPER ── */
+  .page-wrap {
+    position: relative;
+    z-index: 2;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    padding: 80px 40px;
+  }
+
+  .hero-orb {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(ellipse at center,
+      rgba(20,50,150,0.35) 0%,
+      rgba(10,25,80,0.2) 40%,
+      transparent 70%);
+    filter: blur(60px);
+    pointer-events: none;
+    animation: orbPulse 8s ease-in-out infinite;
+  }
+
+  @keyframes orbPulse {
+    0%, 100% { transform: translate(-50%,-50%) scale(1); opacity: 0.6; }
+    50% { transform: translate(-50%,-50%) scale(1.15); opacity: 1; }
+  }
+
+  .hero-eyebrow {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 6px;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    animation: fadeUp 1.2s ease both;
+  }
+
+  .hero-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(52px, 8vw, 96px);
+    font-weight: 900;
+    color: var(--gold);
+    letter-spacing: 4px;
+    line-height: 1.05;
+    text-shadow: 0 0 80px rgba(201,168,76,0.4), 0 0 160px rgba(201,168,76,0.15);
+    animation: fadeUp 1.2s ease 0.15s both;
+  }
+
+  .hero-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(18px, 3vw, 26px);
+    font-style: italic;
+    font-weight: 300;
+    color: var(--text-cream);
+    margin-top: 20px;
+    opacity: 0.8;
+    animation: fadeUp 1.2s ease 0.3s both;
+  }
+
+  .hero-divider {
+    margin: 48px auto;
+    width: 180px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    animation: fadeUp 1.2s ease 0.45s both;
+  }
+
+  .hero-intro {
+    max-width: 600px;
+    font-size: 17px;
+    color: var(--text-cream);
+    opacity: 0.75;
+    line-height: 1.9;
+    animation: fadeUp 1.2s ease 0.6s both;
+    font-family: 'Cormorant Garamond', serif;
+  }
+
+  .hero-cta {
+    margin-top: 52px;
+    display: inline-block;
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    letter-spacing: 4px;
+    color: var(--gold);
+    text-decoration: none;
+    border: 1px solid var(--gold-dim);
+    padding: 16px 40px;
+    transition: all 0.4s ease;
+    animation: fadeUp 1.2s ease 0.75s both;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-cta::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--gold-glow);
+    transform: scaleX(0);
+    transition: transform 0.4s ease;
+    transform-origin: left;
+  }
+  .hero-cta:hover::before { transform: scaleX(1); }
+  .hero-cta:hover { border-color: var(--gold); text-shadow: 0 0 20px var(--gold-glow); }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 18px 0;
+    background: linear-gradient(to bottom, rgba(4,5,10,0.97) 80%, transparent);
+    border-bottom: 1px solid rgba(201,168,76,0.1);
+    backdrop-filter: blur(20px);
+  }
+  .nav-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .nav-logo {
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    letter-spacing: 5px;
+    color: var(--gold);
+    text-decoration: none;
+  }
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: var(--text-muted);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  /* ── PROGRESS BAR ── */
+  #progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold-dim), var(--gold), var(--gold-light));
+    z-index: 200;
+    transition: width 0.1s linear;
+    box-shadow: 0 0 12px rgba(201,168,76,0.6);
+  }
+
+  /* ── CHAPTER ── */
+  .chapter {
+    padding: 100px 0;
+    position: relative;
+  }
+
+  .chapter-number {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 6px;
+    color: var(--gold-dim);
+    text-align: center;
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .chapter-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 700;
+    color: var(--gold);
+    text-align: center;
+    letter-spacing: 2px;
+    line-height: 1.2;
+    margin-bottom: 12px;
+    text-shadow: 0 0 40px rgba(201,168,76,0.25);
+  }
+
+  .chapter-tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 20px;
+    color: var(--text-muted);
+    text-align: center;
+    margin-bottom: 56px;
+    font-weight: 300;
+  }
+
+  .chapter-divider {
+    width: 120px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+    margin: 0 auto 56px;
+  }
+
+  .text-block {
+    background: linear-gradient(135deg,
+      rgba(13,21,53,0.7) 0%,
+      rgba(8,11,20,0.85) 50%,
+      rgba(6,11,26,0.75) 100%);
+    border: 1px solid rgba(201,168,76,0.12);
+    border-radius: 2px;
+    padding: 52px 60px;
+    position: relative;
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  .text-block::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+  }
+  .text-block::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+  }
+
+  .text-block p {
+    font-size: 18px;
+    line-height: 1.95;
+    color: var(--text-cream);
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    margin-bottom: 20px;
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .text-block p:last-child { margin-bottom: 0; }
+
+  .highlight {
+    color: var(--gold-light);
+    font-weight: 600;
+    font-style: italic;
+  }
+
+  .fact-box {
+    border-left: 2px solid var(--gold-dim);
+    border-right: 2px solid var(--gold-dim);
+    padding: 24px 36px;
+    margin: 32px auto;
+    max-width: 640px;
+    background: rgba(201,168,76,0.04);
+    font-family: 'Cinzel', serif;
+    font-size: 14px;
+    letter-spacing: 1px;
+    color: var(--gold-light);
+    text-align: center;
+    line-height: 1.7;
+  }
+
+  .analogy-box {
+    background: rgba(17,34,85,0.4);
+    border: 1px solid rgba(59,111,212,0.3);
+    border-radius: 2px;
+    padding: 28px 36px;
+    margin: 28px auto;
+    max-width: 680px;
+    text-align: center;
+  }
+  .analogy-box .label {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 4px;
+    color: var(--blue-bright);
+    margin-bottom: 12px;
+    display: block;
+  }
+  .analogy-box p {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 17px;
+    color: var(--text-cream);
+    opacity: 0.85;
+    margin: 0 !important;
+  }
+
+  /* ── QUIZ BLOCK ── */
+  .quiz-block {
+    background: linear-gradient(160deg,
+      rgba(6,11,26,0.95) 0%,
+      rgba(13,21,53,0.85) 100%);
+    border: 1px solid rgba(201,168,76,0.2);
+    padding: 52px 60px;
+    margin-bottom: 0;
+    position: relative;
+  }
+  .quiz-block::before {
+    content: '✦ ÜBUNG ✦';
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--deep-black);
+    padding: 0 20px;
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 5px;
+    color: var(--gold);
+  }
+
+  .quiz-intro {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 16px;
+    color: var(--text-muted);
+    text-align: center;
+    margin-bottom: 36px;
+  }
+
+  .gap-sentence {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 19px;
+    color: var(--text-cream);
+    text-align: center;
+    line-height: 2.2;
+    margin-bottom: 28px;
+    padding: 0 20px;
+  }
+
+  .gap-input {
+    display: inline-block;
+    background: transparent;
+    border: none;
+    border-bottom: 1.5px solid var(--gold-dim);
+    color: var(--gold-light);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 19px;
+    font-style: italic;
+    padding: 2px 8px;
+    min-width: 140px;
+    text-align: center;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    cursor: text;
+  }
+  .gap-input:focus {
+    border-color: var(--gold);
+    box-shadow: 0 2px 0 rgba(201,168,76,0.2);
+  }
+  .gap-input.correct {
+    border-color: #4CAF7A;
+    color: #7DD9A8;
+  }
+  .gap-input.wrong {
+    border-color: #C45A5A;
+    color: #E08080;
+    animation: shake 0.4s ease;
+  }
+
+  @keyframes shake {
+    0%,100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+  }
+
+  .quiz-btn {
+    display: block;
+    margin: 36px auto 0;
+    background: transparent;
+    border: 1px solid var(--gold-dim);
+    color: var(--gold);
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    padding: 14px 44px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .quiz-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--gold-glow);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+    transform-origin: left;
+  }
+  .quiz-btn:hover::before { transform: scaleX(1); }
+  .quiz-btn:hover { border-color: var(--gold); }
+
+  .quiz-feedback {
+    text-align: center;
+    margin-top: 24px;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 17px;
+    min-height: 28px;
+    color: var(--gold-light);
+    transition: opacity 0.4s;
+  }
+
+  .quiz-score {
+    text-align: center;
+    margin-top: 16px;
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--gold-dim);
+  }
+
+  /* ── SECTION SEPARATOR ── */
+  .sep {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 20px 0;
+  }
+  .sep-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(201,168,76,0.15), transparent);
+  }
+  .sep-icon {
+    font-family: 'Cinzel', serif;
+    font-size: 16px;
+    color: var(--gold-dim);
+  }
+
+  /* ── CHAPTER HEADER BG ── */
+  .chapter-header {
+    text-align: center;
+    padding-bottom: 8px;
+    position: relative;
+  }
+  .chapter-header::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: 200px;
+    background: radial-gradient(ellipse, rgba(20,40,140,0.25) 0%, transparent 70%);
+    pointer-events: none;
+    filter: blur(30px);
+  }
+
+  /* ── FORMULAS ── */
+  .formula {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 22px;
+    color: var(--gold-light);
+    text-align: center;
+    padding: 20px 0;
+    letter-spacing: 2px;
+  }
+
+  /* ── FINAL CHAPTER ── */
+  .epilogue {
+    padding: 100px 0 120px;
+    text-align: center;
+  }
+
+  .epilogue-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(24px,4vw,40px);
+    color: var(--gold);
+    letter-spacing: 3px;
+    margin-bottom: 24px;
+  }
+  .epilogue p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    line-height: 2;
+    color: var(--text-cream);
+    opacity: 0.8;
+    max-width: 640px;
+    margin: 0 auto 20px;
+    font-weight: 300;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid rgba(201,168,76,0.08);
+    padding: 40px;
+    text-align: center;
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 4px;
+    color: var(--text-dim);
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.9s ease, transform 0.9s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── PARTICLE HINT ── */
+  .atom-icon {
+    font-size: 48px;
+    color: var(--gold-dim);
+    margin-bottom: 24px;
+    display: block;
+    animation: spinSlow 20s linear infinite;
+  }
+  @keyframes spinSlow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  /* ── TOOLTIP ── */
+  .tooltip-word {
+    border-bottom: 1px dotted var(--gold-dim);
+    cursor: help;
+    color: var(--gold-light);
+    font-style: normal;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 700px) {
+    .page-wrap { padding: 0 20px; }
+    .text-block, .quiz-block { padding: 36px 28px; }
+    .nav-links { display: none; }
+    .hero-title { font-size: 42px; }
+  }
+
+  /* ── CHAPTER PROGRESS DOTS ── */
+  .chapter-dots {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 60px;
+  }
+  .chapter-dots span {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--text-dim);
+    display: block;
+    transition: background 0.3s, transform 0.3s;
+  }
+  .chapter-dots span.active {
+    background: var(--gold);
+    transform: scale(1.4);
+  }
+
+  /* ── HINT REVEAL ── */
+  .hint-toggle {
+    display: inline-block;
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: var(--gold-dim);
+    cursor: pointer;
+    border: 1px solid rgba(201,168,76,0.15);
+    padding: 6px 16px;
+    margin-top: 12px;
+    transition: all 0.3s;
+    user-select: none;
+  }
+  .hint-toggle:hover { color: var(--gold); border-color: var(--gold-dim); }
+  .hint-text {
+    display: none;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 15px;
+    color: var(--blue-bright);
+    margin-top: 10px;
+    text-align: center;
+  }
+  .hint-text.shown { display: block; }
+</style>
+</head>
+<body>
+
+<div id="progress-bar" style="width:0%"></div>
+<canvas id="stars-canvas"></canvas>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#hero" class="nav-logo">QUANTENWELT</a>
+    <ul class="nav-links">
+      <li><a href="#kap1">Doppelspalt</a></li>
+      <li><a href="#kap2">Superposition</a></li>
+      <li><a href="#kap3">Unschärfe</a></li>
+      <li><a href="#kap4">Verschränkung</a></li>
+      <li><a href="#kap5">Bedeutung</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-orb"></div>
+  <span class="hero-eyebrow">Eine Reise in das Herz der Materie</span>
+  <h1 class="hero-title">QUANTENWELT</h1>
+  <p class="hero-subtitle">Die Physik des Unmöglichen — und warum sie wahr ist</p>
+  <div class="hero-divider"></div>
+  <p class="hero-intro">
+    Was wäre, wenn die Realität nicht so eindeutig wäre, wie sie scheint?
+    Was wäre, wenn ein Elektron gleichzeitig an zwei Orten sein könnte —
+    bis du es anschaust? Willkommen in der merkwürdigsten, schönsten und ehrlichsten
+    Theorie, die die Menschheit je entwickelt hat.
+  </p>
+  <a href="#kap1" class="hero-cta">Die Reise beginnen</a>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- KAPITEL 1: DOPPELSPALTEXPERIMENT           -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="page-wrap">
+
+  <section class="chapter reveal" id="kap1">
+    <div class="chapter-header">
+      <span class="chapter-number">KAPITEL I</span>
+      <h2 class="chapter-title">Das Doppelspalt-Experiment</h2>
+      <p class="chapter-tagline">»Als ob die Natur uns absichtlich belügt.«</p>
+      <div class="chapter-divider"></div>
+    </div>
+
+    <div class="text-block">
+      <p>
+        Stell dir vor, du wirfst Tennisbälle gegen eine Wand mit zwei Schlitzen. Die Bälle,
+        die durchkommen, landen in zwei Häufchen dahinter — genau da, wo die Schlitze sind.
+        Das klingt logisch, oder? So verhält sich Materie. <span class="highlight">So verhält sich Alltagsphysik.</span>
+      </p>
+      <p>
+        Jetzt mach dasselbe Experiment — aber nicht mit Bällen, sondern mit <span class="highlight">Elektronen</span>,
+        winzigen Teilchen aus denen Atome bestehen. Dieselbe Wand, dieselben zwei Schlitze.
+        Aber was passiert auf dem Schirm dahinter? Kein Zweihäufchenmuster. Stattdessen entsteht
+        ein Muster aus vielen abwechselnden hellen und dunklen Streifen.
+      </p>
+      <div class="analogy-box">
+        <span class="label">ANALOGIE</span>
+        <p>Das ist dasselbe Muster, das Wellen im Wasser erzeugen, wenn sie sich gegenseitig
+        überlagern und verstärken oder auslöschen. Aber Elektronen sind doch Teilchen — keine Wellen?</p>
+      </div>
+      <p>
+        Genau hier beginnt das Staunen: Das Elektron verhält sich wie eine <span class="highlight">Welle</span>,
+        die durch beide Schlitze gleichzeitig geht und mit sich selbst interferiert — obwohl
+        es ein einzelnes Teilchen ist. Die Natur verhält sich auf der kleinsten Skala vollkommen
+        anders als alles, was wir aus dem Alltag kennen.
+      </p>
+      <p>
+        Aber das ist noch nicht das Seltsamste. Als Wissenschaftler neugierig wurden und nachschauten,
+        durch welchen Schlitz das Elektron wirklich geht — indem sie einen Detektor installierten —
+        <span class="highlight">verschwand das Wellenmuster sofort</span>. Das Elektron verhielt sich
+        plötzlich wie ein Tennisball. Das bloße Beobachten hatte die Realität verändert.
+      </p>
+      <div class="fact-box">
+        „Das Doppelspaltexperiment enthält das einzige Geheimnis der Quantenmechanik."<br>
+        <span style="font-size:12px;opacity:0.6;letter-spacing:2px;margin-top:6px;display:block">— Richard Feynman, Nobelpreisträger</span>
+      </div>
+      <p>
+        Die Lektion: <span class="highlight">Beobachtung ist keine passive Handlung.</span> Im Quantenreich
+        verändert jede Messung das, was gemessen wird. Das Elektron existiert in einem Zustand
+        des »Vielleicht beides«, bis wir nachschauen. Was das bedeutet, werden wir im nächsten
+        Kapitel genauer verstehen.
+      </p>
+    </div>
+
+    <!-- QUIZ 1 -->
+    <div class="quiz-block">
+      <p class="quiz-intro">Teste dein Verständnis — fülle die Lücken mit dem richtigen Begriff.</p>
+
+      <div class="gap-sentence">
+        Wenn Elektronen durch zwei Schlitze geschickt werden, ohne beobachtet zu werden,
+        erzeugen sie ein typisches <input class="gap-input" data-answer="Wellenmuster" placeholder="________">,
+        das von ihrer wellenartigen Natur zeugt.
+      </div>
+
+      <div class="gap-sentence">
+        Sobald man beobachtet, durch welchen Schlitz ein Elektron geht, verschwindet das
+        Interferenzmuster — das nennt man den <input class="gap-input" data-answer="Messprozess" placeholder="________">,
+        der die Quantenwelt stört.
+      </div>
+
+      <div class="gap-sentence">
+        Das Doppelspaltexperiment zeigt, dass Elektronen sich sowohl wie <input class="gap-input" data-answer="Teilchen" placeholder="________">
+        als auch wie Wellen verhalten können — abhängig davon, ob man sie misst.
+      </div>
+
+      <div style="text-align:center">
+        <span class="hint-toggle" onclick="toggleHint(this)">TIPP ANZEIGEN</span>
+        <div class="hint-text">Die drei Antworten sind: Wellenmuster · Messprozess · Teilchen</div>
+      </div>
+
+      <button class="quiz-btn" onclick="checkQuiz(this)">AUSWERTEN</button>
+      <div class="quiz-feedback"></div>
+      <div class="quiz-score"></div>
+    </div>
+  </section>
+
+  <div class="sep reveal"><div class="sep-line"></div><span class="sep-icon">✦</span><div class="sep-line"></div></div>
+
+  <!-- ════════════════════════════ -->
+  <!-- KAPITEL 2: SUPERPOSITION    -->
+  <!-- ════════════════════════════ -->
+  <section class="chapter reveal" id="kap2">
+    <div class="chapter-header">
+      <span class="chapter-number">KAPITEL II</span>
+      <h2 class="chapter-title">Superposition</h2>
+      <p class="chapter-tagline">»Schrödingers Katze ist gleichzeitig tot und lebendig.«</p>
+      <div class="chapter-divider"></div>
+    </div>
+
+    <div class="text-block">
+      <p>
+        Im Alltag ist ein Lichtschalter entweder an oder aus. Ein Ball liegt entweder rechts
+        oder links. Die Welt scheint klar und eindeutig. Doch auf der Ebene von Elektronen,
+        Photonen und Atomen gelten diese Regeln <span class="highlight">nicht</span>.
+      </p>
+      <p>
+        Quantenteilchen können sich in einem Zustand befinden, der gleichzeitig beides ist —
+        das nennen Physiker <span class="highlight">Superposition</span>. Ein Elektron kann
+        gleichzeitig »Spin hoch« und »Spin runter« haben. Ein Photon kann gleichzeitig in
+        zwei Richtungen polarisiert sein. Es ist kein Rätsel, welches es ist — es ist
+        tatsächlich beides auf einmal.
+      </p>
+      <div class="analogy-box">
+        <span class="label">GEDANKENEXPERIMENT</span>
+        <p>Stell dir eine Münze vor, die in der Luft dreht. Solange sie dreht, ist sie weder
+        Kopf noch Zahl — sie ist beides. Erst wenn sie landet (= wenn du misst), entscheidet
+        sich die Münze. Ein Quantenteilchen ist die ganze Zeit über »in der Luft«.</p>
+      </div>
+      <p>
+        1935 erdachte der Physiker Erwin Schrödinger ein berühmtes Gedankenexperiment:
+        Eine Katze sitzt in einer geschlossenen Box. Darin befindet sich ein radioaktives Atom —
+        das sich in Superposition befindet: Es hat gleichzeitig zerfallen und nicht zerfallen.
+        Wenn es zerfällt, tötet ein Mechanismus die Katze. Also ist die Katze, solange die Box
+        geschlossen ist, nach der Quantentheorie gleichzeitig <span class="highlight">lebendig und tot.</span>
+      </p>
+      <p>
+        Schrödinger wollte damit die Absurdität der Quantenmechanik aufzeigen — doch paradoxerweise
+        hat die Geschichte ihm Unrecht gegeben. Experimente bestätigen immer wieder: Superposition
+        ist real. Die Natur ist tatsächlich so verrückt wie sie klingt.
+      </p>
+      <div class="fact-box">
+        Quantencomputer nutzen Superposition aus: Ein »Qubit« kann gleichzeitig 0 und 1 sein —
+        und damit Berechnungen durchführen, für die klassische Computer Jahrmillionen bräuchten.
+      </div>
+      <p>
+        Das Stichwort ist <span class="highlight">Kollaps der Wellenfunktion</span>: Sobald du
+        ein Quantenteilchen misst, »entscheidet« es sich für einen eindeutigen Zustand.
+        Die Wellenfunktion — die mathematische Beschreibung aller Möglichkeiten — kollabiert
+        auf einen einzigen Wert. Vorher: alles möglich. Nachher: eine Realität.
+      </p>
+    </div>
+
+    <!-- QUIZ 2 -->
+    <div class="quiz-block">
+      <p class="quiz-intro">Zeige, was du über Superposition gelernt hast.</p>
+
+      <div class="gap-sentence">
+        Ein Quantenteilchen, das sich in mehreren Zuständen gleichzeitig befindet,
+        nennt man im Zustand der <input class="gap-input" data-answer="Superposition" placeholder="________">.
+      </div>
+
+      <div class="gap-sentence">
+        Wenn man ein Quantenteilchen misst, kollabiert die <input class="gap-input" data-answer="Wellenfunktion" placeholder="________">
+        und das Teilchen »entscheidet« sich für einen konkreten Zustand.
+      </div>
+
+      <div class="gap-sentence">
+        Schrödingers Katze ist das berühmteste Gedankenexperiment, das die Absurdität der
+        Superposition im <input class="gap-input" data-answer="Makrokosmos" placeholder="________">
+        des Alltags veranschaulicht.
+      </div>
+
+      <div class="gap-sentence">
+        Moderne <input class="gap-input" data-answer="Quantencomputer" placeholder="________">
+        nutzen Superposition, um viele Berechnungen gleichzeitig durchzuführen.
+      </div>
+
+      <div style="text-align:center">
+        <span class="hint-toggle" onclick="toggleHint(this)">TIPP ANZEIGEN</span>
+        <div class="hint-text">Superposition · Wellenfunktion · Makrokosmos · Quantencomputer</div>
+      </div>
+
+      <button class="quiz-btn" onclick="checkQuiz(this)">AUSWERTEN</button>
+      <div class="quiz-feedback"></div>
+      <div class="quiz-score"></div>
+    </div>
+  </section>
+
+  <div class="sep reveal"><div class="sep-line"></div><span class="sep-icon">✦</span><div class="sep-line"></div></div>
+
+  <!-- ══════════════════════════════════ -->
+  <!-- KAPITEL 3: HEISENBERGSCHE UNSCHÄRFE -->
+  <!-- ══════════════════════════════════ -->
+  <section class="chapter reveal" id="kap3">
+    <div class="chapter-header">
+      <span class="chapter-number">KAPITEL III</span>
+      <h2 class="chapter-title">Das Prinzip der Unschärfe</h2>
+      <p class="chapter-tagline">»Die Natur hat Grenzen, die keine Technologie überwinden kann.«</p>
+      <div class="chapter-divider"></div>
+    </div>
+
+    <div class="text-block">
+      <p>
+        Im Jahr 1927 formulierte der junge Physiker Werner Heisenberg eine der radikalsten
+        Aussagen der Wissenschaftsgeschichte: Es gibt Paare von Eigenschaften, die man
+        <span class="highlight">niemals gleichzeitig präzise kennen kann</span> — egal wie
+        gut das Messgerät ist.
+      </p>
+      <p>
+        Das bekannteste Beispiel: Ort und Impuls (Geschwindigkeit × Masse) eines Teilchens.
+        Je genauer du den Ort eines Elektrons kennst, desto ungenauer ist sein Impuls —
+        und umgekehrt. Das ist kein Messproblem, das Ingenieure lösen könnten.
+        Es ist ein <span class="highlight">fundamentales Naturgesetz.</span>
+      </p>
+      <div class="formula">Δx · Δp ≥ ħ / 2</div>
+      <div style="text-align:center;font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--text-muted);margin-top:-8px;margin-bottom:24px">
+        Δx = Unschärfe des Ortes &nbsp;·&nbsp; Δp = Unschärfe des Impulses &nbsp;·&nbsp; ħ = reduziertes Plancksches Wirkungsquantum
+      </div>
+      <p>
+        Was bedeutet das wirklich? Stell dir vor, du willst ein Elektron fotografieren.
+        Um es zu sehen, musst du ein Lichtteilchen (Photon) darauf schießen. Aber dieses
+        Photon überträgt Energie auf das Elektron und verändert damit seinen Impuls.
+        Je kleineres Licht (= genauere Ortsmessung) du nimmst, desto mehr stört du den Impuls.
+        Es ist ein <span class="highlight">unlösbarer Kreislauf.</span>
+      </p>
+      <div class="analogy-box">
+        <span class="label">INTUITION</span>
+        <p>Es ist wie der Versuch, die Temperatur eines Glases Wasser zu messen,
+        ohne ein Thermometer hineinzustecken, das selbst Wärme abgibt und die
+        Temperatur verändert. Nur dass es bei Quanten keine Ausnahme gibt — nie.</p>
+      </div>
+      <p>
+        Noch faszinierender: Die Unschärfe ist nicht nur Unwissen — es gibt schlicht
+        keine scharfen Werte in der Natur, bevor man misst. Das Elektron hat keinen
+        genauen Ort. Es hat eine <span class="highlight">Wahrscheinlichkeitsverteilung</span>,
+        einen »Schleier der Ungewissheit«, der zur Natur selbst gehört.
+      </p>
+      <p>
+        Die Unschärfe hat aber auch eine schöne Konsequenz: Sie erklärt, warum
+        Atome stabil sind. Würde ein Elektron ganz genau auf den Atomkern fallen,
+        wäre sein Ort exakt bekannt — also müsste sein Impuls unendlich groß werden.
+        <span class="highlight">Die Unschärfe hält das Elektron auf Abstand</span> — und damit
+        existiert Materie überhaupt.
+      </p>
+    </div>
+
+    <!-- QUIZ 3 -->
+    <div class="quiz-block">
+      <p class="quiz-intro">Überprüfe dein Verständnis der Heisenbergschen Unschärfe.</p>
+
+      <div class="gap-sentence">
+        Das Heisenbergsche Unschärfeprinzip besagt, dass man <input class="gap-input" data-answer="Ort" placeholder="________">
+        und Impuls eines Teilchens niemals gleichzeitig beliebig genau messen kann.
+      </div>
+
+      <div class="gap-sentence">
+        Die Unschärfe ist kein technisches Problem, sondern ein <input class="gap-input" data-answer="Naturgesetz" placeholder="________">
+        — keine Technologie kann sie überwinden.
+      </div>
+
+      <div class="gap-sentence">
+        Dank der Unschärfe können Elektronen nicht auf den Atomkern fallen — sie haben
+        immer eine <input class="gap-input" data-answer="Wahrscheinlichkeitsverteilung" placeholder="________">
+        statt eines genauen Aufenthaltsortes.
+      </div>
+
+      <div class="gap-sentence">
+        Das Heisenbergsche Unschärfeprinzip erklärt, warum <input class="gap-input" data-answer="Atome" placeholder="________">
+        stabil sind und Materie überhaupt existiert.
+      </div>
+
+      <div style="text-align:center">
+        <span class="hint-toggle" onclick="toggleHint(this)">TIPP ANZEIGEN</span>
+        <div class="hint-text">Ort · Naturgesetz · Wahrscheinlichkeitsverteilung · Atome</div>
+      </div>
+
+      <button class="quiz-btn" onclick="checkQuiz(this)">AUSWERTEN</button>
+      <div class="quiz-feedback"></div>
+      <div class="quiz-score"></div>
+    </div>
+  </section>
+
+  <div class="sep reveal"><div class="sep-line"></div><span class="sep-icon">✦</span><div class="sep-line"></div></div>
+
+  <!-- ════════════════════════════════ -->
+  <!-- KAPITEL 4: QUANTENVERSCHRÄNKUNG -->
+  <!-- ════════════════════════════════ -->
+  <section class="chapter reveal" id="kap4">
+    <div class="chapter-header">
+      <span class="chapter-number">KAPITEL IV</span>
+      <h2 class="chapter-title">Quantenverschränkung</h2>
+      <p class="chapter-tagline">»Spukhafte Fernwirkung« — Albert Einstein</p>
+      <div class="chapter-divider"></div>
+    </div>
+
+    <div class="text-block">
+      <p>
+        Stell dir vor, zwei Elektronen werden zusammen erzeugt und dann voneinander getrennt —
+        eines reist nach Tokio, das andere bleibt in Berlin. Du misst das Berliner Elektron
+        und siehst: Spin hoch. In diesem Moment weißt du sofort, dass das Tokioter Elektron
+        Spin runter hat — <span class="highlight">ohne jede Kommunikation, ohne Zeitverzögerung.</span>
+      </p>
+      <p>
+        Das klingt wie Magie. Einstein nannte es »spukhafte Fernwirkung« und weigerte sich
+        bis zu seinem Tod zu glauben, dass die Natur so funktioniert. Er tippte darauf, dass
+        beide Elektronen von Anfang an geheime »Informationen« trugen, die den Ausgang
+        bestimmten — wie zwei Handschuhe in verschiedenen Kisten.
+      </p>
+      <div class="analogy-box">
+        <span class="label">EINSTEINS IDEE</span>
+        <p>Wenn du eine Box öffnest und den linken Handschuh siehst, weißt du sofort:
+        In der anderen Box ist der rechte. Kein Wunder — die Information war von Anfang an da.
+        Aber bei Quantenteilchen funktioniert das nicht so.</p>
+      </div>
+      <p>
+        1964 bewies der Physiker John Bell mathematisch, dass Einsteins »Handschuh-Erklärung«
+        falsch sein muss, wenn bestimmte statistische Muster auftreten. Seitdem haben Experimente
+        — mit wachsender Präzision — immer wieder gezeigt: <span class="highlight">Die Teilchen
+        trugen die Information nicht von Anfang an in sich.</span> Sie entschieden sich wirklich
+        erst im Moment der Messung — und dennoch immer perfekt korreliert.
+      </p>
+      <p>
+        Aber macht das Verschränkung nicht zur Überlichtgeschwindigkeits-Kommunikation?
+        Leider nein. Du kannst das Ergebnis der Messung nicht beeinflussen — es ist zufällig.
+        Erst wenn du deinem Partner in Tokio telefonierst (langsam, auf klassischem Weg)
+        und beide Ergebnisse vergleicht, siehst du die Korrelation. <span class="highlight">
+        Information reist trotzdem nicht schneller als Licht.</span> Die Natur ist seltsam,
+        aber nicht inkonsistent.
+      </p>
+      <div class="fact-box">
+        Verschränkung ist der Schlüssel zu Quantenkryptographie: Abhörsichere Kommunikation,
+        bei der jeder Lauschangriff physikalisch unmöglich ist — weil er die Teilchen stört
+        und sofort auffällt.
+      </div>
+      <p>
+        Verschränkung ist vielleicht das tiefste Geheimnis der Quantenphysik: Sie zeigt,
+        dass zwei Teilchen nach ihrer gemeinsamen Entstehung <span class="highlight">kein
+        getrenntes Dasein</span> mehr führen — egal wie weit sie voneinander entfernt sind.
+        Die Natur denkt nicht in Grenzen.
+      </p>
+    </div>
+
+    <!-- QUIZ 4 -->
+    <div class="quiz-block">
+      <p class="quiz-intro">Was hast du über die seltsamste Verbindung im Universum gelernt?</p>
+
+      <div class="gap-sentence">
+        Zwei verschränkte Teilchen zeigen immer <input class="gap-input" data-answer="korrelierte" placeholder="________">
+        Messergebnisse, egal wie weit sie voneinander entfernt sind.
+      </div>
+
+      <div class="gap-sentence">
+        Einstein nannte die Verschränkung »spukhafte <input class="gap-input" data-answer="Fernwirkung" placeholder="________">«
+        und glaubte, dass die Teilchen von Anfang an versteckte Informationen trugen.
+      </div>
+
+      <div class="gap-sentence">
+        John <input class="gap-input" data-answer="Bell" placeholder="________">
+        bewies mathematisch, dass Einsteins Erklärung mit versteckten Variablen
+        nicht mit den Messungen übereinstimmt.
+      </div>
+
+      <div class="gap-sentence">
+        Obwohl Verschränkung sofort über jede Distanz wirkt, kann man damit keine
+        Information schneller als <input class="gap-input" data-answer="Licht" placeholder="________">
+        übertragen, da die Messergebnisse zufällig sind.
+      </div>
+
+      <div style="text-align:center">
+        <span class="hint-toggle" onclick="toggleHint(this)">TIPP ANZEIGEN</span>
+        <div class="hint-text">korrelierte · Fernwirkung · Bell · Licht</div>
+      </div>
+
+      <button class="quiz-btn" onclick="checkQuiz(this)">AUSWERTEN</button>
+      <div class="quiz-feedback"></div>
+      <div class="quiz-score"></div>
+    </div>
+  </section>
+
+  <div class="sep reveal"><div class="sep-line"></div><span class="sep-icon">✦</span><div class="sep-line"></div></div>
+
+  <!-- ════════════════════════════════════ -->
+  <!-- KAPITEL 5: WAS BEDEUTET DAS ALLES?  -->
+  <!-- ════════════════════════════════════ -->
+  <section class="chapter reveal" id="kap5">
+    <div class="chapter-header">
+      <span class="chapter-number">KAPITEL V</span>
+      <h2 class="chapter-title">Was bedeutet das alles?</h2>
+      <p class="chapter-tagline">»Wenn dich die Quantenmechanik nicht erschüttert, hast du sie nicht verstanden.«</p>
+      <div class="chapter-divider"></div>
+    </div>
+
+    <div class="text-block">
+      <p>
+        Du hast jetzt drei der seltsamsten Phänomene kennengelernt, die die Physik je entdeckt hat.
+        Die naheliegende Frage: <span class="highlight">Was bedeutet das für die Realität?</span>
+        Ist die Welt wirklich so unbestimmt? Erzeugt Beobachtung Realität?
+      </p>
+      <p>
+        Ehrliche Antwort: Die Physiker sind sich bis heute nicht einig. Es gibt mehrere
+        Interpretationen der Quantenmechanik — alle mathematisch äquivalent, alle philosophisch
+        radikal verschieden. Die bekannteste ist die <span class="highlight">Kopenhagener Deutung</span>:
+        Es gibt keine Realität, bevor man misst. Erst die Messung erschafft die Tatsache.
+      </p>
+      <div class="analogy-box">
+        <span class="label">ALTERNATIVE</span>
+        <p>Die »Viele-Welten-Interpretation« sagt: Beim Messen verzweigt sich das Universum —
+        in einem Ast kollabiert die Wellenfunktion auf »Spin hoch«, im anderen auf »Spin runter«.
+        Beide Äste existieren. Wir erleben nur einen.</p>
+      </div>
+      <p>
+        Doch trotz philosophischer Unklarheit hat die Quantenmechanik die <span class="highlight">am besten
+        getestete Theorie</span> der Wissenschaft hervorgebracht. Ihre Vorhersagen stimmen mit
+        Experimenten auf mehr als 10 Nachkommastellen überein. Nichts in der Geschichte der
+        Wissenschaft war je genauer.
+      </p>
+      <p>
+        Und die technischen Früchte? Ohne Quantenmechanik: keine Transistoren, kein Internet,
+        keine Smartphones, keine Laser, keine Kernkraft, keine MRT-Geräte. <span class="highlight">
+        Die moderne Welt ist ein quantenmechanisches Konstrukt</span> — gebaut von Menschen,
+        die das Fundament kaum verstehen.
+      </p>
+      <div class="fact-box">
+        Quantencomputer, Quantenkryptographie, Quantensensorik — die zweite Quantenrevolution
+        steht gerade erst am Anfang. Die seltsamste Theorie der Physik wird die Technologie
+        des 21. Jahrhunderts prägen.
+      </div>
+      <p>
+        Hier ist das Schönste an der Quantenmechanik: Sie lehrt uns <span class="highlight">Demut</span>.
+        Wir lebten Jahrtausende in der Illusion, die Welt sei grundsätzlich verstehbar —
+        eine gigantische Maschine, deren Zahnräder man im Prinzip nachverfolgen könnte.
+        Die Quantenphysik sagt: Nein. Es gibt fundamentale Grenzen des Wissens. Und das ist
+        nicht eine Niederlage der Wissenschaft — es ist ihre tiefste Aussage.
+      </p>
+    </div>
+
+    <!-- QUIZ 5 -->
+    <div class="quiz-block">
+      <p class="quiz-intro">Das Abschluss-Quiz — zeige, dass du die große Geschichte verstanden hast.</p>
+
+      <div class="gap-sentence">
+        Die am meisten akzeptierte Interpretation der Quantenmechanik ist die
+        <input class="gap-input" data-answer="Kopenhagener" placeholder="________">
+        Deutung, die besagt, dass es keine Realität vor der Messung gibt.
+      </div>
+
+      <div class="gap-sentence">
+        Die Quantenmechanik ist die am besten <input class="gap-input" data-answer="getestete" placeholder="________">
+        Theorie der gesamten Wissenschaft — ihre Vorhersagen stimmen auf mehr als zehn
+        Nachkommastellen mit Experimenten überein.
+      </div>
+
+      <div class="gap-sentence">
+        Ohne Quantenmechanik gäbe es keine <input class="gap-input" data-answer="Transistoren" placeholder="________">
+        — und damit kein Internet, keine Computer, keine Smartphones.
+      </div>
+
+      <div class="gap-sentence">
+        Die seltsamste Konsequenz der Quantenmechanik ist, dass es fundamentale <input class="gap-input" data-answer="Grenzen" placeholder="________">
+        des Wissens gibt, die keine Technologie überwinden kann.
+      </div>
+
+      <div style="text-align:center">
+        <span class="hint-toggle" onclick="toggleHint(this)">TIPP ANZEIGEN</span>
+        <div class="hint-text">Kopenhagener · getestete · Transistoren · Grenzen</div>
+      </div>
+
+      <button class="quiz-btn" onclick="checkQuiz(this)">AUSWERTEN</button>
+      <div class="quiz-feedback"></div>
+      <div class="quiz-score"></div>
+    </div>
+  </section>
+
+  <!-- EPILOGUE -->
+  <div class="sep reveal"><div class="sep-line"></div><span class="sep-icon">✦</span><div class="sep-line"></div></div>
+
+  <section class="epilogue reveal">
+    <span class="atom-icon">⚛</span>
+    <h2 class="epilogue-title">Du hast die Quantenwelt betreten.</h2>
+    <div class="hero-divider" style="margin:24px auto 40px"></div>
+    <p>
+      Du weißt jetzt, dass Elektronen durch zwei Schlitze gleichzeitig gehen,
+      dass Katzen theoretisch tot und lebendig sind, dass die Natur fundamentale
+      Unschärfen besitzt — und dass zwei Teilchen über das ganze Universum
+      hinweg miteinander verbunden bleiben können.
+    </p>
+    <p>
+      Das alles ist nicht Spekulation oder Science-Fiction.
+      Es ist die genaueste Beschreibung der Realität, die die Menschheit je hatte.
+      Willkommen in der echten Welt.
+    </p>
+    <p style="color:var(--gold);font-style:italic;font-size:22px;margin-top:16px">
+      »Ich denke, ich kann bedenkenlos sagen, dass niemand die Quantenmechanik versteht.«
+      <br><span style="font-size:15px;font-style:normal;letter-spacing:2px;color:var(--text-muted)">— RICHARD FEYNMAN</span>
+    </p>
+  </section>
+
+</div>
+
+<footer>
+  <div style="letter-spacing:6px;margin-bottom:8px">✦ QUANTENWELT ✦</div>
+  Eine Einführung in die Physik des Unmöglichen
+</footer>
+
+<script>
+  /* ── STARS ── */
+  const canvas = document.getElementById('stars-canvas');
+  const ctx = canvas.getContext('2d');
+  let stars = [];
+
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+
+  function createStars() {
+    stars = [];
+    const count = Math.floor((canvas.width * canvas.height) / 5000);
+    for (let i = 0; i < count; i++) {
+      stars.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 1.2 + 0.2,
+        alpha: Math.random() * 0.6 + 0.1,
+        speed: Math.random() * 0.0003 + 0.0001,
+        phase: Math.random() * Math.PI * 2
+      });
+    }
+  }
+
+  function drawStars(t) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (const s of stars) {
+      const a = s.alpha * (0.5 + 0.5 * Math.sin(t * s.speed * 1000 + s.phase));
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(200,210,255,${a})`;
+      ctx.fill();
+    }
+    requestAnimationFrame(drawStars);
+  }
+
+  resizeCanvas(); createStars(); requestAnimationFrame(drawStars);
+  window.addEventListener('resize', () => { resizeCanvas(); createStars(); });
+
+  /* ── PROGRESS BAR ── */
+  const bar = document.getElementById('progress-bar');
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY;
+    const total = document.body.scrollHeight - window.innerHeight;
+    bar.style.width = Math.min(100, (scrolled / total) * 100) + '%';
+  });
+
+  /* ── REVEAL ON SCROLL ── */
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  reveals.forEach(el => io.observe(el));
+
+  /* ── QUIZ ── */
+  function normalize(s) {
+    return s.trim().toLowerCase()
+      .replace(/ä/g,'ae').replace(/ö/g,'oe').replace(/ü/g,'ue').replace(/ß/g,'ss');
+  }
+
+  function checkQuiz(btn) {
+    const block = btn.closest('.quiz-block');
+    const inputs = block.querySelectorAll('.gap-input');
+    let correct = 0;
+    inputs.forEach(input => {
+      const answer = input.dataset.answer;
+      const val = input.value;
+      if (!val.trim()) {
+        input.classList.remove('correct', 'wrong');
+        return;
+      }
+      const norm_ans = normalize(answer);
+      const norm_val = normalize(val);
+      if (norm_val === norm_ans ||
+          norm_val.includes(norm_ans) ||
+          norm_ans.includes(norm_val) ||
+          levenshtein(norm_val, norm_ans) <= 2) {
+        input.classList.add('correct');
+        input.classList.remove('wrong');
+        input.value = answer;
+        correct++;
+      } else {
+        input.classList.add('wrong');
+        input.classList.remove('correct');
+        setTimeout(() => input.classList.remove('wrong'), 800);
+      }
+    });
+    const total = inputs.length;
+    const feedback = block.querySelector('.quiz-feedback');
+    const scoreEl = block.querySelector('.quiz-score');
+    const messages = [
+      ['0', 'Keine Sorge — lies den Text nochmal in Ruhe durch. Du schaffst das.'],
+      ['teilweise', 'Gut angefangen! Nochmal durchlesen und du kriegst alle.'],
+      ['gut', 'Sehr gut! Du hast das Wesentliche verstanden.'],
+      ['perfekt', '✦ Ausgezeichnet. Du denkst wie ein Quantenphysiker.']
+    ];
+    let msg;
+    const ratio = correct / total;
+    if (ratio === 0) msg = messages[0][1];
+    else if (ratio < 0.5) msg = messages[1][1];
+    else if (ratio < 1) msg = messages[2][1];
+    else msg = messages[3][1];
+
+    feedback.textContent = msg;
+    scoreEl.textContent = correct + ' von ' + total + ' Antworten korrekt';
+  }
+
+  function levenshtein(a, b) {
+    const m = a.length, n = b.length;
+    const dp = Array.from({length: m+1}, (_, i) => Array.from({length: n+1}, (_, j) => i === 0 ? j : j === 0 ? i : 0));
+    for (let i = 1; i <= m; i++)
+      for (let j = 1; j <= n; j++)
+        dp[i][j] = a[i-1] === b[j-1] ? dp[i-1][j-1] : 1 + Math.min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1]);
+    return dp[m][n];
+  }
+
+  /* ── HINT ── */
+  function toggleHint(el) {
+    const hint = el.nextElementSibling;
+    hint.classList.toggle('shown');
+    el.textContent = hint.classList.contains('shown') ? 'TIPP VERBERGEN' : 'TIPP ANZEIGEN';
+  }
+
+  /* ── SMOOTH CURSOR GLOW ── */
+  const glow = document.createElement('div');
+  glow.style.cssText = 'position:fixed;pointer-events:none;width:300px;height:300px;border-radius:50%;background:radial-gradient(ellipse,rgba(25,60,180,0.07) 0%,transparent 70%);transform:translate(-50%,-50%);z-index:1;transition:left 0.3s ease,top 0.3s ease';
+  document.body.appendChild(glow);
+  document.addEventListener('mousemove', e => {
+    glow.style.left = e.clientX + 'px';
+    glow.style.top = e.clientY + 'px';
+  });
+</script>
+</body>
+</html>
