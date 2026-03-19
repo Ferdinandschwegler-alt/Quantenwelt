@@ -1,0 +1,1511 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LERNWELT — Dein persönlicher Lernbegleiter</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Lora:ital,wght@0,400;0,600;1,400&family=Caveat:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #FDF6E3;
+  --cream-dark: #F5E8C8;
+  --cream-mid: #EDD99A;
+  --gold: #C9973A;
+  --gold-light: #E8B85A;
+  --gold-pale: #F2D68E;
+  --gold-dim: #A07828;
+  --wine: #7B1D2E;
+  --wine-light: #A0283C;
+  --wine-dark: #560F1E;
+  --wine-pale: #C4455A;
+  --bg: #FDF6E3;
+  --card: #FFFAF0;
+  --border: rgba(201,151,58,0.3);
+  --shadow: rgba(123,29,46,0.12);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--cream);
+  background-image:
+    radial-gradient(ellipse at 10% 20%, rgba(201,151,58,0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 90% 80%, rgba(123,29,46,0.06) 0%, transparent 50%);
+  min-height: 100vh;
+  font-family: 'Lora', Georgia, serif;
+  color: var(--wine);
+  overflow-x: hidden;
+}
+
+/* Subtle paper texture */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── SCREENS ── */
+.screen {
+  display: none;
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  animation: fadeIn 0.5s ease;
+}
+.screen.active { display: flex; flex-direction: column; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ══════════════════════════════
+   SCREEN 1 — STARTSEITE
+══════════════════════════════ */
+#screen-start {
+  align-items: center;
+  justify-content: center;
+  padding: 40px 60px;
+  gap: 0;
+}
+
+.start-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.logo-mark {
+  font-family: 'Caveat', cursive;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 5px;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.start-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(44px, 6vw, 80px);
+  font-weight: 900;
+  color: var(--wine);
+  line-height: 1.0;
+  letter-spacing: -1px;
+}
+
+.start-title em {
+  font-style: italic;
+  color: var(--gold);
+}
+
+.start-subtitle {
+  font-family: 'Lora', serif;
+  font-style: italic;
+  font-size: 18px;
+  color: var(--wine-light);
+  opacity: 0.7;
+  margin-top: 12px;
+  font-weight: 400;
+}
+
+.start-layout {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 48px;
+  width: 100%;
+  max-width: 1100px;
+  align-items: start;
+}
+
+/* DROP ZONE */
+.drop-zone {
+  border: 2px dashed var(--gold);
+  border-radius: 16px;
+  background: rgba(255,250,240,0.8);
+  padding: 52px 40px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.35s ease;
+  position: relative;
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  box-shadow: inset 0 2px 16px rgba(201,151,58,0.06);
+}
+
+.drop-zone.dragover {
+  border-color: var(--wine);
+  background: rgba(242,214,142,0.25);
+  transform: scale(1.01);
+  box-shadow: 0 8px 40px rgba(123,29,46,0.12), inset 0 0 0 4px rgba(201,151,58,0.08);
+}
+
+.drop-zone.has-content {
+  border-style: solid;
+  border-color: var(--gold-dim);
+  background: rgba(255,250,240,0.95);
+}
+
+.drop-icon {
+  font-family: 'Playfair Display', serif;
+  font-size: 52px;
+  color: var(--gold-pale);
+  line-height: 1;
+  transition: transform 0.3s;
+}
+.drop-zone:hover .drop-icon { transform: translateY(-4px); }
+
+.drop-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--wine);
+}
+
+.drop-hint {
+  font-family: 'Caveat', cursive;
+  font-size: 16px;
+  color: var(--gold-dim);
+  line-height: 1.5;
+}
+
+.drop-or {
+  font-family: 'Lora', serif;
+  font-style: italic;
+  font-size: 14px;
+  color: var(--wine-light);
+  opacity: 0.5;
+}
+
+.file-btn {
+  background: transparent;
+  border: 1.5px solid var(--gold);
+  color: var(--wine);
+  font-family: 'Playfair Display', serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  padding: 10px 28px;
+  cursor: pointer;
+  transition: all 0.3s;
+  border-radius: 30px;
+}
+.file-btn:hover { background: var(--gold); color: var(--cream); }
+
+#file-input { display: none; }
+
+.paste-area {
+  width: 100%;
+  min-height: 120px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+  font-family: 'Lora', serif;
+  font-size: 14px;
+  color: var(--wine);
+  background: rgba(255,255,255,0.5);
+  resize: none;
+  outline: none;
+  transition: border-color 0.3s;
+  line-height: 1.6;
+}
+.paste-area:focus { border-color: var(--gold); }
+.paste-area::placeholder { color: var(--gold-dim); opacity: 0.5; font-style: italic; }
+
+.content-preview {
+  background: rgba(255,250,235,0.9);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 20px;
+  font-family: 'Lora', serif;
+  font-size: 13px;
+  color: var(--wine);
+  max-height: 200px;
+  overflow-y: auto;
+  line-height: 1.6;
+  text-align: left;
+  display: none;
+}
+.content-preview.visible { display: block; }
+
+/* SIDEBAR */
+.start-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.info-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 28px 28px;
+  box-shadow: 0 4px 20px var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+.info-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold-dim), var(--gold-light), var(--gold-dim));
+}
+
+.info-card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--wine);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.info-card-icon {
+  font-size: 20px;
+  color: var(--gold);
+}
+
+.steps-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.steps-list li {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  font-family: 'Lora', serif;
+  font-size: 14px;
+  color: var(--wine);
+  opacity: 0.85;
+  line-height: 1.5;
+}
+.step-num {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--gold-pale);
+  color: var(--wine-dark);
+  font-family: 'Playfair Display', serif;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.topic-input {
+  width: 100%;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-family: 'Lora', serif;
+  font-size: 15px;
+  color: var(--wine);
+  background: rgba(255,255,255,0.6);
+  outline: none;
+  transition: border-color 0.3s;
+}
+.topic-input:focus { border-color: var(--gold); }
+.topic-input::placeholder { color: var(--gold-dim); opacity: 0.5; font-style: italic; }
+
+.topic-label {
+  font-family: 'Caveat', cursive;
+  font-size: 14px;
+  color: var(--gold-dim);
+  margin-bottom: 8px;
+  display: block;
+}
+
+.start-btn {
+  width: 100%;
+  background: linear-gradient(135deg, var(--wine) 0%, var(--wine-light) 100%);
+  border: none;
+  border-radius: 40px;
+  color: var(--cream);
+  font-family: 'Playfair Display', serif;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 18px 32px;
+  cursor: pointer;
+  transition: all 0.35s ease;
+  box-shadow: 0 6px 24px rgba(123,29,46,0.25);
+  position: relative;
+  overflow: hidden;
+}
+.start-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.start-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(123,29,46,0.3); }
+.start-btn:hover::before { opacity: 1; }
+.start-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+/* ══════════════════════════════
+   SCREEN 2 — LOADING
+══════════════════════════════ */
+#screen-loading {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 32px;
+}
+
+.loading-orb {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 3px solid var(--gold-pale);
+  border-top-color: var(--wine);
+  animation: spin 1.2s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.loading-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  font-weight: 900;
+  color: var(--wine);
+}
+.loading-sub {
+  font-family: 'Caveat', cursive;
+  font-size: 20px;
+  color: var(--gold-dim);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:0.5} 50%{opacity:1} }
+
+/* ══════════════════════════════
+   SCREEN 3 — QUIZ
+══════════════════════════════ */
+#screen-quiz {
+  padding: 32px 60px 48px;
+  justify-content: flex-start;
+  gap: 28px;
+  min-height: 100vh;
+}
+
+.quiz-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.quiz-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--wine);
+  font-style: italic;
+}
+
+.quiz-meta {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.q-counter {
+  font-family: 'Caveat', cursive;
+  font-size: 20px;
+  color: var(--gold-dim);
+}
+
+.q-score-badge {
+  background: var(--cream-dark);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 6px 16px;
+  font-family: 'Playfair Display', serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--wine);
+}
+
+/* PROGRESS */
+.progress-track {
+  width: 100%;
+  height: 6px;
+  background: var(--cream-dark);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold-dim), var(--gold-light));
+  border-radius: 3px;
+  transition: width 0.5s ease;
+  box-shadow: 0 0 8px rgba(201,151,58,0.4);
+}
+
+/* QUESTION CARD */
+.question-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 44px 56px;
+  width: 100%;
+  box-shadow: 0 8px 40px var(--shadow);
+  position: relative;
+  overflow: hidden;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+.question-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--gold-dim), var(--gold-light), var(--gold-dim));
+}
+
+.q-number-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--cream-dark);
+  border-radius: 20px;
+  padding: 6px 16px;
+  font-family: 'Caveat', cursive;
+  font-size: 16px;
+  color: var(--gold-dim);
+  align-self: flex-start;
+}
+
+.question-text {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(20px, 2.5vw, 28px);
+  font-weight: 700;
+  color: var(--wine);
+  line-height: 1.4;
+  text-align: center;
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+/* ANSWER OPTIONS */
+.answers-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  width: 100%;
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.answer-btn {
+  background: rgba(255,250,240,0.9);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  padding: 18px 24px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  text-align: left;
+  position: relative;
+  overflow: hidden;
+}
+.answer-btn:hover:not(:disabled) {
+  border-color: var(--gold);
+  background: rgba(242,214,142,0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(123,29,46,0.1);
+}
+
+.answer-letter {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--cream-dark);
+  color: var(--wine);
+  font-family: 'Playfair Display', serif;
+  font-size: 14px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.25s;
+}
+.answer-btn:hover:not(:disabled) .answer-letter {
+  background: var(--gold-pale);
+  color: var(--wine-dark);
+}
+
+.answer-text {
+  font-family: 'Lora', serif;
+  font-size: 15px;
+  color: var(--wine);
+  line-height: 1.5;
+  padding-top: 6px;
+}
+
+/* States */
+.answer-btn.correct {
+  border-color: #5D8A6A;
+  background: rgba(93,138,106,0.12);
+  cursor: default;
+}
+.answer-btn.correct .answer-letter {
+  background: #5D8A6A;
+  color: white;
+}
+
+.answer-btn.wrong {
+  border-color: var(--wine-pale);
+  background: rgba(160,40,60,0.08);
+  cursor: default;
+}
+.answer-btn.wrong .answer-letter {
+  background: var(--wine-pale);
+  color: white;
+}
+
+.answer-btn:disabled {
+  cursor: default;
+}
+
+/* EXPLANATION BOX */
+.explanation-box {
+  display: none;
+  background: linear-gradient(135deg, rgba(255,245,220,0.95) 0%, rgba(255,250,235,0.98) 100%);
+  border: 1.5px solid var(--gold-pale);
+  border-radius: 14px;
+  padding: 24px 32px;
+  max-width: 820px;
+  margin: 0 auto;
+  width: 100%;
+}
+.explanation-box.visible { display: block; animation: slideDown 0.3s ease; }
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.exp-label {
+  font-family: 'Caveat', cursive;
+  font-size: 15px;
+  color: var(--gold-dim);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.exp-text {
+  font-family: 'Lora', serif;
+  font-size: 15px;
+  color: var(--wine);
+  line-height: 1.7;
+  font-style: italic;
+}
+
+/* NEXT BUTTON */
+.next-btn {
+  display: none;
+  margin: 0 auto;
+  background: linear-gradient(135deg, var(--gold-dim) 0%, var(--gold) 100%);
+  border: none;
+  border-radius: 35px;
+  color: var(--cream);
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 14px 44px;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 20px rgba(160,120,40,0.3);
+  letter-spacing: 1px;
+}
+.next-btn.visible { display: block; animation: fadeIn 0.3s ease; }
+.next-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(160,120,40,0.35); }
+
+/* ══════════════════════════════
+   SCREEN 4 — RESULTS
+══════════════════════════════ */
+#screen-results {
+  align-items: center;
+  justify-content: center;
+  padding: 48px 60px;
+  gap: 0;
+}
+
+.results-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 56px 64px;
+  max-width: 820px;
+  width: 100%;
+  box-shadow: 0 16px 60px var(--shadow);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.results-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 5px;
+  background: linear-gradient(90deg, var(--gold-dim), var(--gold-light), var(--wine-pale), var(--gold-light), var(--gold-dim));
+}
+
+.results-emoji {
+  font-size: 64px;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.results-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 4vw, 46px);
+  font-weight: 900;
+  color: var(--wine);
+  margin-bottom: 8px;
+}
+.results-title em { font-style: italic; color: var(--gold); }
+
+.results-subtitle {
+  font-family: 'Lora', serif;
+  font-style: italic;
+  font-size: 18px;
+  color: var(--wine-light);
+  opacity: 0.7;
+  margin-bottom: 40px;
+}
+
+.score-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin: 32px 0;
+}
+
+.score-circle {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: conic-gradient(var(--gold) var(--pct, 0%), var(--cream-dark) var(--pct, 0%));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.score-circle::after {
+  content: '';
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: var(--card);
+}
+.score-inner {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+.score-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 38px;
+  font-weight: 900;
+  color: var(--wine);
+  display: block;
+}
+.score-denom {
+  font-family: 'Caveat', cursive;
+  font-size: 16px;
+  color: var(--gold-dim);
+  display: block;
+}
+
+.stats-row {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  margin: 32px 0;
+}
+.stat-box {
+  background: var(--cream-dark);
+  border-radius: 12px;
+  padding: 18px 28px;
+  text-align: center;
+  border: 1px solid var(--border);
+}
+.stat-val {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--wine);
+  display: block;
+}
+.stat-label {
+  font-family: 'Caveat', cursive;
+  font-size: 14px;
+  color: var(--gold-dim);
+  display: block;
+  margin-top: 2px;
+}
+
+.result-message {
+  font-family: 'Lora', serif;
+  font-size: 17px;
+  font-style: italic;
+  color: var(--wine);
+  opacity: 0.75;
+  margin: 24px 0 36px;
+  line-height: 1.7;
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.results-btns {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--wine) 0%, var(--wine-light) 100%);
+  border: none;
+  border-radius: 35px;
+  color: var(--cream);
+  font-family: 'Playfair Display', serif;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 14px 36px;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 18px rgba(123,29,46,0.25);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 26px rgba(123,29,46,0.3); }
+
+.btn-secondary {
+  background: transparent;
+  border: 2px solid var(--gold);
+  border-radius: 35px;
+  color: var(--wine);
+  font-family: 'Playfair Display', serif;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 12px 36px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.btn-secondary:hover { background: var(--gold-pale); }
+
+/* DECORATIVE */
+.ornament {
+  font-family: 'Playfair Display', serif;
+  color: var(--gold-pale);
+  font-size: 28px;
+  text-align: center;
+  letter-spacing: 12px;
+  margin: 16px 0;
+  display: block;
+  user-select: none;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--cream-dark); }
+::-webkit-scrollbar-thumb { background: var(--gold-pale); border-radius: 3px; }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .start-layout { grid-template-columns: 1fr; }
+  #screen-start, #screen-quiz, #screen-results { padding: 24px 20px; }
+  .answers-grid { grid-template-columns: 1fr; }
+  .question-card { padding: 28px 24px; }
+  .results-card { padding: 32px 24px; }
+}
+
+/* Error toast */
+.toast {
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--wine);
+  color: var(--cream);
+  font-family: 'Lora', serif;
+  font-size: 14px;
+  padding: 12px 28px;
+  border-radius: 30px;
+  box-shadow: 0 4px 20px rgba(123,29,46,0.3);
+  opacity: 0;
+  transition: all 0.3s;
+  z-index: 999;
+  pointer-events: none;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════
+     SCREEN 1: START
+══════════════════════════════ -->
+<div id="screen-start" class="screen active">
+  <div class="start-header">
+    <span class="logo-mark">✦ Lernwelt ✦</span>
+    <h1 class="start-title">Lern<em>welt</em></h1>
+    <p class="start-subtitle">Wirf deinen Schulstoff rein — wir machen Fragen draus.</p>
+  </div>
+
+  <div class="start-layout">
+    <!-- DROP ZONE -->
+    <div>
+      <div class="drop-zone" id="drop-zone">
+        <div class="drop-icon">📄</div>
+        <div class="drop-title">Schulstoff hier ablegen</div>
+        <div class="drop-hint">Ziehe eine Datei hierher<br>(.txt, .pdf, .docx, .md)</div>
+        <div class="drop-or">— oder —</div>
+        <button class="file-btn" onclick="document.getElementById('file-input').click()">Datei auswählen</button>
+        <input type="file" id="file-input" accept=".txt,.pdf,.doc,.docx,.md,.rtf">
+      </div>
+
+      <div class="ornament" style="margin:16px 0 8px">❦</div>
+      <label style="display:block;font-family:'Caveat',cursive;font-size:15px;color:var(--gold-dim);margin-bottom:6px">
+        Oder Text direkt einfügen:
+      </label>
+      <textarea class="paste-area" id="paste-area" placeholder="Füge deinen Lernstoff hier ein — Mitschriften, Kapitel, Definitionen…" rows="5"></textarea>
+
+      <div class="content-preview" id="content-preview"></div>
+    </div>
+
+    <!-- SIDEBAR -->
+    <div class="start-sidebar">
+      <div class="info-card">
+        <div class="info-card-title">
+          <span class="info-card-icon">✦</span>
+          So funktioniert's
+        </div>
+        <ul class="steps-list">
+          <li><span class="step-num">1</span>Lege deinen Schulstoff ein — egal ob Mitschrift, Kapitel oder Zusammenfassung.</li>
+          <li><span class="step-num">2</span>Wir erstellen automatisch 20 clevere Fragen daraus.</li>
+          <li><span class="step-num">3</span>Wähle aus vier Antwortmöglichkeiten. Falsche Antworten werden direkt erklärt.</li>
+          <li><span class="step-num">4</span>Am Ende siehst du genau, was du schon drauf hast.</li>
+        </ul>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-title">
+          <span class="info-card-icon">📚</span>
+          Thema (optional)
+        </div>
+        <label class="topic-label">Um welches Fach geht es?</label>
+        <input class="topic-input" id="topic-input" type="text" placeholder="z.B. Chemie, Geschichte, Deutsch…">
+      </div>
+
+      <div class="info-card" id="api-key-card">
+        <div class="info-card-title">
+          <span class="info-card-icon">🔑</span>
+          API-Schlüssel
+        </div>
+        <label class="topic-label">Anthropic API Key</label>
+        <div style="position:relative">
+          <input class="topic-input" id="api-key-input" type="password"
+            placeholder="sk-ant-api03-…"
+            oninput="onApiKeyInput()"
+            style="padding-right:44px">
+          <button onclick="toggleKeyVisibility()" id="eye-btn"
+            style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;color:var(--gold-dim);padding:0">👁</button>
+        </div>
+        <div id="api-key-status" style="font-family:'Caveat',cursive;font-size:13px;margin-top:8px;min-height:18px;color:var(--gold-dim)"></div>
+        <label style="display:flex;align-items:center;gap:8px;margin-top:10px;cursor:pointer;font-family:'Lora',serif;font-size:13px;color:var(--wine);opacity:0.7">
+          <input type="checkbox" id="save-key-check" onchange="onSaveKeyToggle()" style="accent-color:var(--wine)">
+          Key lokal speichern (nur auf diesem Gerät)
+        </label>
+      </div>
+
+      <button class="start-btn" id="start-btn" onclick="startSession()" disabled>
+        Lerneinheit starten →
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     SCREEN 2: LOADING
+══════════════════════════════ -->
+<div id="screen-loading" class="screen">
+  <div class="loading-orb"></div>
+  <div class="loading-title">Fragen werden erstellt…</div>
+  <div class="loading-sub" id="loading-sub">Analysiere deinen Lernstoff ✦</div>
+</div>
+
+<!-- ══════════════════════════════
+     SCREEN 3: QUIZ
+══════════════════════════════ -->
+<div id="screen-quiz" class="screen">
+  <div class="quiz-topbar">
+    <div class="quiz-logo">Lern<em>welt</em></div>
+    <div class="quiz-meta">
+      <div class="q-counter" id="q-counter">Frage 1 von 20</div>
+      <div class="q-score-badge" id="score-badge">✦ 0 richtig</div>
+    </div>
+  </div>
+
+  <div class="progress-track">
+    <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-number-chip" id="q-chip">Frage 1</div>
+    <div class="question-text" id="question-text">Lade Frage…</div>
+
+    <div class="answers-grid" id="answers-grid">
+      <button class="answer-btn" onclick="selectAnswer(0)">
+        <span class="answer-letter">A</span>
+        <span class="answer-text" id="ans-0"></span>
+      </button>
+      <button class="answer-btn" onclick="selectAnswer(1)">
+        <span class="answer-letter">B</span>
+        <span class="answer-text" id="ans-1"></span>
+      </button>
+      <button class="answer-btn" onclick="selectAnswer(2)">
+        <span class="answer-letter">C</span>
+        <span class="answer-text" id="ans-2"></span>
+      </button>
+      <button class="answer-btn" onclick="selectAnswer(3)">
+        <span class="answer-letter">D</span>
+        <span class="answer-text" id="ans-3"></span>
+      </button>
+    </div>
+
+    <div class="explanation-box" id="explanation-box">
+      <div class="exp-label">💡 Erklärung</div>
+      <div class="exp-text" id="explanation-text"></div>
+    </div>
+
+    <button class="next-btn" id="next-btn" onclick="nextQuestion()">
+      Weiter →
+    </button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     SCREEN 4: RESULTS
+══════════════════════════════ -->
+<div id="screen-results" class="screen">
+  <div class="results-card">
+    <span class="results-emoji" id="result-emoji">🎉</span>
+    <span class="ornament">✦ ✦ ✦</span>
+    <h2 class="results-title" id="result-title">Gut gemacht!</h2>
+    <p class="results-subtitle" id="result-subtitle">Du hast die Lerneinheit abgeschlossen.</p>
+
+    <div class="score-display">
+      <div class="score-circle" id="score-circle">
+        <div class="score-inner">
+          <span class="score-num" id="score-num">0</span>
+          <span class="score-denom">von 20</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-box">
+        <span class="stat-val" id="stat-correct" style="color:#5D8A6A">0</span>
+        <span class="stat-label">Richtig</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-val" id="stat-wrong" style="color:var(--wine-pale)">0</span>
+        <span class="stat-label">Falsch</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-val" id="stat-pct">0%</span>
+        <span class="stat-label">Trefferquote</span>
+      </div>
+    </div>
+
+    <p class="result-message" id="result-message">Loading…</p>
+
+    <div class="results-btns">
+      <button class="btn-primary" onclick="restartQuiz()">🔄 Nochmal üben</button>
+      <button class="btn-secondary" onclick="goHome()">📄 Neuen Stoff laden</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── STATE ──
+let questions = [];
+let currentQ = 0;
+let score = 0;
+let answered = false;
+let studyContent = '';
+
+// ── CORS PROXY LIST (tried in order) ──
+const PROXIES = [
+  'https://corsproxy.io/?',
+  'https://api.allorigins.win/raw?url=',
+  'https://cors-anywhere.herokuapp.com/'
+];
+const API_URL = 'https://api.anthropic.com/v1/messages';
+
+// ── SCREEN NAVIGATION ──
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + id).classList.add('active');
+}
+
+// ── TOAST ──
+function showToast(msg, duration = 4000) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove('show'), duration);
+}
+
+// ── API KEY HANDLING ──
+function getApiKey() {
+  return document.getElementById('api-key-input').value.trim();
+}
+
+function onApiKeyInput() {
+  const key = getApiKey();
+  const status = document.getElementById('api-key-status');
+  const btn = document.getElementById('start-btn');
+  if (!key) {
+    status.textContent = '';
+    checkStartReady();
+    return;
+  }
+  if (!key.startsWith('sk-ant-')) {
+    status.style.color = 'var(--wine-pale)';
+    status.textContent = '✗ Key muss mit sk-ant- beginnen';
+    btn.disabled = true;
+    return;
+  }
+  if (key.length < 40) {
+    status.style.color = 'var(--wine-pale)';
+    status.textContent = '✗ Key scheint zu kurz';
+    btn.disabled = true;
+    return;
+  }
+  status.style.color = '#5D8A6A';
+  status.textContent = '✓ Key sieht gültig aus';
+  if (document.getElementById('save-key-check').checked) {
+    try { localStorage.setItem('lw_api_key', key); } catch(e){}
+  }
+  checkStartReady();
+}
+
+function onSaveKeyToggle() {
+  const key = getApiKey();
+  if (!key) return;
+  try {
+    if (document.getElementById('save-key-check').checked) {
+      localStorage.setItem('lw_api_key', key);
+    } else {
+      localStorage.removeItem('lw_api_key');
+    }
+  } catch(e) {}
+}
+
+function toggleKeyVisibility() {
+  const inp = document.getElementById('api-key-input');
+  const btn = document.getElementById('eye-btn');
+  if (inp.type === 'password') { inp.type = 'text'; btn.textContent = '🙈'; }
+  else { inp.type = 'password'; btn.textContent = '👁'; }
+}
+
+function checkStartReady() {
+  const hasContent = studyContent.length >= 50;
+  const key = getApiKey();
+  const validKey = key.startsWith('sk-ant-') && key.length >= 40;
+  document.getElementById('start-btn').disabled = !(hasContent && validKey);
+}
+
+// Load saved key on start
+window.addEventListener('DOMContentLoaded', () => {
+  try {
+    const saved = localStorage.getItem('lw_api_key');
+    if (saved) {
+      document.getElementById('api-key-input').value = saved;
+      document.getElementById('save-key-check').checked = true;
+      onApiKeyInput();
+    }
+  } catch(e) {}
+});
+
+// ── DRAG & DROP ──
+const dropZone = document.getElementById('drop-zone');
+
+dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragover'); });
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+dropZone.addEventListener('drop', e => {
+  e.preventDefault();
+  dropZone.classList.remove('dragover');
+  const file = e.dataTransfer.files[0];
+  if (file) processFile(file);
+});
+
+document.getElementById('file-input').addEventListener('change', e => {
+  if (e.target.files[0]) processFile(e.target.files[0]);
+});
+
+function processFile(file) {
+  if (file.name.toLowerCase().endsWith('.pdf')) {
+    showToast('PDF: Bitte kopiere den Text manuell in das Textfeld.');
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = ev => setContent(ev.target.result, file.name);
+  reader.onerror = () => showToast('Datei konnte nicht gelesen werden.');
+  reader.readAsText(file, 'UTF-8');
+}
+
+function setContent(text, source) {
+  studyContent = text.trim();
+  document.getElementById('paste-area').value = studyContent;
+  const preview = document.getElementById('content-preview');
+  preview.textContent = studyContent.substring(0, 600) + (studyContent.length > 600 ? '…' : '');
+  preview.classList.add('visible');
+  dropZone.classList.add('has-content');
+  dropZone.querySelector('.drop-title').textContent = '✓ Inhalt geladen';
+  dropZone.querySelector('.drop-hint').textContent = source || 'Text bereit';
+  checkStartReady();
+}
+
+document.getElementById('paste-area').addEventListener('input', function() {
+  studyContent = this.value.trim();
+  checkStartReady();
+});
+
+// ── START SESSION ──
+async function startSession() {
+  studyContent = document.getElementById('paste-area').value.trim();
+  if (studyContent.length < 50) { showToast('Bitte mehr Text eingeben.'); return; }
+  const key = getApiKey();
+  if (!key || !key.startsWith('sk-ant-')) { showToast('Bitte einen gültigen API-Key eingeben.'); return; }
+  showScreen('loading');
+  setLoadingStatus('start');
+  await generateQuestions();
+}
+
+// ── LOADING MESSAGES ──
+const loadingMsgs = [
+  'Analysiere deinen Lernstoff ✦',
+  'Erstelle clevere Fragen…',
+  'Formuliere Antwortmöglichkeiten…',
+  'Überprüfe die Fragen auf Qualität…',
+  'Fast fertig — noch einen Moment…'
+];
+let lmIdx = 0, lmInterval;
+
+function startLoadingAnimation() {
+  const el = document.getElementById('loading-sub');
+  el.textContent = loadingMsgs[0];
+  lmInterval = setInterval(() => {
+    lmIdx = (lmIdx + 1) % loadingMsgs.length;
+    el.textContent = loadingMsgs[lmIdx];
+  }, 2400);
+}
+function stopLoadingAnimation() { clearInterval(lmInterval); lmIdx = 0; }
+
+function setLoadingStatus(phase, msg) {
+  const sub = document.getElementById('loading-sub');
+  if (phase === 'start') { startLoadingAnimation(); return; }
+  if (phase === 'error') { sub.textContent = msg || 'Fehler aufgetreten'; sub.style.color = 'var(--wine-pale)'; }
+  if (phase === 'retry') { sub.textContent = msg || 'Erneuter Versuch…'; sub.style.color = 'var(--gold)'; }
+}
+
+// ── BUILD PROMPT ──
+function buildPrompt() {
+  const topic = document.getElementById('topic-input').value.trim();
+  const topicHint = topic ? `Das Fach/Thema ist: "${topic}". ` : '';
+  const content = studyContent.substring(0, 7000);
+  return `${topicHint}Erstelle genau 20 Multiple-Choice-Fragen auf Deutsch aus dem folgenden Lernstoff. Ziel: Verständnis testen, nicht nur auswendig lernen. Mache falsche Antworten plausibel aber eindeutig falsch.
+
+WICHTIG: Antworte AUSSCHLIESSLICH mit einem validen JSON-Array. Kein Text davor, kein Text danach, keine Markdown-Formatierung, keine Codeblöcke.
+
+Format:
+[{"question":"Frage?","options":["A","B","C","D"],"correct":0,"explanation":"Richtig ist [Antwort], weil …"}]
+
+Regeln:
+- "correct" ist der Index (0–3) der richtigen Antwort
+- "explanation" erklärt IMMER warum die richtige Antwort stimmt (1–2 Sätze)
+- Alle 4 Optionen müssen ausgefüllt sein
+- Fragen sollen Zusammenhänge und Konzepte prüfen
+- Beginne das JSON-Array direkt mit [
+
+LERNSTOFF:
+${content}`;
+}
+
+// ── PARSE RESPONSE ──
+function parseQuestions(raw) {
+  raw = raw.replace(/```json\s*/gi, '').replace(/```\s*/gi, '').trim();
+  const s = raw.indexOf('[');
+  const e = raw.lastIndexOf(']');
+  if (s === -1 || e === -1 || e < s) throw new Error('Kein JSON-Array gefunden');
+  const arr = JSON.parse(raw.substring(s, e + 1));
+  if (!Array.isArray(arr) || arr.length === 0) throw new Error('Leeres Array');
+  // Validate each question
+  const valid = arr.filter(q =>
+    q.question && Array.isArray(q.options) && q.options.length === 4 &&
+    typeof q.correct === 'number' && q.correct >= 0 && q.correct <= 3 &&
+    q.explanation
+  );
+  if (valid.length < 5) throw new Error(`Nur ${valid.length} gültige Fragen`);
+  return valid.slice(0, 20);
+}
+
+// ── API CALL with retry + proxy fallback ──
+async function callAPI(apiKey, prompt, attempt = 0) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 45000); // 45s timeout
+
+  try {
+    // Try direct call first (works if CORS is open or on localhost)
+    let url = API_URL;
+    let headers = {
+      'Content-Type': 'application/json',
+      'x-api-key': apiKey,
+      'anthropic-version': '2023-06-01',
+      'anthropic-dangerous-direct-browser-access': 'true'
+    };
+
+    const body = JSON.stringify({
+      model: 'claude-haiku-4-5-20251001',
+      max_tokens: 4096,
+      temperature: 0.3,
+      system: 'Du bist ein präziser Lernassistent. Antworte IMMER nur mit validem JSON, niemals mit Text oder Markdown.',
+      messages: [{ role: 'user', content: prompt }]
+    });
+
+    let response;
+
+    if (attempt === 0) {
+      // Direct call
+      response = await fetch(url, { method: 'POST', headers, body, signal: controller.signal });
+    } else {
+      // Proxy fallback
+      const proxyIdx = (attempt - 1) % PROXIES.length;
+      const proxyUrl = PROXIES[proxyIdx] + encodeURIComponent(API_URL);
+      setLoadingStatus('retry', `Verbindungsversuch ${attempt + 1} über Proxy…`);
+      response = await fetch(proxyUrl, { method: 'POST', headers, body, signal: controller.signal });
+    }
+
+    clearTimeout(timeout);
+
+    if (!response.ok) {
+      const errData = await response.json().catch(() => ({}));
+      const errMsg = errData?.error?.message || `HTTP ${response.status}`;
+
+      if (response.status === 401) throw new Error('AUTH: Ungültiger API-Key. Bitte überprüfen.');
+      if (response.status === 429) throw new Error('RATE: Zu viele Anfragen. Bitte kurz warten und erneut versuchen.');
+      if (response.status === 400) throw new Error(`API: ${errMsg}`);
+      if (response.status >= 500) {
+        if (attempt < PROXIES.length) return callAPI(apiKey, prompt, attempt + 1);
+        throw new Error(`Server-Fehler (${response.status}). Bitte später versuchen.`);
+      }
+      throw new Error(errMsg);
+    }
+
+    const data = await response.json();
+    if (!data.content || !Array.isArray(data.content)) throw new Error('Unerwartetes API-Format');
+    return data.content.map(b => b.text || '').join('');
+
+  } catch (err) {
+    clearTimeout(timeout);
+    if (err.name === 'AbortError') throw new Error('Zeitüberschreitung (45s). Bitte erneut versuchen.');
+    if (err.message.startsWith('AUTH:') || err.message.startsWith('RATE:') || err.message.startsWith('API:')) throw err;
+    // Network error → try next proxy
+    if (attempt < PROXIES.length) {
+      setLoadingStatus('retry', `Netzwerkfehler — Versuch ${attempt + 2}…`);
+      await new Promise(r => setTimeout(r, 1000));
+      return callAPI(apiKey, prompt, attempt + 1);
+    }
+    throw new Error('Keine Verbindung möglich. Bitte CORS-Einstellungen oder Internetverbindung prüfen.');
+  }
+}
+
+// ── GENERATE QUESTIONS ──
+async function generateQuestions() {
+  const apiKey = getApiKey();
+  const prompt = buildPrompt();
+
+  try {
+    const raw = await callAPI(apiKey, prompt);
+    questions = parseQuestions(raw);
+
+    // Pad to 20 if fewer valid questions returned
+    if (questions.length < 20 && questions.length >= 5) {
+      showToast(`${questions.length} Fragen erstellt — Lerneinheit beginnt.`);
+    }
+
+    stopLoadingAnimation();
+    startQuiz();
+  } catch (err) {
+    stopLoadingAnimation();
+    console.error('API Error:', err);
+    const msg = err.message || 'Unbekannter Fehler';
+    setLoadingStatus('error', msg);
+    setTimeout(() => {
+      showToast('⚠ ' + msg, 6000);
+      showScreen('start');
+    }, 1800);
+  }
+}
+
+// ── QUIZ LOGIC ──
+function startQuiz() {
+  currentQ = 0;
+  score = 0;
+  answered = false;
+  showScreen('quiz');
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = questions[currentQ];
+  const total = questions.length;
+
+  document.getElementById('q-counter').textContent = `Frage ${currentQ + 1} von ${total}`;
+  document.getElementById('q-chip').textContent = `Frage ${currentQ + 1}`;
+  document.getElementById('score-badge').textContent = `✦ ${score} richtig`;
+  document.getElementById('progress-fill').style.width = ((currentQ / total) * 100) + '%';
+  document.getElementById('question-text').textContent = q.question;
+
+  const letters = ['A', 'B', 'C', 'D'];
+  const btns = document.querySelectorAll('.answer-btn');
+  btns.forEach((btn, i) => {
+    btn.className = 'answer-btn';
+    btn.disabled = false;
+    btn.querySelector('.answer-letter').textContent = letters[i];
+    document.getElementById('ans-' + i).textContent = q.options[i] || '';
+  });
+
+  document.getElementById('explanation-box').classList.remove('visible');
+  document.getElementById('next-btn').classList.remove('visible');
+  answered = false;
+}
+
+function selectAnswer(idx) {
+  if (answered) return;
+  answered = true;
+
+  const q = questions[currentQ];
+  const btns = document.querySelectorAll('.answer-btn');
+  btns.forEach(b => b.disabled = true);
+
+  if (idx === q.correct) {
+    btns[idx].classList.add('correct');
+    score++;
+    document.getElementById('explanation-box').classList.remove('visible');
+    document.getElementById('next-btn').classList.add('visible');
+  } else {
+    btns[idx].classList.add('wrong');
+    btns[q.correct].classList.add('correct');
+
+    // Show explanation
+    document.getElementById('explanation-text').textContent = q.explanation;
+    document.getElementById('explanation-box').classList.add('visible');
+    document.getElementById('next-btn').classList.add('visible');
+  }
+}
+
+function nextQuestion() {
+  currentQ++;
+  if (currentQ >= questions.length) {
+    showResults();
+  } else {
+    renderQuestion();
+  }
+}
+
+// ── RESULTS ──
+function showResults() {
+  const total = questions.length;
+  const pct = Math.round((score / total) * 100);
+
+  document.getElementById('score-num').textContent = score;
+  document.getElementById('stat-correct').textContent = score;
+  document.getElementById('stat-wrong').textContent = total - score;
+  document.getElementById('stat-pct').textContent = pct + '%';
+
+  // Conic gradient
+  const circle = document.getElementById('score-circle');
+  circle.style.setProperty('--pct', pct + '%');
+
+  let emoji, title, subtitle, message;
+  if (pct >= 90) {
+    emoji = '🏆'; title = 'Ausgezeichnet!';
+    subtitle = 'Du hast das Thema wirklich verstanden.';
+    message = 'Fast alles richtig — du bist bestens vorbereitet. Wenn du willst, kannst du nochmal üben, um die letzten Lücken zu schließen.';
+  } else if (pct >= 70) {
+    emoji = '⭐'; title = 'Sehr gut!';
+    subtitle = 'Du bist auf einem guten Weg.';
+    message = 'Du hast die meisten Konzepte verstanden. Ein weiterer Durchgang hilft dir, die verbleibenden Unsicherheiten zu beseitigen.';
+  } else if (pct >= 50) {
+    emoji = '📖'; title = 'Nicht schlecht!';
+    subtitle = 'Noch ein bisschen Übung fehlt.';
+    message = 'Du hast die Grundlagen schon — aber ein paar Bereiche brauchen noch Aufmerksamkeit. Lies den Stoff nochmal durch und versuche es erneut.';
+  } else {
+    emoji = '💪'; title = 'Weiter üben!';
+    subtitle = 'Du wirst besser — versprochen.';
+    message = 'Das Thema ist noch frisch. Lies den Lernstoff nochmal in Ruhe durch und starte dann erneut — beim zweiten Mal sitzt es viel besser.';
+  }
+
+  document.getElementById('result-emoji').textContent = emoji;
+  document.getElementById('result-title').innerHTML = title.replace(/(!$)/, '<em>$1</em>');
+  document.getElementById('result-subtitle').textContent = subtitle;
+  document.getElementById('result-message').textContent = message;
+
+  showScreen('results');
+}
+
+function restartQuiz() {
+  currentQ = 0;
+  score = 0;
+  showScreen('quiz');
+  renderQuestion();
+}
+
+function goHome() {
+  studyContent = '';
+  questions = [];
+  document.getElementById('paste-area').value = '';
+  document.getElementById('content-preview').classList.remove('visible');
+  dropZone.classList.remove('has-content');
+  dropZone.querySelector('.drop-title').textContent = 'Schulstoff hier ablegen';
+  dropZone.querySelector('.drop-hint').textContent = 'Ziehe eine Datei hierher\n(.txt, .pdf, .docx, .md)';
+  document.getElementById('file-input').value = '';
+  // Re-check readiness (API key might still be valid)
+  checkStartReady();
+  showScreen('start');
+}
+</script>
+</body>
+</html>
