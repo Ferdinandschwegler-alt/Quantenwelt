@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STYLE — Finde deinen Look</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400;1,600&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #C9A84C;
+  --gold-l: #E8D08A;
+  --gold-d: #9A7530;
+  --cream: #FFF8E7;
+  --cream-d: #F5E6C0;
+  --brown: #3B1A08;
+  --brown-m: #6B3A1F;
+  --brown-l: #A05C2C;
+  --white: #FFFFFF;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family:'Nunito',sans-serif;
+  background: linear-gradient(155deg, #FFFFFF 0%, #FFFBF0 18%, #FFF5D5 38%, #F8E8B0 60%, #EDD080 80%, #E0BE60 100%);
+  min-height:100vh;
+  color:var(--brown);
+  text-align:center;
+  overflow-x:hidden;
+}
+
+/* ── HEADER ── */
+.site-header {
+  padding: 2.5rem 2rem 0;
+  position: relative;
+}
+.header-deco {
+  position:absolute; top:0; left:50%; transform:translateX(-50%);
+  width:1px; height:2rem; background:linear-gradient(to bottom,transparent,var(--gold));
+}
+.site-title {
+  font-family:'Cormorant Garamond',serif;
+  font-size: clamp(3rem,8vw,6.5rem);
+  font-weight:700;
+  letter-spacing:0.25em;
+  color:var(--brown);
+  text-transform:uppercase;
+  line-height:1;
+}
+.site-tagline {
+  font-family:'Cormorant Garamond',serif;
+  font-style:italic;
+  font-size:clamp(1rem,2vw,1.35rem);
+  color:var(--brown-m);
+  letter-spacing:0.12em;
+  margin-top:0.4rem;
+}
+.header-rule {
+  width:120px; height:1px;
+  background:linear-gradient(to right,transparent,var(--gold),transparent);
+  margin:1.2rem auto 0;
+}
+
+/* ── CHAPTER NAV ── */
+.chapter-nav {
+  display:flex; justify-content:center; flex-wrap:wrap;
+  gap:0; padding:2rem 1rem 0; margin-top:0.5rem;
+}
+.c-tab {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(0.85rem,1.5vw,1.05rem);
+  font-weight:600;
+  letter-spacing:0.06em;
+  color:var(--brown-l);
+  background:none;
+  border:none;
+  border-bottom:2px solid transparent;
+  padding:0.7rem 1.5rem 0.8rem;
+  cursor:pointer;
+  transition:all 0.3s;
+  white-space:nowrap;
+}
+.c-tab:hover { color:var(--brown); }
+.c-tab.active {
+  color:var(--brown);
+  border-bottom-color:var(--gold);
+  font-weight:700;
+}
+.nav-rule {
+  width:100%; height:1px;
+  background:linear-gradient(to right,transparent,rgba(201,168,76,0.4),transparent);
+  margin:0 2rem;
+}
+
+/* ── CHAPTERS ── */
+.chapter {
+  display:none;
+  padding:3rem 2rem 4rem;
+  max-width:1300px;
+  margin:0 auto;
+  animation:fadeUp 0.5s ease;
+}
+.chapter.active { display:block; }
+@keyframes fadeUp {
+  from{opacity:0;transform:translateY(16px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.ch-label {
+  font-family:'Nunito',sans-serif;
+  font-size:0.72rem;
+  letter-spacing:0.25em;
+  text-transform:uppercase;
+  color:var(--gold-d);
+  font-weight:700;
+  margin-bottom:0.4rem;
+}
+.ch-title {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(1.8rem,4vw,3.2rem);
+  font-weight:700;
+  color:var(--brown);
+  letter-spacing:0.06em;
+  line-height:1.15;
+}
+.ch-divider {
+  width:60px; height:2px;
+  background:linear-gradient(to right,var(--gold),var(--gold-d));
+  margin:1.2rem auto 2.5rem;
+}
+
+/* ── CHAPTER 1 – WAS IST STYLE? ── */
+.prose {
+  max-width:820px; margin:0 auto;
+  text-align:left;
+}
+.prose p {
+  font-size:clamp(1rem,1.5vw,1.12rem);
+  line-height:1.95;
+  color:var(--brown);
+  margin-bottom:1.6rem;
+}
+.prose p:first-of-type::first-letter {
+  font-family:'Cormorant Garamond',serif;
+  font-size:4.5rem;
+  font-weight:700;
+  float:left;
+  line-height:0.75;
+  margin:0.1rem 0.12rem 0 0;
+  color:var(--gold-d);
+}
+.prose strong { color:var(--brown-m); font-weight:700; }
+.prose em { font-style:italic; color:var(--brown-m); }
+.ch1-pull {
+  border-left:3px solid var(--gold);
+  padding:0.8rem 1.5rem;
+  margin:2rem 0;
+  background:rgba(201,168,76,0.08);
+  border-radius:0 8px 8px 0;
+}
+.ch1-pull p {
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.3rem;
+  font-style:italic;
+  color:var(--brown-m);
+  margin-bottom:0;
+  line-height:1.6;
+}
+
+/* ── CHAPTER 2 – 20 STYLES ── */
+.styles-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(175px,1fr));
+  gap:1.2rem;
+  margin-top:0.5rem;
+}
+.style-card {
+  background:rgba(255,255,255,0.65);
+  border:1px solid rgba(201,168,76,0.35);
+  border-radius:14px;
+  padding:1.4rem 1rem 1.2rem;
+  transition:all 0.3s;
+  cursor:default;
+  backdrop-filter:blur(6px);
+}
+.style-card:hover {
+  transform:translateY(-5px);
+  box-shadow:0 12px 32px rgba(107,58,31,0.12);
+  border-color:var(--gold);
+  background:rgba(255,255,255,0.88);
+}
+.s-num {
+  font-size:0.65rem;
+  letter-spacing:0.2em;
+  color:var(--gold);
+  font-weight:700;
+  margin-bottom:0.35rem;
+}
+.s-name {
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.1rem;
+  font-weight:700;
+  color:var(--brown);
+  margin-bottom:0.5rem;
+  line-height:1.2;
+}
+.s-desc {
+  font-size:0.78rem;
+  color:var(--brown-m);
+  line-height:1.55;
+  font-style:italic;
+}
+
+/* ── CHAPTER 3 – FIND YOUR STYLE ── */
+.ch3-layout {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:3rem;
+  align-items:start;
+  text-align:left;
+  margin-top:0.5rem;
+}
+@media(max-width:900px){.ch3-layout{grid-template-columns:1fr;}}
+.ch3-prose p {
+  font-size:1.05rem; line-height:1.9; color:var(--brown); margin-bottom:1.4rem;
+}
+.ch3-prose p:first-of-type::first-letter {
+  font-family:'Cormorant Garamond',serif;
+  font-size:4rem; font-weight:700;
+  float:left; line-height:0.75;
+  margin:0.1rem 0.12rem 0 0; color:var(--gold-d);
+}
+.gap-box {
+  background:rgba(255,255,255,0.7);
+  border:1px solid rgba(201,168,76,0.4);
+  border-radius:16px;
+  padding:2rem;
+  backdrop-filter:blur(6px);
+}
+.gap-box-title {
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.4rem; font-weight:700;
+  color:var(--brown); margin-bottom:0.3rem;
+}
+.gap-box-sub {
+  font-size:0.82rem; color:var(--brown-l);
+  font-style:italic; margin-bottom:1.5rem;
+}
+.gap-story {
+  font-size:1.05rem;
+  line-height:2.4;
+  color:var(--brown);
+  margin-bottom:1.5rem;
+}
+.gap-in {
+  display:inline-block;
+  background:transparent;
+  border:none;
+  border-bottom:2px solid var(--gold);
+  padding:0.1rem 0.5rem;
+  min-width:110px;
+  color:var(--brown);
+  font-family:'Nunito',sans-serif;
+  font-size:1rem;
+  font-style:italic;
+  outline:none;
+  transition:border-color 0.25s;
+  vertical-align:baseline;
+}
+.gap-in:focus { border-bottom-color:var(--brown); }
+.gap-in::placeholder { color:rgba(107,58,31,0.35); }
+.api-key-wrap { margin-bottom:1.2rem; }
+.api-key-label {
+  display:block; font-size:0.78rem;
+  color:var(--brown-l); margin-bottom:0.35rem; letter-spacing:0.04em;
+}
+.api-key-field {
+  width:100%;
+  padding:0.6rem 0.9rem;
+  border:1px solid rgba(201,168,76,0.5);
+  border-radius:8px;
+  background:rgba(255,255,255,0.8);
+  color:var(--brown);
+  font-family:'Nunito',sans-serif;
+  font-size:0.85rem;
+  outline:none;
+}
+.analyze-btn {
+  display:block; width:100%;
+  margin-top:0.5rem;
+  padding:0.85rem;
+  background:linear-gradient(135deg,var(--gold),var(--gold-d));
+  color:#fff;
+  border:none;
+  border-radius:30px;
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.1rem; font-weight:700;
+  letter-spacing:0.1em;
+  cursor:pointer;
+  transition:all 0.3s;
+}
+.analyze-btn:hover {
+  transform:translateY(-2px);
+  box-shadow:0 8px 24px rgba(154,117,48,0.35);
+}
+.style-result {
+  display:none;
+  margin-top:1.2rem;
+  padding:1.2rem 1.5rem;
+  background:rgba(201,168,76,0.12);
+  border:1px solid rgba(201,168,76,0.4);
+  border-radius:12px;
+  font-size:1rem;
+  color:var(--brown);
+  line-height:1.75;
+}
+.style-result-name {
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.5rem; font-weight:700;
+  color:var(--gold-d); display:block;
+  margin-bottom:0.3rem;
+}
+.style-loading {
+  display:none;
+  text-align:center;
+  padding:1rem;
+  color:var(--brown-l);
+  font-style:italic;
+}
+
+
+
+/* Scrollbar */
+::-webkit-scrollbar { width:7px; }
+::-webkit-scrollbar-track { background:rgba(245,230,192,0.5); }
+::-webkit-scrollbar-thumb { background:var(--gold); border-radius:4px; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="site-header">
+  <div class="header-deco"></div>
+  <div class="site-title">STYLE</div>
+  <div class="site-tagline">Dein Ausdruck. Deine Regeln. Dein Look.</div>
+  <div class="header-rule"></div>
+</div>
+
+<!-- NAVIGATION -->
+<nav class="chapter-nav">
+  <button class="c-tab active" onclick="showChapter(0)">I — Was ist Style?</button>
+  <button class="c-tab" onclick="showChapter(1)">II — Die 20 Style-Welten</button>
+  <button class="c-tab" onclick="showChapter(2)">III — Finde deinen Style</button>
+
+</nav>
+<div class="nav-rule"></div>
+
+<!-- ══════════ CHAPTER 1 ══════════ -->
+<section class="chapter active" id="ch0">
+  <div class="ch-label">Kapitel Eins</div>
+  <div class="ch-title">Was ist Style?</div>
+  <div class="ch-divider"></div>
+  <div class="prose">
+    <p>Style ist keine Frage des Geldes. Style ist keine Frage der Marke. Style ist die Sprache, die du sprichst, noch bevor du den Mund aufmachst. Von dem Moment an, in dem du morgens in die Hosen schlüpfst und dich entscheidest, welches Oberteil du über den Kopf ziehst, triffst du eine Aussage – bewusst oder unbewusst. Kleidung war seit Jahrtausenden das mächtigste nonverbale Kommunikationsmittel der Menschheit. Die alten Römer erkannten am Farbton der Toga den sozialen Stand. Im mittelalterlichen Europa war Purpur den Königen vorbehalten. Und heute, im 21. Jahrhundert, erzählt ein einziges Outfit Hunderte von Dingen über dich – noch bevor jemand deinen Namen kennt.</p>
+
+    <div class="ch1-pull">
+      <p>„Mode ist das, was die Industrie erschafft. Style ist das, was du daraus machst."</p>
+    </div>
+
+    <p>Es ist wichtig, zwischen <strong>Mode</strong> und <strong>Style</strong> zu unterscheiden. Mode ist flüchtig: Sie kommt im Herbst aus Paris, landet im Frühjahr in den Schaufenstern und ist im nächsten Winter bereits überholt. Style hingegen ist dauerhaft. Er entsteht, wenn du weißt, was dir steht, was dir guttut und welche Kleidung dein Innerstes nach außen kehrt. Menschen mit echtem Stil tragen oft jahrelang dieselben Stücke – nicht weil sie zu geizig für Neues wären, sondern weil sie verstanden haben, was zu ihnen gehört.</p>
+
+    <p>Der persönliche Stil entwickelt sich nicht über Nacht. Er ist ein Prozess – manchmal chaotisch, manchmal wunderbar überraschend. Vielleicht versuchst du heute das erste Mal, einen Blazer über ein Grafik-T-Shirt zu kombinieren, und stehst vor dem Spiegel wie ein Fragezeichen. Das ist vollkommen normal. <em>Stilerkundung ist Selbsterkundung.</em> Wer nicht bereit ist, sich auf dem Weg zu irren, wird nie den eigenen Ton finden. Die besten Stilikonen der Geschichte – von Coco Chanel bis Pharrell Williams – haben unzählige Male experimentiert, gescheitert und neu begonnen, bevor ihr Blick unverwechselbar wurde.</p>
+
+    <p>Style bedeutet auch, keine Angst vor Urteilen zu haben. Die Angst, falsch angezogen zu sein, lähmt viele Jugendliche. Man greift zum sichersten Stück im Schrank, dem unsichtbarsten Outfit, nur um nicht aufzufallen. Doch genau hier liegt das Paradoxon: <strong>Wer versucht, nicht aufzufallen, fällt am meisten auf – durch seine Abwesenheit.</strong> Ein Mensch, der sich in seinem Outfit wohlfühlt, strahlt eine Energie aus, die keine teuerste Designermarke kaufen kann. Diese Energie heißt Selbstbewusstsein.</p>
+
+    <p>Stil ist außerdem soziale Zugehörigkeit. Seit der Entstehung von Subkulturen – der Rockabilly-Bewegung der 1950er, den Hippies der 60er, den Punks der 70er – hat Kleidung immer auch signalisiert: <em>Ich gehöre dazu.</em> Wer einen Hoodie mit überdimensionaler Schrift trägt, sendet andere Signale als jemand, der einen passgenauen Trenchcoat wählt. Beide können dabei vollkommen recht haben – denn Style ist nicht objektiv gut oder schlecht. Er ist authentisch oder er ist nicht.</p>
+
+    <p>Was du in diesem Guide lernen wirst: die zwanzig bedeutendsten Stilwelten der Gegenwart, ihre Codes, ihre Geschichte und ihre Eigenheiten. Du wirst interaktiv herausfinden, welcher Stil zu deiner Persönlichkeit passt – und schließlich in unserem Outfit-Builder deinen ganz eigenen Look von Grund auf gestalten. Denn am Ende gibt es nur eine einzige Regel im Style: <strong>Trage, was dich fühlen lässt wie du.</strong></p>
+  </div>
+</section>
+
+<!-- ══════════ CHAPTER 2 ══════════ -->
+<section class="chapter" id="ch1">
+  <div class="ch-label">Kapitel Zwei</div>
+  <div class="ch-title">Die 20 Style-Welten</div>
+  <div class="ch-divider"></div>
+  <div class="styles-grid">
+    <div class="style-card"><div class="s-num">01</div><div class="s-name">Old Money</div><div class="s-desc">Kaschmir, gedeckte Töne, Loafer. Reichtum, der sich nicht zeigen muss. Polo-Shirts, Camel-Mäntel, zeitlose Eleganz ohne Logos.</div></div>
+    <div class="style-card"><div class="s-num">02</div><div class="s-name">Streetwear</div><div class="s-desc">Oversized Hoodies, Sneakers, Caps. Aus der Skateboard-Kultur geboren – heute der einflussreichste Stil der Welt.</div></div>
+    <div class="style-card"><div class="s-num">03</div><div class="s-name">Cottagecore</div><div class="s-desc">Leinen, Blumenkleider, Strickjacken. Das Leben auf dem Land romantisiert – naturverbunden, weich und nostalgisch.</div></div>
+    <div class="style-card"><div class="s-num">04</div><div class="s-name">Dark Academia</div><div class="s-desc">Tweed, Rollkragen, Karierung, tiefe Farbtöne. Inspireirt von Oxford und Literatur – intellektuell und düster-elegant.</div></div>
+    <div class="style-card"><div class="s-num">05</div><div class="s-name">Y2K</div><div class="s-desc">Schimmernd, glänzend, futuristisch. Die Ästhetik um das Jahr 2000 – Cargo-Pants, Baby-Tees, Metallics und Low-Rise.</div></div>
+    <div class="style-card"><div class="s-num">06</div><div class="s-name">Minimalismus</div><div class="s-desc">Wenig, aber perfekt. Einfarbig, klare Schnitte, hochwertige Basics. Stille als Statement. Weniger ist mehr.</div></div>
+    <div class="style-card"><div class="s-num">07</div><div class="s-name">Grunge</div><div class="s-desc">Flanellhemden, zerrissene Jeans, Doc Martens. 90er Seattle-Rockkultur – bewusst kaputt und authentisch roh.</div></div>
+    <div class="style-card"><div class="s-num">08</div><div class="s-name">Preppy</div><div class="s-desc">Polo-Shirts, Chino, Blazer, Loafer. Ivy-League-Colleges als Inspiration – ordentlich, farbfreudig, strukturiert.</div></div>
+    <div class="style-card"><div class="s-num">09</div><div class="s-name">Bohemian</div><div class="s-desc">Fließende Stoffe, Ethnomuster, Lagen. Freigeist und Weltenbummler – blumig, farbenfroh, romantisch-verspielt.</div></div>
+    <div class="style-card"><div class="s-num">10</div><div class="s-name">Athleisure</div><div class="s-desc">Sportkleidung im Alltag. Leggings, Sneakers, Trainingsjacken – bequem und trotzdem durchdacht gestylt.</div></div>
+    <div class="style-card"><div class="s-num">11</div><div class="s-name">Vintage</div><div class="s-desc">Kleidung vergangener Jahrzehnte, aus Secondhand-Läden gerettet. Thrifted, nachhaltig und unverwechselbar einzigartig.</div></div>
+    <div class="style-card"><div class="s-num">12</div><div class="s-name">E-Boy / E-Girl</div><div class="s-desc">Layered-Looks, Streifenshirts, auffälliges Make-up. Born on TikTok – Alt-meets-Anime, Internet-ästhetik als Lebensstil.</div></div>
+    <div class="style-card"><div class="s-num">13</div><div class="s-name">Soft Girl</div><div class="s-desc">Pastelltöne, Haarspangen, Rüschen, Herzchen. Ultrasüß und feminin – Kindheit als Stil-Inspiration.</div></div>
+    <div class="style-card"><div class="s-num">14</div><div class="s-name">Normcore</div><div class="s-desc">Bewusst unauffällig. Jeans, weißes T-Shirt, Turnschuhe. Anti-Mode als Statement – Unsichtbarkeit als Ästhetik.</div></div>
+    <div class="style-card"><div class="s-num">15</div><div class="s-name">Techwear</div><div class="s-desc">Schwarz, funktional, futuristisch. Wasserdichte Stoffe, viele Taschen, technische Details – Ninja trifft Sci-Fi.</div></div>
+    <div class="style-card"><div class="s-num">16</div><div class="s-name">Barbiecore</div><div class="s-desc">Hot Pink, Glitter, Glam. Mutig, vergnügt, unentschuldigt feminin – die Welt als eigener Laufsteg.</div></div>
+    <div class="style-card"><div class="s-num">17</div><div class="s-name">Western</div><div class="s-desc">Cowboystiefel, Denim, Fransen, Leder. American Frontier trifft Gegenwart – romantisch, wild und erdverbunden.</div></div>
+    <div class="style-card"><div class="s-num">18</div><div class="s-name">Punk</div><div class="s-desc">Nieten, Leder, zerrissene Netzstrümpfe. Rebellion gegen den Mainstream – laut, eckig, kompromisslos ehrlich.</div></div>
+    <div class="style-card"><div class="s-num">19</div><div class="s-name">VSCO / Coastal</div><div class="s-desc">Naturfarben, Scrunchies, Oversize-T-Shirts, Birkenstock. Entspannter Strand-Vibe – locker, sonnig, erdgeerdet.</div></div>
+    <div class="style-card"><div class="s-num">20</div><div class="s-name">Balletcore</div><div class="s-desc">Bodys, Wickelröcke, Mary Janes, Chiffon. Eleganz der Ballettstange im Alltag – zart, körpernah, poetisch.</div></div>
+  </div>
+</section>
+
+<!-- ══════════ CHAPTER 3 ══════════ -->
+<section class="chapter" id="ch2">
+  <div class="ch-label">Kapitel Drei</div>
+  <div class="ch-title">Wie findet man seinen Style?</div>
+  <div class="ch-divider"></div>
+  <div class="ch3-layout">
+    <div class="ch3-prose">
+      <p>Deinen persönlichen Stil zu finden, ist weniger eine Frage des Könnens als eine Frage des Muts. Muts, sich auszuprobieren. Muts, auch einmal danebenzuliegen. Und Muts, sich selbst ehrlich genug zu betrachten, um zu erkennen, was wirklich zu dir passt – und was nur in jemandem anderem gut aussieht.</p>
+      <p>Der erste Schritt lautet: <strong>Inspiration sammeln</strong>. Scrolle durch Pinterest, folge Menschen, deren Outfits dich berühren, reiße Seiten aus Magazinen. Achte dabei nicht nur darauf, was dir gefällt, sondern auch darauf, <em>warum</em> es dir gefällt. Ist es die Farbe? Das Layering? Die Lässigkeit? Wenn du wiederkehrende Muster in deiner Inspiration erkennst, hast du bereits den ersten Fingerzeig deines Stils in der Hand.</p>
+      <p>Der zweite Schritt ist das <strong>Experimentieren</strong>. Leihe dir das Flanellhemd deiner Freundin. Tauche in den Secondhand-Laden ein. Probiere etwas an, das du dir niemals kaufen würdest – nur um zu spüren, wie es sich anfühlt. Manchmal entdeckt man seine größte Stärke genau dort, wo man am wenigsten damit gerechnet hat. Der Körper meldet sich sofort: Ein Outfit, das wirklich zu dir passt, erzeugt ein anderes Gefühl als eines, das es nicht tut.</p>
+      <p>Step drei: <strong>Kleiderschrank-Inventur</strong>. Lege alles aus, was du besitzt. Welche Stücke greifst du immer wieder? Welche hängen seit Monaten unberührt? Die Stücke, die du liebst, verraten alles. Sie zeigen deine echten Präferenzen – unabhängig davon, was gerade angesagt ist.</p>
+      <p>Ein weiterer entscheidender Aspekt: <strong>Komfort ist keine Schwäche</strong>. Ein Outfit, in dem du dich nicht bewegen kannst, in dem du ständig nachschauen musst, ob noch alles sitzt, ist kein Style – es ist eine Kostüm. Echter Stil entsteht, wenn Ästhetik und Wohlbefinden sich die Hand reichen. Der berühmteste Satz in der Modegeschichte stammt von Coco Chanel: „Eleganz ist Ablehnung." Die Kunst liegt darin, zu wissen, was man ablehnt.</p>
+      <p>Schließlich: Lass dich nicht von der Meinung anderer verbiegen. Style-Kritik ist unvermeidlich – besonders in der Schule, wo Konformitätsdruck am stärksten wirkt. Wer aber früh lernt, standhaft zu seinem eigenen Geschmack zu stehen, trägt diese Stärke weit über den Kleiderschrank hinaus.</p>
+    </div>
+
+    <div class="gap-box">
+      <div class="gap-box-title">Beschreibe dein Outfit</div>
+      <div class="gap-box-sub">Fülle die Lücken aus – unsere KI ordnet deinen Look einem der 20 Stile zu.</div>
+
+      <div class="gap-story">
+        Heute greife ich nach einem
+        <input class="gap-in" id="g1" placeholder="Oberteil" style="min-width:100px">
+        in der Farbe
+        <input class="gap-in" id="g2" placeholder="Farbe" style="min-width:80px">.
+        Das Muster ist
+        <input class="gap-in" id="g3" placeholder="Muster" style="min-width:90px">.
+        Dazu kombiniere ich
+        <input class="gap-in" id="g4" placeholder="Hose/Rock" style="min-width:90px">
+        in
+        <input class="gap-in" id="g5" placeholder="Farbe" style="min-width:70px">.
+        An meinen Füßen trage ich
+        <input class="gap-in" id="g6" placeholder="Schuhe" style="min-width:80px">.
+        Mein Lieblingsaccessoire ist
+        <input class="gap-in" id="g7" placeholder="Accessoire" style="min-width:110px">.
+        Wenn ich meinen Style in einem Wort beschreibe:
+        <input class="gap-in" id="g8" placeholder="Adjektiv" style="min-width:100px">.
+      </div>
+
+      <div class="api-key-wrap">
+        <label class="api-key-label">Anthropic API-Key (für die Stil-Analyse)</label>
+        <input class="api-key-field" id="apiKey" type="password" placeholder="sk-ant-...">
+      </div>
+
+      <button class="analyze-btn" onclick="analyzeStyle()">Meinen Stil analysieren</button>
+      <div class="style-loading" id="style-loading">Analysiere deinen Look...</div>
+      <div class="style-result" id="style-result">
+        <span class="style-result-name" id="style-result-name"></span>
+        <span id="style-result-text"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<script>
+// ══════════════════════════════════
+//  CHAPTER NAVIGATION
+// ══════════════════════════════════
+function showChapter(idx){
+  document.querySelectorAll('.chapter').forEach((c,i)=>{
+    c.classList.toggle('active',i===idx);
+  });
+  document.querySelectorAll('.c-tab').forEach((t,i)=>{
+    t.classList.toggle('active',i===idx);
+  });
+}
+
+// ══════════════════════════════════
+//  CHAPTER 3 – STYLE ANALYSIS API
+// ══════════════════════════════════
+async function analyzeStyle(){
+  const fields=['g1','g2','g3','g4','g5','g6','g7','g8'];
+  const vals=fields.map(id=>document.getElementById(id).value.trim()||'(keine Angabe)');
+  const apiKey=document.getElementById('apiKey').value.trim();
+  if(!apiKey){alert('Bitte gib deinen Anthropic API-Key ein.');return;}
+  const prompt=`Du bist ein Stil-Experte für Teenager. Ein User hat sein Outfit beschrieben. Ordne es EINEM der folgenden 20 Stilrichtungen zu: Old Money, Streetwear, Cottagecore, Dark Academia, Y2K, Minimalismus, Grunge, Preppy, Bohemian, Athleisure, Vintage, E-Boy/E-Girl, Soft Girl, Normcore, Techwear, Barbiecore, Western, Punk, VSCO/Coastal, Balletcore.
+
+Outfit-Beschreibung:
+- Oberteil: ${vals[0]}
+- Farbe Oberteil: ${vals[1]}
+- Muster: ${vals[2]}
+- Hose/Rock: ${vals[3]}
+- Farbe Unterteil: ${vals[4]}
+- Schuhe: ${vals[5]}
+- Lieblingsaccessoire: ${vals[6]}
+- Style-Beschreibung: ${vals[7]}
+
+Antworte auf Deutsch. Format:
+STILNAME: [exakter Name aus der Liste]
+ERKLÄRUNG: [2-3 Sätze, warum dieses Outfit zu diesem Stil passt, enthusiastisch und ermutigend formuliert]`;
+
+  document.getElementById('style-loading').style.display='block';
+  document.getElementById('style-result').style.display='none';
+  document.querySelector('.analyze-btn').disabled=true;
+
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-6',
+        max_tokens:400,
+        messages:[{role:'user',content:prompt}]
+      })
+    });
+    const data=await res.json();
+    const text=data.content[0].text;
+    const nameMatch=text.match(/STILNAME:\s*(.+)/);
+    const expl=text.replace(/STILNAME:.+\n?/,'').replace('ERKLÄRUNG:','').trim();
+    document.getElementById('style-result-name').textContent=nameMatch?nameMatch[1].trim():'Dein Style';
+    document.getElementById('style-result-text').textContent=expl;
+    document.getElementById('style-result').style.display='block';
+  }catch(e){
+    document.getElementById('style-result-name').textContent='Verbindungsfehler';
+    document.getElementById('style-result-text').textContent='Bitte überprüfe deinen API-Key und versuche es erneut.';
+    document.getElementById('style-result').style.display='block';
+  }
+  document.getElementById('style-loading').style.display='none';
+  document.querySelector('.analyze-btn').disabled=false;
+}
+
+
+</script>
+</body>
+</html>
