@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PROMPT MASTERY — Die Kunst der perfekten KI-Kommunikation</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Cinzel:wght@400;600;700;900&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--black:#0A0804;--dark1:#161008;--dark2:#1E1609;--gold-deep:#7A4F0D;--gold-mid:#A8690F;--gold:#C8881A;--gold-bright:#E0A830;--gold-light:#F0C050;--text-main:#F0E0B0;--text-bright:#FFF0C8;--text-dim:#A08848;--text-code:#E8C878;--border:rgba(200,136,26,0.25);--border-b:rgba(200,136,26,0.5);--glow:rgba(200,136,26,0.15);--card:rgba(22,16,8,0.92)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--black);background-image:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(122,79,13,0.3) 0%,transparent 60%),radial-gradient(ellipse 60% 40% at 100% 100%,rgba(168,105,15,0.15) 0%,transparent 50%);min-height:100vh;font-family:'Cormorant Garamond',Georgia,serif;color:var(--text-main);overflow-x:hidden;line-height:1.8}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9999}
+#progress{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--gold-deep),var(--gold),var(--gold-light));z-index:1000;transition:width .2s ease;box-shadow:0 0 12px var(--gold)}
+nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:14px 60px;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(to bottom,rgba(10,8,4,.97) 70%,transparent);backdrop-filter:blur(20px);border-bottom:1px solid rgba(200,136,26,.1)}
+.nav-brand{font-family:'Cinzel',serif;font-size:14px;font-weight:700;letter-spacing:5px;color:var(--gold);text-decoration:none;cursor:pointer}
+.nav-dots-wrap{display:flex;align-items:center;gap:16px}
+.nav-dot{width:8px;height:8px;border-radius:50%;background:var(--gold-deep);cursor:pointer;transition:all .3s;border:1px solid var(--gold-mid)}
+.nav-dot.active{background:var(--gold);box-shadow:0 0 8px var(--gold);transform:scale(1.3)}
+.nav-dot:hover{background:var(--gold-light)}
+.nav-ctr{font-family:'Cinzel',serif;font-size:11px;letter-spacing:3px;color:var(--text-dim)}
+.shell{min-height:100vh;display:flex;flex-direction:column;align-items:center;padding-top:80px;padding-bottom:60px}
+/* HERO */
+.hero{min-height:calc(100vh - 80px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px;position:relative;width:100%}
+.hero-orb{position:absolute;top:40%;left:50%;transform:translate(-50%,-50%);width:700px;height:400px;background:radial-gradient(ellipse,rgba(200,136,26,.12) 0%,transparent 70%);pointer-events:none;filter:blur(40px);animation:orb 6s ease-in-out infinite}
+@keyframes orb{0%,100%{opacity:.6;transform:translate(-50%,-50%) scale(1)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.1)}}
+.hero-label{font-family:'Cinzel',serif;font-size:10px;letter-spacing:8px;color:var(--gold-mid);margin-bottom:24px;animation:fu 1s ease both}
+.hero-title{font-family:'Cinzel',serif;font-size:clamp(48px,7vw,100px);font-weight:900;letter-spacing:3px;line-height:1.0;color:var(--gold-bright);text-shadow:0 0 60px rgba(200,136,26,.4);animation:fu 1s ease .1s both}
+.hero-sub{font-family:'Cormorant Garamond',serif;font-size:clamp(18px,2.5vw,26px);font-style:italic;font-weight:300;color:var(--text-main);opacity:.7;margin-top:16px;animation:fu 1s ease .2s both}
+.hero-div{width:200px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:40px auto;animation:fu 1s ease .3s both}
+.hero-intro{max-width:680px;font-size:19px;font-weight:300;color:var(--text-main);opacity:.8;line-height:1.9;animation:fu 1s ease .4s both}
+.hero-cta{margin-top:48px;display:inline-block;font-family:'Cinzel',serif;font-size:12px;letter-spacing:5px;color:var(--gold-bright);border:1px solid var(--gold-mid);padding:18px 48px;cursor:pointer;background:transparent;transition:all .4s ease;animation:fu 1s ease .5s both;position:relative;overflow:hidden}
+.hero-cta::before{content:'';position:absolute;inset:0;background:var(--glow);transform:scaleX(0);transition:transform .4s ease;transform-origin:left}
+.hero-cta:hover::before{transform:scaleX(1)}
+.hero-cta:hover{border-color:var(--gold);box-shadow:0 0 30px var(--glow)}
+@keyframes fu{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+/* CHAPTER */
+.chapter{display:none;width:100%;max-width:1000px;padding:40px 60px 60px;animation:fu .6s ease both}
+.chapter.active{display:block}
+.ch-eyebrow{font-family:'Cinzel',serif;font-size:9px;letter-spacing:7px;color:var(--gold-mid);text-align:center;margin-bottom:12px;display:block}
+.ch-title{font-family:'Cinzel',serif;font-size:clamp(26px,4vw,46px);font-weight:700;color:var(--gold-bright);text-align:center;letter-spacing:2px;line-height:1.15;text-shadow:0 0 40px rgba(200,136,26,.3);margin-bottom:8px}
+.ch-tag{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:18px;font-weight:300;color:var(--text-dim);text-align:center;margin-bottom:48px}
+.ch-prog{display:flex;justify-content:center;gap:8px;margin-bottom:40px}
+.ch-ps{font-family:'Cinzel',serif;font-size:9px;letter-spacing:2px;color:var(--gold-deep);padding:4px 12px;border:1px solid rgba(200,136,26,.2);transition:all .3s}
+.ch-ps.done{color:var(--gold-mid);border-color:rgba(200,136,26,.4)}
+.ch-ps.cur{color:var(--gold-bright);border-color:var(--gold);background:rgba(200,136,26,.1)}
+/* CONTENT */
+.cb{background:var(--card);border:1px solid var(--border);border-radius:2px;padding:52px 64px;position:relative;margin-bottom:32px;backdrop-filter:blur(8px)}
+.cb::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold-mid),transparent)}
+.cb::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold-deep),transparent)}
+.cb p{font-size:18px;font-weight:300;line-height:1.95;color:var(--text-main);margin-bottom:20px}
+.cb p:last-child{margin-bottom:0}
+.hl{color:var(--gold-light);font-weight:600}
+.hli{color:var(--gold-bright);font-style:italic}
+/* TABLE */
+.tw{overflow-x:auto;margin:28px 0;border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:15px}
+thead tr{background:linear-gradient(135deg,rgba(122,79,13,.6),rgba(200,136,26,.3))}
+thead th{font-family:'Cinzel',serif;font-size:11px;letter-spacing:3px;color:var(--gold-light);padding:14px 20px;text-align:left;border-bottom:1px solid var(--border-b);font-weight:600}
+tbody tr{border-bottom:1px solid rgba(200,136,26,.1);transition:background .2s}
+tbody tr:hover{background:rgba(200,136,26,.05)}
+tbody td{padding:13px 20px;color:var(--text-main);font-size:15px;line-height:1.6;vertical-align:top}
+tbody td:first-child{color:var(--gold-light);font-weight:600;font-family:'JetBrains Mono',monospace;font-size:13px;white-space:nowrap}
+/* CODE */
+.code{background:rgba(10,8,4,.9);border:1px solid rgba(200,136,26,.2);border-left:3px solid var(--gold-mid);border-radius:2px;padding:24px 28px;margin:24px 0;font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--text-code);line-height:1.8;overflow-x:auto;position:relative;white-space:pre}
+.cl{position:absolute;top:8px;right:14px;font-family:'Cinzel',serif;font-size:9px;letter-spacing:3px;color:var(--gold-deep)}
+.bad{color:#CC6666;text-decoration:line-through;opacity:.7}
+.good{color:#88CC88}
+.cmt{color:var(--gold-deep);font-style:italic}
+/* CALLOUT */
+.callout{border:1px solid;border-radius:2px;padding:20px 28px;margin:24px 0;display:flex;gap:16px;align-items:flex-start}
+.tip{border-color:rgba(136,200,136,.3);background:rgba(136,200,136,.05)}
+.warn{border-color:rgba(200,136,26,.4);background:rgba(200,136,26,.07)}
+.rule{border-color:rgba(200,136,26,.6);background:rgba(122,79,13,.15)}
+.ci{font-size:20px;flex-shrink:0;margin-top:2px}
+.ct{font-size:16px;color:var(--text-main);line-height:1.7}
+.ct strong{color:var(--gold-light)}
+/* FORMULA */
+.fbox{background:rgba(122,79,13,.2);border:1px solid var(--gold-mid);padding:20px 32px;margin:24px 0;text-align:center;font-family:'Cinzel',serif;font-size:15px;color:var(--gold-light);letter-spacing:1px;line-height:1.7}
+/* NEXT BTN */
+.nb-wrap{text-align:center;margin-top:40px}
+.nb{display:inline-block;font-family:'Cinzel',serif;font-size:12px;letter-spacing:4px;color:var(--gold-bright);background:transparent;border:1px solid var(--gold-mid);padding:18px 52px;cursor:pointer;transition:all .4s ease;position:relative;overflow:hidden}
+.nb::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(200,136,26,.08),rgba(200,136,26,.18));transform:scaleX(0);transition:transform .4s ease;transform-origin:left}
+.nb:hover::before{transform:scaleX(1)}
+.nb:hover{border-color:var(--gold-bright);box-shadow:0 0 30px rgba(200,136,26,.2);color:var(--gold-light)}
+/* GAP */
+.gap-sec{display:none;width:100%;max-width:1000px;padding:40px 60px 80px;animation:fu .6s ease both}
+.gap-sec.active{display:block}
+.gap-intro{background:var(--card);border:1px solid var(--border);padding:44px 56px;margin-bottom:32px;position:relative}
+.gap-intro::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.gap-intro p{font-size:18px;font-weight:300;line-height:1.9;color:var(--text-main);margin-bottom:16px}
+.pb{background:rgba(10,8,4,.95);border:1px solid var(--border-b);padding:44px 52px;margin-bottom:24px}
+.prow{margin-bottom:28px}
+.plbl{font-family:'Cinzel',serif;font-size:10px;letter-spacing:4px;color:var(--gold-mid);margin-bottom:10px;display:block}
+.pf{width:100%;background:rgba(22,16,8,.9);border:1px solid var(--border);border-radius:1px;padding:14px 18px;font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--text-code);outline:none;transition:border-color .3s;resize:vertical;min-height:52px;line-height:1.7}
+.pf:focus{border-color:var(--gold);box-shadow:0 0 12px rgba(200,136,26,.1)}
+.pf::placeholder{color:var(--gold-deep);font-style:italic;opacity:.6}
+.phint{font-size:13px;color:var(--text-dim);margin-top:6px;font-style:italic}
+.pprev{background:rgba(5,4,2,.98);border:1px solid rgba(200,136,26,.3);border-left:3px solid var(--gold);padding:24px 28px;font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--text-code);line-height:1.9;margin:24px 0;white-space:pre-wrap;word-break:break-word;display:none;animation:fu .4s ease}
+.pprev.vis{display:block}
+.pvlbl{font-family:'Cinzel',serif;font-size:10px;letter-spacing:4px;color:var(--gold-deep);margin-bottom:16px;display:block}
+.gbtnrow{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-top:32px}
+.gbp{font-family:'Cinzel',serif;font-size:11px;letter-spacing:4px;color:var(--black);background:linear-gradient(135deg,var(--gold) 0%,var(--gold-bright) 100%);border:none;padding:16px 44px;cursor:pointer;transition:all .3s ease;box-shadow:0 4px 20px rgba(200,136,26,.3)}
+.gbp:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(200,136,26,.4)}
+.gbs{font-family:'Cinzel',serif;font-size:11px;letter-spacing:4px;color:var(--gold-bright);background:transparent;border:1px solid var(--gold-mid);padding:14px 44px;cursor:pointer;transition:all .3s ease}
+.gbs:hover{border-color:var(--gold);background:var(--glow)}
+.abox{display:none;background:rgba(10,8,4,.95);border:1px solid var(--border-b);padding:36px 44px;margin-top:28px;animation:fu .5s ease}
+.abox.vis{display:block}
+.aload{text-align:center;font-family:'Cinzel',serif;font-size:12px;letter-spacing:4px;color:var(--gold-mid);padding:24px 0}
+.asp{display:inline-block;width:20px;height:20px;border:2px solid var(--gold-deep);border-top-color:var(--gold);border-radius:50%;animation:spin 1s linear infinite;margin-right:12px;vertical-align:middle}
+@keyframes spin{to{transform:rotate(360deg)}}
+.atitle{font-family:'Cinzel',serif;font-size:13px;letter-spacing:3px;color:var(--gold);margin-bottom:16px}
+.atext{font-size:16px;font-weight:300;line-height:1.85;color:var(--text-main)}
+.atext p{margin-bottom:12px}
+.ascore{font-family:'Cinzel',serif;font-size:28px;color:var(--gold-bright);text-align:center;margin:20px 0 8px}
+.ascl{font-family:'Cinzel',serif;font-size:10px;letter-spacing:4px;color:var(--gold-deep);text-align:center}
+.arow{display:flex;gap:12px;align-items:center;margin-bottom:20px}
+.ainput{flex:1;background:rgba(22,16,8,.9);border:1px solid var(--border);padding:10px 14px;font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--text-code);outline:none;transition:border-color .3s}
+.ainput:focus{border-color:var(--gold)}
+.ainput::placeholder{color:var(--gold-deep);opacity:.5}
+.albl{font-family:'Cinzel',serif;font-size:9px;letter-spacing:3px;color:var(--gold-mid);white-space:nowrap}
+.cbtn{display:inline-block;font-family:'Cinzel',serif;font-size:9px;letter-spacing:3px;color:var(--gold-mid);background:transparent;border:1px solid rgba(200,136,26,.2);padding:6px 16px;cursor:pointer;transition:all .3s;margin-top:10px}
+.cbtn:hover{border-color:var(--gold);color:var(--gold)}
+footer{text-align:center;padding:40px 60px;font-family:'Cinzel',serif;font-size:9px;letter-spacing:5px;color:var(--gold-deep);border-top:1px solid rgba(200,136,26,.08)}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--black)}
+::-webkit-scrollbar-thumb{background:var(--gold-deep)}
+@media(max-width:768px){nav{padding:14px 20px}.hero,.chapter,.gap-sec{padding-left:20px;padding-right:20px}.cb{padding:28px 20px}.ch-prog{display:none}}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+<nav>
+  <span class="nav-brand" onclick="goHome()">PROMPT MASTERY</span>
+  <div class="nav-dots-wrap">
+    <div id="nav-dots" style="display:flex;gap:4px"></div>
+    <div class="nav-ctr" id="nav-ctr"></div>
+  </div>
+</nav>
+
+<div class="shell">
+
+<!-- HERO -->
+<section class="hero" id="s-hero">
+  <div class="hero-orb"></div>
+  <span class="hero-label">Das vollständige Handbuch für ambitionierte Unternehmer</span>
+  <h1 class="hero-title">PROMPT<br>MASTERY</h1>
+  <p class="hero-sub">Die Kunst der perfekten KI-Kommunikation</p>
+  <div class="hero-div"></div>
+  <p class="hero-intro">Wer KI meistert, meistert die Zukunft. Dieses Handbuch zeigt dir in 10 Kapiteln, wie du aus jedem KI-Tool das Maximum herausholst — präzise, effizient, profitabel.</p>
+  <button class="hero-cta" onclick="goCh(1)">JETZT STARTEN →</button>
+</section>
+
+<!-- CH 1 -->
+<div class="chapter" id="s-1">
+  <div class="ch-prog" id="cp-1"></div>
+  <span class="ch-eyebrow">KAPITEL I</span>
+  <h2 class="ch-title">Wie KI wirklich funktioniert</h2>
+  <p class="ch-tag">Was in der Black Box passiert — und warum dein Prompt der Schlüssel ist.</p>
+  <div class="cb">
+    <p>Bevor du perfekte Prompts schreibst, musst du verstehen, <span class="hl">wie ein KI-Sprachmodell denkt</span>. Nicht im menschlichen Sinne — sondern statistisch. Ein Modell wie Claude oder GPT-4 ist im Kern eine riesige Wahrscheinlichkeitsmaschine: Es sagt immer das nächste Wort voraus, das am wahrscheinlichsten passt — basierend auf Milliarden von Texten, die es während des Trainings verarbeitet hat.</p>
+    <p>Das bedeutet: Die KI hat <span class="hl">keine eigene Agenda</span>, kein Bewusstsein, keine Meinung. Sie spiegelt zurück, was du reinsteuerst. Dein Prompt ist der Kompass. Je klarer der Kompass, desto präziser die Reise.</p>
+    <div class="tw"><table>
+      <thead><tr><th>Konzept</th><th>Was es bedeutet</th><th>Auswirkung auf deinen Prompt</th></tr></thead>
+      <tbody>
+        <tr><td>Token</td><td>Wortfragmente (~¾ eines Wortes), die das Modell verarbeitet</td><td>Kürzere Prompts = weniger Kontext, schnellere Antwort</td></tr>
+        <tr><td>Kontext-Fenster</td><td>Maximale Informationsmenge, die das Modell gleichzeitig sehen kann</td><td>Zu viel Text → frühere Infos werden vergessen</td></tr>
+        <tr><td>Temperature</td><td>Kreativität vs. Präzision (0 = deterministisch, 1 = kreativ)</td><td>Bei Fakten: niedrig; bei Ideen: hoch</td></tr>
+        <tr><td>Halluzination</td><td>KI erfindet plausibel klingende, falsche Fakten</td><td>Immer Quellenangaben verlangen; Fakten prüfen</td></tr>
+        <tr><td>Systemkontext</td><td>Hintergrundinstruktionen vor dem eigentlichen Gespräch</td><td>Legt Persönlichkeit und Rolle der KI fest</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout warn"><span class="ci">⚡</span><div class="ct"><strong>Entscheidende Erkenntnis:</strong> Die KI antwortet immer — ob sie richtig antwortet, liegt vollständig bei dir. Ein schlechter Prompt bekommt eine schlechte Antwort, egal wie leistungsfähig das Modell ist.</div></div>
+    <p>Stell dir die KI wie einen <span class="hl">außergewöhnlich fähigen Praktikanten</span> vor: hochintelligent, unermüdlich, sofort verfügbar — aber ohne Eigeninitiative. Er tut exakt das, was du sagst. Formulierst du vage, arbeitet er ins Blaue. Formulierst du präzise, liefert er Ergebnisse, die du selbst nicht schneller produzieren könntest.</p>
+  </div>
+  <div class="nb-wrap"><button class="nb" onclick="goCh(2)">NÄCHSTES KAPITEL →</button></div>
+</div>
+
+<!-- CH 2 -->
+<div class="chapter" id="s-2">
+  <div class="ch-prog" id="cp-2"></div>
+  <span class="ch-eyebrow">KAPITEL II</span>
+  <h2 class="ch-title">Die 6 Säulen des perfekten Prompts</h2>
+  <p class="ch-tag">Das Fundament, auf dem jede Meisterklasse aufbaut.</p>
+  <div class="cb">
+    <p>Ein präziser Prompt ist kein Zufallsprodukt. Er folgt einer klaren Struktur. Die <span class="hl">6 Säulen</span> funktionieren wie ein Schaltplan — jede Säule für sich verbessert das Ergebnis, alle zusammen multiplizieren die Qualität exponentiell.</p>
+    <div class="fbox">ROLLE + KONTEXT + AUFGABE + FORMAT + EINSCHRÄNKUNGEN + BEISPIELE = OPTIMALER OUTPUT</div>
+    <div class="tw"><table>
+      <thead><tr><th>Säule</th><th>Frage, die sie beantwortet</th><th>Beispiel</th></tr></thead>
+      <tbody>
+        <tr><td>1. ROLLE</td><td>Wer soll die KI sein?</td><td>„Du bist ein erfahrener CFO mit 20 Jahren Erfahrung in SaaS-Unternehmen."</td></tr>
+        <tr><td>2. KONTEXT</td><td>Was ist die Ausgangssituation?</td><td>„Wir haben eine Series-A-Runde von 5M€ abgeschlossen und skalieren auf 3 neue Märkte."</td></tr>
+        <tr><td>3. AUFGABE</td><td>Was genau soll getan werden?</td><td>„Erstelle einen 90-Tage-Cashflow-Plan mit monatlichen Meilensteinen."</td></tr>
+        <tr><td>4. FORMAT</td><td>Wie soll die Antwort aussehen?</td><td>„Als Tabelle: Monat | Einnahmen | Ausgaben | Net Burn | Kommentar."</td></tr>
+        <tr><td>5. EINSCHRÄNKUNGEN</td><td>Was soll NICHT gemacht werden?</td><td>„Keine Fachbegriffe ohne Erklärung. Max. 500 Wörter."</td></tr>
+        <tr><td>6. BEISPIELE</td><td>Wie soll das Ergebnis konkret aussehen?</td><td>„McKinsey-Executive-Summary-Stil — direkt, zahlenbasiert, ohne Floskeln."</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout tip"><span class="ci">✦</span><div class="ct"><strong>Unternehmer-Tipp:</strong> Du brauchst nicht immer alle 6 Säulen. Für einfache Aufgaben reichen 2–3. Für strategische Entscheidungen oder Kundenkommunikation: alle 6 einsetzen.</div></div>
+    <p>Die meisten Nutzer benutzen nur die Aufgabe — und wundern sich, warum die KI „generisch" antwortet. Die Wahrheit: <span class="hl">Generische Inputs erzeugen generische Outputs</span>. Wer Kontext und Rolle dazugibt, erhält Antworten auf CEO-Niveau.</p>
+  </div>
+  <div class="nb-wrap"><button class="nb" onclick="goCh(3)">NÄCHSTES KAPITEL →</button></div>
+</div>
+
+<!-- CH 3 -->
+<div class="chapter" id="s-3">
+  <div class="ch-prog" id="cp-3"></div>
+  <span class="ch-eyebrow">KAPITEL III</span>
+  <h2 class="ch-title">Rolle &amp; Kontext meistern</h2>
+  <p class="ch-tag">Wie du die KI in den richtigen Modus versetzt — bevor du eine Aufgabe stellst.</p>
+  <div class="cb">
+    <p>Die <span class="hl">Rolle ist der mächtigste Hebel</span> im gesamten Prompt-Engineering. Wenn du der KI sagst, wer sie ist, verändert das das gesamte Vokabular, den Ton, die Prioritäten und den Detailgrad. Der gleiche Inhalt — völlig unterschiedliche Ausgabe.</p>
+    <div class="code"><span class="cl">VERGLEICH</span><span class="bad">❌ „Erkläre mir Cashflow."</span>
+
+<span class="good">✅ „Du bist ein erfahrener CFO, der einem Gründer erklärt,
+   der zum ersten Mal eine Series-A-Runde abschließt.
+   Erkläre Cashflow so, dass er die 3 kritischsten
+   Anfängerfehler vermeidet."</span></div>
+    <div class="tw"><table>
+      <thead><tr><th>Schlechter Kontext</th><th>Guter Kontext</th><th>Warum besser</th></tr></thead>
+      <tbody>
+        <tr><td>„Ich habe ein Startup"</td><td>„B2B-SaaS, 18 Monate, 12 Kunden, ARR 180k€, 4-köpfiges Team, pre-Series-A"</td><td>KI kennt Größe, Stage, Modell, Herausforderungen</td></tr>
+        <tr><td>„Schreib eine E-Mail"</td><td>„Follow-up an einen CFO nach Demo, kein Feedback seit 2 Wochen. Ton: professionell, nicht aufdringlich."</td><td>Empfänger, Situation, Ton klar definiert</td></tr>
+        <tr><td>„Analysiere meinen Markt"</td><td>„Deutschen HR-Tech-Markt für KMUs (50–200 MA) — Perspektive: neuer Anbieter ohne Markenbekanntheit, 50k€/Jahr Marketing-Budget"</td><td>Segment, Perspektive, Constraints definiert</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout rule"><span class="ci">◆</span><div class="ct"><strong>Goldene Regel:</strong> Je spezifischer dein Kontext, desto unwahrscheinlicher eine generische Antwort. Erzähle der KI alles, was ein neuer Berater an seinem ersten Tag wissen müsste.</div></div>
+  </div>
+  <div class="nb-wrap"><button class="nb" onclick="goCh(4)">NÄCHSTES KAPITEL →</button></div>
+</div>
+
+<!-- CH 4 -->
+<div class="chapter" id="s-4">
+  <div class="ch-prog" id="cp-4"></div>
+  <span class="ch-eyebrow">KAPITEL IV</span>
+  <h2 class="ch-title">Aufgaben präzise formulieren</h2>
+  <p class="ch-tag">Der Unterschied zwischen „mach was" und einer Anweisung, die liefert.</p>
+  <div class="cb">
+    <p>Die Aufgabe ist das Herzstück des Prompts — aber auch der Bereich, in dem die meisten scheitern. Nicht weil sie zu wenig verlangen, sondern weil sie <span class="hl">zu vage verlangen</span>. Eine präzise Aufgabe hat drei Elemente:</p>
+    <div class="fbox">VERB (was tun?) + OBJEKT (womit?) + ZIEL (wozu?) = PRÄZISE AUFGABE</div>
+    <div class="tw"><table>
+      <thead><tr><th>Vages Verb</th><th>Präzises Verb</th><th>Warum präziser</th></tr></thead>
+      <tbody>
+        <tr><td>„Hilf mir mit…"</td><td>„Erstelle / Analysiere / Optimiere / Bewerte"</td><td>Klare Handlungsanweisung statt vager Bitte</td></tr>
+        <tr><td>„Schreib etwas über…"</td><td>„Verfasse einen 3-Abschnitt-Artikel mit H2-Überschriften über…"</td><td>Umfang und Struktur definiert</td></tr>
+        <tr><td>„Was denkst du über…"</td><td>„Erstelle eine Pro/Contra-Liste mit je 5 Punkten für…"</td><td>Output-Format klar, keine endlose Meinung</td></tr>
+        <tr><td>„Verbessere das"</td><td>„Optimiere diesen Text für Conversion auf einer Landingpage: kürzer, klarer, CTA stärker"</td><td>Ziel und Kriterien klar benannt</td></tr>
+        <tr><td>„Mach einen Plan"</td><td>„Erstelle einen 30-60-90-Tage-Plan für einen Sales-Manager mit Ziel: 5 Enterprise-Deals in Q1"</td><td>Zeitrahmen, Rolle, Ziel spezifisch</td></tr>
+      </tbody>
+    </table></div>
+    <p>Wichtig: Wenn du mehrere Aufgaben hast, <span class="hl">zerlege sie in separate Prompts</span>. Ein Prompt, eine Aufgabe. Die KI verliert sich sonst zwischen mehreren Zielen und priorisiert zufällig.</p>
+    <div class="callout tip"><span class="ci">✦</span><div class="ct"><strong>Chain Prompting:</strong> Starte mit der Analyse → nutze die Antwort als Input für den nächsten Prompt → verfeinere schrittweise. So baust du komplexe Outputs wie ein professionelles Beratungs-Team.</div></div>
+  </div>
+  <div class="nb-wrap"><button class="nb" onclick="goCh(5)">NÄCHSTES KAPITEL →</button></div>
+</div>
+
+<!-- CH 5 -->
+<div class="chapter" id="s-5">
+  <div class="ch-prog" id="cp-5"></div>
+  <span class="ch-eyebrow">KAPITEL V</span>
+  <h2 class="ch-title">Format &amp; Output-Kontrolle</h2>
+  <p class="ch-tag">Nicht nur was die KI sagt — sondern wie sie es sagt.</p>
+  <div class="cb">
+    <p>Die meisten Nutzer lassen die KI selbst entscheiden, wie sie antwortet. Das ist ein Fehler. Die KI wählt standardmäßig einen Mittelweg. Mit Format-Anweisungen <span class="hl">übernimmst du die Kontrolle</span> über das Endprodukt.</p>
+    <div class="tw"><table>
+      <thead><tr><th>Format-Typ</th><th>Wann einsetzen</th><th>Prompt-Formulierung</th></tr></thead>
+      <tbody>
+        <tr><td>Tabelle</td><td>Vergleiche, Übersichten, KPIs</td><td>„Als Tabelle mit Spalten: X, Y, Z"</td></tr>
+        <tr><td>Stichpunkte</td><td>Listen, Schritte, Optionen</td><td>„In 5 Stichpunkten, max. 2 Sätze pro Punkt"</td></tr>
+        <tr><td>Fließtext</td><td>E-Mails, Artikel, Pitch</td><td>„Als Fließtext, 3 Absätze, ca. 200 Wörter"</td></tr>
+        <tr><td>JSON/Code</td><td>Tech-Outputs, Datenstrukturen</td><td>„Als valides JSON-Objekt mit Feldern: …"</td></tr>
+        <tr><td>Vorlage</td><td>Wiederverwendbare Dokumente</td><td>„Als ausfüllbare Vorlage mit [PLATZHALTERN]"</td></tr>
+        <tr><td>Schritt-für-Schritt</td><td>Prozesse, Anleitungen</td><td>„Als nummerierte Schritt-für-Schritt-Anleitung"</td></tr>
+      </tbody>
+    </table></div>
+    <p>Besonders wertvoll: <span class="hl">Längen-Kontrolle</span>. Die KI neigt zur Ausführlichkeit. Mit klaren Vorgaben sparst du Zeit und bekommst direkt verwendbare Texte.</p>
+    <div class="code"><span class="cl">VOLLSTÄNDIGER FORMAT-PROMPT</span>Erstelle eine Wettbewerbsanalyse für [Produkt] vs. [3 Konkurrenten].
+
+FORMAT:
+- Tabelle: Kriterium | Wir | Konkurrent A | B | C
+- Kriterien: Preis, Zielgruppe, USP, Marktanteil, Schwäche
+- Danach: 3 Stichpunkte mit strategischen Empfehlungen (max. 2 Sätze je)
+- Keine Einleitung, direkt zur Tabelle
+- Sprache: sachlich, zahlenbasiert wo möglich</div>
+  </div>
+  <div class="nb-wrap"><button class="nb" onclick="goCh(6)">NÄCHSTES KAPITEL →</button></div>
+</div>
+
+<!-- CH 6 -->
+<div class="chapter" id="s-6">
+  <div class="ch-prog" id="cp-6"></div>
+  <span class="ch-eyebrow">KAPITEL VI</span>
+  <h2 class="ch-title">Einschränkungen &amp; Qualitätssicherung</h2>
+  <p class="ch-tag">Was du der KI verbietest, ist genauso wichtig wie was du ihr auftragst.</p>
+  <div class="cb">
+    <p>Profi-Prompter wissen: Die <span class="hl">Einschränkungen (Constraints)</span> sind oft der entscheidende Faktor zwischen einer brauchbaren und einer perfekten Antwort. Indem du sagst, was die KI nicht tun soll, verengst du den Lösungsraum — und erzwingst Präzision.</p>
+    <div class="tw"><table>
+      <thead><tr><th>Kategorie</th><th>Problem ohne Constraint</th><th>Constraint-Formulierung</th></tr></thead>
+      <tbody>
+        <tr><td>Ton</td><td>Überschwänglich, werberisch, hohlsprachig</td><td>„Kein Marketing-Sprech. Direkt, sachlich, auf Augenhöhe."</td></tr>
+        <tr><td>Länge</td><td>3-seitige Abhandlung wenn du 1 Absatz wolltest</td><td>„Maximal 100 Wörter. Keine Einleitung."</td></tr>
+        <tr><td>Quellen</td><td>Halluzinierte Statistiken und Studien</td><td>„Keine erfundenen Zahlen. Bei Unsicherheit: explizit sagen."</td></tr>
+        <tr><td>Annahmen</td><td>KI fügt unerwünschte Voraussetzungen ein</td><td>„Gehe nicht von Vorkenntnissen des Lesers aus."</td></tr>
+        <tr><td>Struktur</td><td>Wirre Mischung aus Listen und Prosa</td><td>„Nur Stichpunkte. Kein Fließtext."</td></tr>
+      </tbody>
+    </table></div>
+    <div class="code"><span class="cl">SELBST-EVALUATION PROMPT-ZUSATZ</span><span class="cmt">// Am Ende deines Prompts hinzufügen:</span>
+
+„Bevor du antwortest: Prüfe deine Antwort anhand dieser Kriterien:
+1. Ist sie kürzer als 200 Wörter?
+2. Enthält sie konkrete Zahlen oder Beispiele?
+3. Ist die Handlungsempfehlung eindeutig?
+Wenn ein Kriterium nicht erfüllt: überarbeite zuerst, dann antworte."</div>
+    <div class="callout rule"><span class="ci">◆</span><div class="ct"><strong>Anti-Halluzinations-Technik:</strong> Füge immer hinzu: <em>„Wenn du dir nicht sicher bist, schreibe 'Ich bin nicht sicher, ob…' statt etwas zu erfinden."</em> Das reduziert Halluzinationen drastisch.</div></div>
+  </div>
+  <div class="nb-wrap"><button class="nb" onclick="goCh(7)">NÄCHSTES KAPITEL →</button></div>
+</div>
+
+<!-- CH 7 -->
+<div class="chapter" id="s-7">
+  <div class="ch-prog" id="cp-7"></div>
+  <span class="ch-eyebrow">KAPITEL VII</span>
+  <h2 class="ch-title">Few-Shot Learning &amp; Beispiele</h2>
+  <p class="ch-tag">Die mächtigste Technik, die 95% der Nutzer ignorieren.</p>
+  <div class="cb">
+    <p><span class="hl">Few-Shot Prompting</span> bedeutet: Du gibst der KI Beispiele — Input/Output-Paare — bevor du deine eigentliche Aufgabe stellst. Die KI lernt das Muster und wendet es auf neue Fälle an. Wie ein Praktikant, dem du zeigst wie's gemacht wird, bevor du ihn alleine lässt.</p>
+    <div class="code"><span class="cl">ZERO-SHOT vs. FEW-SHOT</span><span class="cmt">// Zero-Shot (kein Beispiel — riskant für spezifischen Stil)</span>
+<span class="bad">„Schreibe eine Produktbeschreibung für unsere Software."</span>
+
+<span class="cmt">// Few-Shot (mit Beispielen — konsistent und markengerecht)</span>
+<span class="good">„Schreibe eine Produktbeschreibung im Stil dieser Beispiele:
+
+BEISPIEL 1 — Analytics-Dashboard:
+'Sieh dein Business in Echtzeit. Keine Exports,
+kein Warten — nur Klarheit.'
+
+BEISPIEL 2 — Rechnungsstellung:
+'Von Auftrag zu Bezahlung in 3 Klicks.
+Liquidität, die du kontrollierst.'
+
+JETZT: Schreibe für unser Produkt: [PRODUKT]"</span></div>
+    <div class="tw"><table>
+      <thead><tr><th>Technik</th><th>Beispiele nötig</th><th>Beste Anwendung</th></tr></thead>
+      <tbody>
+        <tr><td>Zero-Shot</td><td>0</td><td>Allgemeine Aufgaben, Analysen, Übersetzungen</td></tr>
+        <tr><td>One-Shot</td><td>1</td><td>Ton &amp; Stil übernehmen, einfache Muster</td></tr>
+        <tr><td>Few-Shot</td><td>2–5</td><td>Brand Voice, spezifische Formate, Klassifikation</td></tr>
+        <tr><td>Chain-of-Thought</td><td>0–3 mit Denkschritten</td><td>Komplexe Analysen, Berechnungen, Entscheidungen</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout tip"><span class="ci">✦</span><div class="ct"><strong>Chain-of-Thought Bonus:</strong> Füge „Denke Schritt für Schritt" in komplexe Prompts ein. Die KI zeigt ihren Denkprozess — Fehler werden sichtbar und korrigierbar.</div></div>
+  </div>
+  <div class="nb-wrap"><button class="nb" onclick="goCh(8)">NÄCHSTES KAPITEL →</button></div>
+</div>
+
+<!-- CH 8 -->
+<div class="chapter" id="s-8">
+  <div class="ch-prog" id="cp-8"></div>
+  <span class="ch-eyebrow">KAPITEL VIII</span>
+  <h2 class="ch-title">Prompt-Templates für Unternehmer</h2>
+  <p class="ch-tag">Copy &amp; Paste — direkt einsatzbereit für dein Business.</p>
+  <div class="cb">
+    <p>Theorie ist gut. <span class="hl">Vorlagen sind besser.</span> Hier sind die mächtigsten Prompt-Templates für ambitionierte Unternehmer — direkt verwendbar, mit [PLATZHALTERN] für deine spezifischen Details.</p>
+    <div class="code"><span class="cl">TEMPLATE 1: STRATEGISCHE ENTSCHEIDUNG</span>Du bist ein erfahrener Unternehmensstratege. Ich stehe vor dieser Entscheidung:
+[ENTSCHEIDUNG BESCHREIBEN]
+
+Kontext: [BRANCHE, GRÖSSE, STAGE] | Budget: [X] | Ziel: [1 SATZ]
+
+Analysiere:
+1. Die 3 stärksten Argumente DAFÜR
+2. Die 3 stärksten Argumente DAGEGEN
+3. Welche Information würde deine Empfehlung am stärksten verändern?
+4. Deine finale Empfehlung (max. 3 Sätze)
+
+Kein Blabla. Direkt, zahlenbasiert wo möglich.</div>
+    <div class="code"><span class="cl">TEMPLATE 2: B2B SALES-EMAIL</span>Du bist ein erfahrener B2B-Sales-Texter.
+
+Empfänger: [ROLLE, UNTERNEHMEN, WAS WIR WISSEN]
+Angebot: [PRODUKT IN 1 SATZ]
+Ziel: [DEMO / ANTWORT / DOKUMENT]
+Schmerzpunkt: [PROBLEM, DAS WIR LÖSEN]
+
+Format:
+- 2 Betreff-Varianten (eine neugierig, eine direkt)
+- Max. 120 Wörter, 3 Absätze
+- Ein einziger, klarer CTA
+- Kein Marketing-Sprech. Menschlich, direkt.</div>
+    <div class="tw"><table>
+      <thead><tr><th>Anwendungsfall</th><th>Gesparte Zeit</th><th>Template-Typ</th></tr></thead>
+      <tbody>
+        <tr><td>Pitch Deck Text</td><td>3–5 Stunden</td><td>Rolle + Struktur + Brand Voice</td></tr>
+        <tr><td>Stellenausschreibung</td><td>1–2 Stunden</td><td>Rolle + Kontext + Format</td></tr>
+        <tr><td>Investoren-Update</td><td>2–3 Stunden</td><td>Kontext + Einschränkungen + Beispiel</td></tr>
+        <tr><td>Marktanalyse</td><td>4–6 Stunden</td><td>Chain Prompting + Tabelle</td></tr>
+        <tr><td>Kundenpräsentation</td><td>2–4 Stunden</td><td>Few-Shot + Format + Constraints</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+  <div class="nb-wrap"><button class="nb" onclick="goCh(9)">NÄCHSTES KAPITEL →</button></div>
+</div>
+
+<!-- CH 9 -->
+<div class="chapter" id="s-9">
+  <div class="ch-prog" id="cp-9"></div>
+  <span class="ch-eyebrow">KAPITEL IX</span>
+  <h2 class="ch-title">Iteration &amp; Verfeinerung</h2>
+  <p class="ch-tag">Der erste Prompt ist selten der beste — so machst du ihn besser.</p>
+  <div class="cb">
+    <p>Selbst Profis bekommen nicht beim ersten Versuch den perfekten Output. Der Unterschied liegt darin, <span class="hl">wie schnell sie iterieren</span> und welche Hebel sie dabei ziehen.</p>
+    <div class="tw"><table>
+      <thead><tr><th>Problem im Output</th><th>Diagnose</th><th>Lösung</th></tr></thead>
+      <tbody>
+        <tr><td>Zu generisch</td><td>Kontext fehlt</td><td>Mehr Details: Branche, Zielgruppe, Stage, Zahlen</td></tr>
+        <tr><td>Zu lang</td><td>Kein Längen-Constraint</td><td>„Fasse auf max. X Wörter zusammen. Entferne Redundantes."</td></tr>
+        <tr><td>Falscher Ton</td><td>Kein Ton-Constraint</td><td>„Stil: direkt, ohne Floskeln, professionell wie [Vorbild]."</td></tr>
+        <tr><td>Falsche Struktur</td><td>Format nicht definiert</td><td>Explizite Struktur vorgeben: Tabelle, Liste, Abschnitte</td></tr>
+        <tr><td>KI weicht ab</td><td>Aufgabe zu vage</td><td>Aufgabe neu: klares Verb + Objekt + Ziel</td></tr>
+        <tr><td>Halluzinierte Fakten</td><td>Kein Fakten-Constraint</td><td>„Nur verifizierbare Aussagen. Unsicherheit: markieren."</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout rule"><span class="ci">◆</span><div class="ct"><strong>Profi-Workflow:</strong> Prompt → Output bewerten → 1 Schwachpunkt identifizieren → genau diesen adressieren → wiederholen. Nie mehr als 1 Variable pro Iteration ändern.</div></div>
+    <p>Außerdem: <span class="hl">Speichere deine besten Prompts.</span> Ein guter Prompt ist ein Asset. Nach 3 Monaten steht dir eine Bibliothek zur Verfügung, die Stunden pro Woche spart.</p>
+  </div>
+  <div class="nb-wrap"><button class="nb" onclick="goCh(10)">NÄCHSTES KAPITEL →</button></div>
+</div>
+
+<!-- CH 10 -->
+<div class="chapter" id="s-10">
+  <div class="ch-prog" id="cp-10"></div>
+  <span class="ch-eyebrow">KAPITEL X</span>
+  <h2 class="ch-title">KI als strategischer Hebel</h2>
+  <p class="ch-tag">Wie du KI nicht als Tool, sondern als Wettbewerbsvorteil einsetzt.</p>
+  <div class="cb">
+    <p>Wer KI nur für einzelne Aufgaben nutzt, verpasst das Eigentliche. Der <span class="hl">strategische Unterschied</span> liegt nicht im einzelnen Prompt — er liegt in der Systematik. Unternehmer, die KI wirklich beherrschen, bauen Prozesse, nicht Aufgaben.</p>
+    <div class="tw"><table>
+      <thead><tr><th>Level</th><th>KI-Nutzung</th><th>Zeitersparnis/Woche</th><th>Wettbewerbsvorteil</th></tr></thead>
+      <tbody>
+        <tr><td>Anfänger</td><td>Gelegentliche Einzelaufgaben</td><td>1–3h</td><td>Minimal</td></tr>
+        <tr><td>Fortgeschrittener</td><td>Systematische Standardprozesse</td><td>5–10h</td><td>Mittel</td></tr>
+        <tr><td>Experte</td><td>KI-Workflows, Prompt-Bibliotheken</td><td>15–30h</td><td>Hoch</td></tr>
+        <tr><td>Strategisch</td><td>KI als Kerninfrastruktur</td><td>40h+</td><td>Entscheidend</td></tr>
+      </tbody>
+    </table></div>
+    <div class="tw"><table>
+      <thead><tr><th>Bereich</th><th>Anwendung</th><th>Ergebnis</th></tr></thead>
+      <tbody>
+        <tr><td>Vertrieb</td><td>Personalisierter Outreach, Follow-ups, Einwand-Handling</td><td>3–5× mehr qualifizierte Gespräche</td></tr>
+        <tr><td>Content &amp; Marketing</td><td>Brand Voice skalieren, SEO, Social Media</td><td>10× Output-Volumen bei gleichem Budget</td></tr>
+        <tr><td>Entscheidungen</td><td>Schnelle Analysen, Szenarien, Due Diligence</td><td>Fundierte Entscheidungen in Stunden</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout warn"><span class="ci">⚡</span><div class="ct"><strong>Der entscheidende Vorteil:</strong> In 3 Jahren wird es zwei Typen von Unternehmern geben — solche, die KI als Hebel einsetzen, und solche, die von ihnen überholt werden. Der beste Zeitpunkt war gestern. Der zweitbeste: jetzt.</div></div>
+    <p>Du hast jetzt das Fundament. Du weißt, wie KI denkt, kennst die 6 Säulen, die Techniken, Templates und Iteration. Was jetzt fehlt: <span class="hl">anwenden.</span></p>
+  </div>
+  <div class="nb-wrap"><button class="nb" onclick="goGap()">ZUM ABSCHLUSS-TEST →</button></div>
+</div>
+
+<!-- GAP SECTION -->
+<div class="gap-sec" id="s-gap">
+  <span class="ch-eyebrow">ABSCHLUSS-TEST</span>
+  <h2 class="ch-title">Baue deinen ersten Profi-Prompt</h2>
+  <p class="ch-tag">Fülle alle Felder aus — dann analysiert eine KI deinen Prompt live.</p>
+
+  <div class="gap-intro">
+    <p>Du hast die 6 Säulen kennengelernt. Jetzt bist du dran. Fülle die Felder für eine echte Aufgabe aus deinem Business. Der Prompt wird zusammengesetzt und kann direkt von einer KI bewertet werden.</p>
+    <p style="font-size:16px;opacity:.7">Tipp: Denke an eine konkrete Situation — eine Entscheidung, eine E-Mail, eine Analyse, die du gerade brauchst.</p>
+  </div>
+
+  <div class="pb">
+    <div class="arow">
+      <span class="albl">API KEY</span>
+      <input class="ainput" id="g-key" type="password" placeholder="sk-ant-api03-… (optional, für KI-Analyse)">
+      <button onclick="toggleKey()" style="background:none;border:none;cursor:pointer;font-size:14px;color:var(--gold-mid);padding:0 8px">👁</button>
+      <label style="display:flex;align-items:center;gap:6px;font-family:'Cinzel',serif;font-size:9px;letter-spacing:2px;color:var(--gold-deep);cursor:pointer">
+        <input type="checkbox" id="save-k" onchange="saveKey()" style="accent-color:var(--gold)"> SPEICHERN
+      </label>
+    </div>
+
+    <div class="prow">
+      <span class="plbl">① ROLLE — Wer soll die KI sein?</span>
+      <textarea class="pf" id="g-rolle" rows="2" placeholder="z.B. Du bist ein erfahrener Vertriebsstratege mit 15 Jahren B2B-Erfahrung in der SaaS-Branche."></textarea>
+      <div class="phint">Beschreibe Expertise und Hintergrund. Je spezifischer, desto besser.</div>
+    </div>
+    <div class="prow">
+      <span class="plbl">② KONTEXT — Was ist die Situation?</span>
+      <textarea class="pf" id="g-kontext" rows="3" placeholder="z.B. Wir sind ein 2-jähriges B2B-SaaS-Startup mit 30 Kunden, ARR 250k€, und wollen in Q2 auf den deutschen Mittelstand expandieren."></textarea>
+      <div class="phint">Branche, Unternehmensgröße, Situation, relevante Zahlen.</div>
+    </div>
+    <div class="prow">
+      <span class="plbl">③ AUFGABE — Was genau soll getan werden?</span>
+      <textarea class="pf" id="g-aufgabe" rows="2" placeholder="z.B. Erstelle eine Outreach-Strategie für Cold-Email-Kampagnen an Entscheider in Unternehmen mit 50–200 Mitarbeitern."></textarea>
+      <div class="phint">Klares Verb + klares Objekt + klares Ziel.</div>
+    </div>
+    <div class="prow">
+      <span class="plbl">④ FORMAT — Wie soll die Antwort aussehen?</span>
+      <textarea class="pf" id="g-format" rows="2" placeholder="z.B. Als 5-Punkte-Liste mit Überschrift und max. 3 Sätzen je Punkt. Danach eine Beispiel-Betreffzeile."></textarea>
+      <div class="phint">Tabelle, Liste, Fließtext, Länge, Struktur.</div>
+    </div>
+    <div class="prow">
+      <span class="plbl">⑤ EINSCHRÄNKUNGEN — Was soll NICHT sein?</span>
+      <textarea class="pf" id="g-constraints" rows="2" placeholder="z.B. Kein allgemeines Marketing-Sprech. Nur direkt umsetzbare Taktiken. Max. 300 Wörter."></textarea>
+      <div class="phint">Ton, Länge, verbotene Inhalte, Qualitätsanforderungen.</div>
+    </div>
+    <div class="prow">
+      <span class="plbl">⑥ BEISPIEL / STIL <span style="color:var(--gold-deep);font-size:11px">(Optional)</span></span>
+      <textarea class="pf" id="g-beispiel" rows="2" placeholder="z.B. Im Stil von Alex Hormozis direktem, wertbasiertem Kommunikationsstil — ohne Weichspüler."></textarea>
+      <div class="phint">Stilvorbilder, Beispiel-Outputs, Referenzen.</div>
+    </div>
+
+    <div class="gbtnrow">
+      <button class="gbp" onclick="buildP()">PROMPT ZUSAMMENBAUEN</button>
+      <button class="gbs" onclick="clearAll()">FELDER LEEREN</button>
+    </div>
+
+    <div id="prev-wrap" style="display:none;margin-top:32px">
+      <span class="pvlbl">✦ DEIN FERTIGER PROMPT</span>
+      <div class="pprev vis" id="pprev"></div>
+      <div style="text-align:center"><button class="cbtn" onclick="copyP()">KOPIEREN</button></div>
+      <div class="gbtnrow" style="margin-top:20px">
+        <button class="gbp" onclick="analyzeP()">⚡ KI-ANALYSE STARTEN</button>
+      </div>
+    </div>
+
+    <div class="abox" id="abox">
+      <div class="aload" id="aload"><span class="asp"></span>ANALYSIERE DEINEN PROMPT…</div>
+      <div id="ares" style="display:none">
+        <div class="ascore" id="ascore"></div>
+        <div class="ascl">PROMPT-QUALITÄT</div>
+        <div style="height:1px;background:linear-gradient(90deg,transparent,var(--gold-mid),transparent);margin:20px 0"></div>
+        <div class="atitle">DETAILLIERTE BEWERTUNG</div>
+        <div class="atext" id="atext"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="nb-wrap" style="margin-top:40px">
+    <button class="nb" onclick="goHome()">↩ VON VORNE BEGINNEN</button>
+  </div>
+</div>
+
+</div><!-- /shell -->
+<footer>✦ PROMPT MASTERY ✦ &nbsp; Die Kunst der perfekten KI-Kommunikation</footer>
+
+<script>
+let cur = 0;
+
+// NAV DOTS
+function initNav(){
+  const d = document.getElementById('nav-dots');
+  d.innerHTML = '';
+  for(let i=1;i<=10;i++){
+    const el = document.createElement('div');
+    el.className='nav-dot';el.id='d'+i;el.title='Kapitel '+i;
+    el.onclick=()=>goCh(i);d.appendChild(el);
+  }
+  updNav();
+}
+
+function updNav(){
+  for(let i=1;i<=10;i++){
+    const d=document.getElementById('d'+i);
+    if(d) d.className='nav-dot'+(i===cur?' active':'');
+  }
+  const c=document.getElementById('nav-ctr');
+  c.textContent=cur===0?'':cur<=10?cur+'/10':'FINALE';
+  const pct=cur===0?0:cur===11?100:(cur/10)*95;
+  document.getElementById('progress').style.width=pct+'%';
+}
+
+function showSec(id){
+  document.getElementById('s-hero').style.display='none';
+  document.querySelectorAll('.chapter').forEach(c=>c.classList.remove('active'));
+  document.getElementById('s-gap').classList.remove('active');
+  if(id==='hero'){document.getElementById('s-hero').style.display='flex';}
+  else if(id==='gap'){document.getElementById('s-gap').classList.add('active');}
+  else{const el=document.getElementById('s-'+id);if(el)el.classList.add('active');}
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function buildProg(n){
+  const c=document.getElementById('cp-'+n);if(!c)return;
+  c.innerHTML='';
+  for(let i=1;i<=10;i++){
+    const s=document.createElement('div');
+    s.className='ch-ps'+(i<n?' done':i===n?' cur':'');
+    s.textContent=i<n?'✓':i;c.appendChild(s);
+  }
+}
+
+function goHome(){cur=0;showSec('hero');updNav();}
+function goCh(n){cur=n;buildProg(n);showSec(n);updNav();}
+function goGap(){cur=11;showSec('gap');updNav();}
+
+// SAVED KEY
+window.addEventListener('DOMContentLoaded',()=>{
+  try{const k=localStorage.getItem('pm_key');if(k){document.getElementById('g-key').value=k;document.getElementById('save-k').checked=true;}}catch(e){}
+});
+function saveKey(){
+  const k=document.getElementById('g-key').value.trim();
+  try{if(document.getElementById('save-k').checked)localStorage.setItem('pm_key',k);else localStorage.removeItem('pm_key');}catch(e){}
+}
+function toggleKey(){const i=document.getElementById('g-key');i.type=i.type==='password'?'text':'password';}
+
+// PROMPT BUILD
+function buildP(){
+  const r=v('g-rolle'),k=v('g-kontext'),a=v('g-aufgabe'),f=v('g-format'),c=v('g-constraints'),b=v('g-beispiel');
+  if(!r||!k||!a){alert('Bitte fülle mindestens Rolle, Kontext und Aufgabe aus.');return;}
+  let p='';
+  if(r)p+=r+'\n\n';
+  if(k)p+='KONTEXT:\n'+k+'\n\n';
+  if(a)p+='AUFGABE:\n'+a+'\n\n';
+  if(f)p+='FORMAT:\n'+f+'\n\n';
+  if(c)p+='EINSCHRÄNKUNGEN:\n'+c+'\n\n';
+  if(b)p+='STIL/BEISPIEL:\n'+b;
+  p=p.trim();
+  document.getElementById('pprev').textContent=p;
+  document.getElementById('prev-wrap').style.display='block';
+  document.getElementById('abox').classList.remove('vis');
+  document.getElementById('ares').style.display='none';
+  document.getElementById('aload').style.display='block';
+  document.getElementById('prev-wrap').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function v(id){return document.getElementById(id).value.trim();}
+
+function clearAll(){
+  ['g-rolle','g-kontext','g-aufgabe','g-format','g-constraints','g-beispiel'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('prev-wrap').style.display='none';
+  document.getElementById('abox').classList.remove('vis');
+}
+
+function copyP(){
+  const t=document.getElementById('pprev').textContent;
+  navigator.clipboard.writeText(t).then(()=>{
+    const b=document.querySelector('.cbtn');const o=b.textContent;b.textContent='✓ KOPIERT';setTimeout(()=>b.textContent=o,2000);
+  }).catch(()=>{const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);});
+}
+
+async function analyzeP(){
+  const prompt=document.getElementById('pprev').textContent;
+  if(!prompt){alert('Bitte zuerst einen Prompt erstellen.');return;}
+  const key=document.getElementById('g-key').value.trim();
+  const box=document.getElementById('abox');
+  box.classList.add('vis');
+  document.getElementById('aload').style.display='block';
+  document.getElementById('ares').style.display='none';
+  box.scrollIntoView({behavior:'smooth',block:'start'});
+
+  const ap=`Du bist Experte für Prompt Engineering. Analysiere diesen Prompt nach professionellen Standards.
+
+PROMPT:
+"""
+${prompt}
+"""
+
+Gib strukturiertes Feedback:
+1. GESAMTPUNKTZAHL: [Zahl]/100
+2. STÄRKEN: 2–3 konkrete Punkte was gut ist
+3. VERBESSERUNGEN: 2–3 umsetzbare Vorschläge
+4. ÜBERARBEITUNGS-EMPFEHLUNG: Zeige einen verbesserten Abschnitt
+
+Direkt, konstruktiv, spezifisch. Max. 250 Wörter.`;
+
+  try{
+    let raw='';
+    if(key&&key.startsWith('sk-ant-')){
+      const res=await fetch('https://api.anthropic.com/v1/messages',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+        body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:800,messages:[{role:'user',content:ap}]})
+      });
+      if(!res.ok){const e=await res.json().catch(()=>({}));throw new Error(e?.error?.message||'HTTP '+res.status);}
+      const data=await res.json();
+      raw=data.content.map(b=>b.text||'').join('');
+    } else {
+      raw=localAna(prompt);
+    }
+    const sm=raw.match(/(\d{1,3})\s*\/\s*100/);
+    const sc=sm?parseInt(sm[1]):null;
+    document.getElementById('aload').style.display='none';
+    document.getElementById('ares').style.display='block';
+    if(sc!==null){
+      const e=sc>=80?'🏆':sc>=60?'⭐':sc>=40?'📖':'💪';
+      document.getElementById('ascore').textContent=e+' '+sc+'/100';
+    } else document.getElementById('ascore').textContent='';
+    const fmt=raw.replace(/\*\*(.*?)\*\*/g,'<strong style="color:var(--gold-light)">$1</strong>').replace(/\n\n/g,'</p><p>').replace(/\n/g,'<br>');
+    document.getElementById('atext').innerHTML='<p>'+fmt+'</p>';
+  } catch(err){
+    document.getElementById('aload').style.display='none';
+    document.getElementById('ares').style.display='block';
+    document.getElementById('ascore').textContent='';
+    document.getElementById('atext').innerHTML='<p style="color:var(--gold-mid)">Für die KI-Analyse wird ein Anthropic API Key benötigt. Du kannst den Prompt kopieren und in Claude.ai einfügen.</p><p>'+localAna(prompt,true)+'</p>';
+  }
+}
+
+function localAna(p,html=false){
+  const checks={
+    rolle:/du bist|als|agiere als/i.test(p),
+    kontext:p.length>200,
+    aufgabe:/erstelle|analysiere|schreibe|bewerte|entwickle|optimiere|verfasse/i.test(p),
+    format:/tabelle|liste|stichpunkte|format|wörter|absätze|max\./i.test(p),
+    constraints:/keine|nicht|ohne|maximal/i.test(p),
+    beispiel:/beispiel|stil|ähnlich|wie/i.test(p)
+  };
+  const n=Object.values(checks).filter(Boolean).length;
+  const sc=Math.min(95,n*16+4);
+  const lbl={rolle:'Rolle definiert',kontext:'Ausreichend Kontext',aufgabe:'Klare Aufgabe',format:'Format spezifiziert',constraints:'Einschränkungen gesetzt',beispiel:'Beispiel/Stil angegeben'};
+  const ok=Object.entries(checks).filter(([,v])=>v).map(([k])=>'✓ '+lbl[k]);
+  const nok=Object.entries(checks).filter(([,v])=>!v).map(([k])=>'✗ '+lbl[k]+' fehlt');
+  const r=`GESAMTPUNKTZAHL: ${sc}/100\n\nSTÄRKEN:\n${ok.join('\n')||'Noch keine Säulen vollständig'}\n\nVERBESSERUNGSPOTENZIAL:\n${nok.join('\n')||'Alle 6 Säulen vorhanden — sehr gut!'}`;
+  return html?r.replace(/\n/g,'<br>'):r;
+}
+
+initNav();
+goHome();
+</script>
+</body>
+</html>
