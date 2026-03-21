@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ovid — Ars Amatoria Lerntools</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gold:#9B7A2E;--gold-l:#C9A84C;--gold-d:#6B5010;
+  --cream:#FDF6E3;--cream-d:#F5E8C0;
+  --brown:#5C3A10;--brown-l:#7A5020;
+  --bg-start:#FFF8E1;--bg-end:#EDD68A;
+  --shadow:rgba(91,58,16,0.15);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  font-family:'EB Garamond',serif;
+  background:linear-gradient(135deg,#FFF8E1 0%,#FEF0C0 35%,#F5E6B8 70%,#EDD68A 100%);
+  min-height:100vh;color:var(--brown);overflow-x:hidden;
+}
+::-webkit-scrollbar{width:7px;}
+::-webkit-scrollbar-track{background:var(--cream-d);}
+::-webkit-scrollbar-thumb{background:var(--gold-l);border-radius:4px;}
+.deco{width:100%;height:1px;background:linear-gradient(to right,transparent,var(--gold-l),transparent);margin:1rem 0;}
+
+/* HOME */
+#home{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:3rem 2rem;text-align:center;}
+.site-title{font-family:'Cinzel',serif;font-size:clamp(2.2rem,7vw,5.5rem);font-weight:700;color:var(--gold-d);letter-spacing:.2em;text-transform:uppercase;line-height:1.05;text-shadow:0 2px 10px rgba(155,122,46,.2);}
+.site-sub{font-style:italic;font-size:clamp(.95rem,2vw,1.4rem);color:var(--brown-l);margin:.7rem 0 2.8rem;letter-spacing:.07em;}
+.home-cards{display:grid;grid-template-columns:repeat(2,1fr);gap:2rem;max-width:860px;width:100%;margin-top:.5rem;}
+.home-card{background:linear-gradient(145deg,rgba(255,252,230,.96),rgba(245,232,175,.9));border:1px solid rgba(193,161,65,.5);border-radius:16px;padding:2.2rem 2rem;cursor:pointer;transition:all .35s;position:relative;overflow:hidden;box-shadow:0 4px 20px var(--shadow);}
+.home-card::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(193,161,65,.1),transparent);transition:left .55s;}
+.home-card:hover::before{left:100%;}
+.home-card:hover{transform:translateY(-5px);box-shadow:0 14px 40px rgba(155,122,46,.22);border-color:var(--gold-l);}
+.card-num{font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.25em;color:var(--gold);margin-bottom:.5rem;font-weight:700;}
+.card-title{font-family:'Cinzel',serif;font-size:clamp(1.1rem,2.5vw,1.6rem);font-weight:700;color:var(--brown);line-height:1.25;margin-bottom:.6rem;}
+.card-desc{font-size:.95rem;color:var(--brown-l);font-style:italic;line-height:1.6;}
+.ornament{font-size:1.4rem;color:rgba(155,122,46,.4);margin:1.2rem 0;letter-spacing:.5em;}
+
+/* SECTIONS */
+.section{display:none;min-height:100vh;padding:2.5rem 3rem 4rem;max-width:1100px;margin:0 auto;animation:fadeUp .45s ease;}
+.section.active{display:block;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.back-btn{background:none;border:1px solid rgba(155,122,46,.45);color:var(--gold-d);font-family:'Cinzel',serif;font-size:.82rem;padding:.5rem 1.4rem;border-radius:25px;cursor:pointer;letter-spacing:.1em;transition:all .3s;margin-bottom:2rem;}
+.back-btn:hover{background:rgba(155,122,46,.08);border-color:var(--gold);}
+.sec-label{font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:.4rem;}
+.sec-title{font-family:'Cinzel',serif;font-size:clamp(1.6rem,4vw,3rem);font-weight:700;color:var(--brown);letter-spacing:.08em;margin-bottom:.5rem;}
+
+/* VOCAB BOX */
+.vocab-wrap{max-width:680px;margin:0 auto;}
+.vocab-box{background:linear-gradient(145deg,rgba(255,252,235,.98),rgba(248,235,185,.95));border:1px solid rgba(193,161,65,.4);border-radius:18px;padding:3rem 2.5rem;box-shadow:0 6px 30px var(--shadow);text-align:center;}
+.vp-label{font-family:'Cinzel',serif;font-size:.78rem;letter-spacing:.15em;color:var(--gold);margin-bottom:.5rem;}
+.pb-wrap{width:100%;height:5px;background:rgba(155,122,46,.15);border-radius:5px;margin-bottom:2.5rem;overflow:hidden;}
+.pb{height:100%;background:linear-gradient(to right,var(--gold),var(--gold-l));border-radius:5px;transition:width .4s ease;}
+.lat-word{font-family:'Cinzel',serif;font-size:clamp(2.2rem,6vw,4rem);font-weight:700;color:var(--brown);letter-spacing:.05em;margin-bottom:.35rem;line-height:1.1;}
+.lat-hint{font-size:.9rem;color:var(--brown-l);font-style:italic;margin-bottom:2rem;}
+.fill-label{font-family:'Cinzel',serif;font-size:.75rem;letter-spacing:.18em;color:var(--gold-d);margin-bottom:.6rem;display:block;}
+.fill-in{width:100%;background:rgba(255,255,255,.78);border:2px solid rgba(193,161,65,.45);border-radius:10px;padding:.9rem 1.2rem;font-family:'EB Garamond',serif;font-size:1.25rem;color:var(--brown);outline:none;transition:all .25s;text-align:center;}
+.fill-in:focus{border-color:var(--gold-l);box-shadow:0 0 0 3px rgba(193,161,65,.15);}
+.fill-in.ok{border-color:#5a9e5a;background:rgba(90,158,90,.08);}
+.fill-in.bad{border-color:#c0392b;background:rgba(192,57,43,.06);}
+.chk-btn{display:block;width:100%;margin-top:1.2rem;padding:.88rem;background:linear-gradient(135deg,var(--gold-d),var(--gold-l));color:#fff;border:none;border-radius:30px;font-family:'Cinzel',serif;font-size:1rem;font-weight:700;letter-spacing:.12em;cursor:pointer;transition:all .3s;box-shadow:0 4px 14px rgba(155,122,46,.25);}
+.chk-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(155,122,46,.35);}
+.fb{margin-top:1.2rem;padding:.9rem 1.2rem;border-radius:10px;font-size:1rem;line-height:1.6;display:none;}
+.fb.ok{background:rgba(90,158,90,.1);border:1px solid rgba(90,158,90,.35);color:#2e6e2e;}
+.fb.bad{background:rgba(192,57,43,.08);border:1px solid rgba(192,57,43,.3);color:#8B1A1A;}
+.repeat-info{margin-top:1.4rem;font-size:.88rem;color:var(--gold-d);font-style:italic;min-height:1.2em;}
+.done-box{display:none;text-align:center;padding:2.5rem;}
+.done-title{font-family:'Cinzel',serif;font-size:2rem;color:var(--brown);margin-bottom:1rem;}
+.done-sub{font-size:1.1rem;color:var(--brown-l);font-style:italic;}
+
+/* TRANSLATION BOX */
+.trans-wrap{max-width:820px;margin:0 auto;}
+.trans-box{background:linear-gradient(145deg,rgba(255,252,235,.98),rgba(248,235,185,.95));border:1px solid rgba(193,161,65,.4);border-radius:18px;padding:2.8rem 2.5rem;box-shadow:0 6px 30px var(--shadow);}
+.sent-num{font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.2em;color:var(--gold);margin-bottom:.6rem;}
+.sent-lat{font-family:'EB Garamond',serif;font-size:clamp(1.1rem,2.5vw,1.7rem);font-style:italic;color:var(--brown);line-height:1.75;padding:1.2rem 1.5rem;background:rgba(255,255,255,.55);border-left:3px solid var(--gold-l);border-radius:0 10px 10px 0;margin-bottom:1.2rem;}
+.api-lbl{font-size:.75rem;letter-spacing:.12em;color:var(--gold-d);display:block;margin-bottom:.35rem;}
+.api-in{width:100%;background:rgba(255,255,255,.7);border:1px solid rgba(193,161,65,.4);border-radius:8px;padding:.65rem 1rem;font-family:'EB Garamond',serif;font-size:.95rem;color:var(--brown);outline:none;transition:border-color .25s;margin-bottom:1.2rem;}
+.api-in:focus{border-color:var(--gold-l);}
+.trans-lbl{font-family:'Cinzel',serif;font-size:.75rem;letter-spacing:.18em;color:var(--gold-d);margin-bottom:.5rem;display:block;}
+.trans-in{width:100%;background:rgba(255,255,255,.75);border:2px solid rgba(193,161,65,.45);border-radius:10px;padding:.9rem 1.2rem;font-family:'EB Garamond',serif;font-size:1.1rem;color:var(--brown);outline:none;transition:all .25s;resize:vertical;min-height:90px;}
+.trans-in:focus{border-color:var(--gold-l);box-shadow:0 0 0 3px rgba(193,161,65,.15);}
+.trans-btn{display:block;width:100%;margin-top:1rem;padding:.88rem;background:linear-gradient(135deg,var(--gold-d),var(--gold-l));color:#fff;border:none;border-radius:30px;font-family:'Cinzel',serif;font-size:1rem;font-weight:700;letter-spacing:.12em;cursor:pointer;transition:all .3s;box-shadow:0 4px 14px rgba(155,122,46,.25);}
+.trans-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(155,122,46,.35);}
+.trans-loading{display:none;text-align:center;padding:.8rem;color:var(--gold-d);font-style:italic;}
+.trans-result{display:none;margin-top:1.5rem;padding:1.4rem 1.6rem;background:rgba(255,255,255,.6);border:1px solid rgba(193,161,65,.35);border-radius:12px;line-height:1.85;white-space:pre-wrap;font-size:1rem;color:var(--brown);}
+.nav-btns{display:flex;gap:1rem;margin-top:1.5rem;}
+.nav-btns button{flex:1;padding:.65rem;background:rgba(155,122,46,.1);border:1px solid rgba(193,161,65,.45);border-radius:25px;color:var(--gold-d);font-family:'Cinzel',serif;font-size:.82rem;letter-spacing:.08em;cursor:pointer;transition:all .3s;}
+.nav-btns button:hover{background:rgba(155,122,46,.2);border-color:var(--gold);}
+</style>
+</head>
+<body>
+
+<div id="home">
+  <div class="site-title">Ars Amatoria</div>
+  <div class="site-sub">Ovid — Lerntools zur Schulaufgabe</div>
+  <div class="deco" style="max-width:300px;margin:.5rem auto 1.5rem;"></div>
+  <div class="home-cards">
+    <div class="home-card" onclick="showSec('s1')">
+      <div class="card-num">TOOL I</div>
+      <div class="card-title">Vokabeltrainer</div>
+      <div class="card-desc">Die 500 häufigsten Wörter aus der Ars Amatoria — Latein zu Deutsch, mit Wiederholung der Fehler</div>
+    </div>
+    <div class="home-card" onclick="showSec('s2')">
+      <div class="card-num">TOOL II</div>
+      <div class="card-title">Übersetzungstrainer</div>
+      <div class="card-desc">Originalsätze aus der Ars Amatoria übersetzen und von KI bewerten lassen</div>
+    </div>
+  </div>
+  <div class="ornament">&#10022; &#10022; &#10022;</div>
+</div>
+
+<!-- TOOL I -->
+<div class="section" id="s1">
+  <button class="back-btn" onclick="goHome()">&#8592; Zurück</button>
+  <div class="sec-label">Tool I</div>
+  <div class="sec-title">Vokabeltrainer</div>
+  <div class="deco"></div>
+  <div class="vocab-wrap">
+    <div class="vocab-box" id="vocabBox">
+      <div class="vp-label" id="vpLabel">Wort 1 von 500</div>
+      <div class="pb-wrap"><div class="pb" id="pb" style="width:0%"></div></div>
+      <div class="lat-word" id="latWord">amor</div>
+      <div class="lat-hint">Übersetze ins Deutsche:</div>
+      <div class="deco"></div>
+      <label class="fill-label">DEUTSCHE BEDEUTUNG</label>
+      <input class="fill-in" id="vocabIn" type="text" placeholder="Deine Übersetzung..." autocomplete="off" autocorrect="off" spellcheck="false">
+      <button class="chk-btn" id="chkBtn" onclick="checkVocab()">Überprüfen</button>
+      <div class="fb" id="vocabFb"></div>
+      <div class="repeat-info" id="repInfo"></div>
+    </div>
+    <div class="done-box" id="doneBox">
+      <div class="ornament">&#10022; &#10022; &#10022;</div>
+      <div class="done-title">Alle Wörter gemeistert!</div>
+      <div class="done-sub">Du hast alle 500 Vokabeln der Ars Amatoria richtig übersetzt. Gut gemacht!</div>
+      <div class="deco" style="max-width:200px;margin:1.5rem auto;"></div>
+      <button class="chk-btn" style="max-width:280px;margin:0 auto;" onclick="restartVocab()">Von vorne beginnen</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOOL II -->
+<div class="section" id="s2">
+  <button class="back-btn" onclick="goHome()">&#8592; Zurück</button>
+  <div class="sec-label">Tool II</div>
+  <div class="sec-title">Übersetzungstrainer</div>
+  <div class="deco"></div>
+  <div class="trans-wrap">
+    <div class="trans-box">
+      <div class="sent-num" id="sentNum">Satz 1 von 20</div>
+      <div class="sent-lat" id="sentLat"></div>
+      <div class="deco"></div>
+
+      <label class="trans-lbl">DEINE ÜBERSETZUNG</label>
+      <textarea class="trans-in" id="transIn" placeholder="Übersetze den lateinischen Satz hier..."></textarea>
+      <button class="trans-btn" onclick="evalTrans()">Übersetzung bewerten lassen</button>
+      <div class="trans-loading" id="transLoad">Bewerte deine Übersetzung...</div>
+      <div class="trans-result" id="transRes"></div>
+      <div class="nav-btns">
+        <button onclick="prevSent()">&#8592; Vorheriger Satz</button>
+        <button onclick="nextSent()">Nächster Satz &#8594;</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const VOCAB = [{"lat": "amor", "de": "Liebe, Liebesgott"}, {"lat": "amo", "de": "lieben"}, {"lat": "amans", "de": "liebend, Liebhaber"}, {"lat": "puella", "de": "Mädchen, Geliebte"}, {"lat": "femina", "de": "Frau"}, {"lat": "vir", "de": "Mann, Held"}, {"lat": "corpus", "de": "Körper, Leib"}, {"lat": "animus", "de": "Geist, Seele, Mut"}, {"lat": "mens", "de": "Verstand, Sinn, Geist"}, {"lat": "manus", "de": "Hand"}, {"lat": "oculus", "de": "Auge"}, {"lat": "os", "de": "Mund, Gesicht"}, {"lat": "pectus", "de": "Brust, Herz"}, {"lat": "caput", "de": "Kopf, Haupt"}, {"lat": "cor", "de": "Herz"}, {"lat": "forma", "de": "Gestalt, Schönheit"}, {"lat": "nomen", "de": "Name"}, {"lat": "tempus", "de": "Zeit"}, {"lat": "locus", "de": "Ort, Stelle"}, {"lat": "via", "de": "Weg, Straße"}, {"lat": "aqua", "de": "Wasser"}, {"lat": "terra", "de": "Erde, Land"}, {"lat": "mare", "de": "Meer"}, {"lat": "nox", "de": "Nacht"}, {"lat": "dies", "de": "Tag"}, {"lat": "sol", "de": "Sonne"}, {"lat": "luna", "de": "Mond"}, {"lat": "deus", "de": "Gott"}, {"lat": "dea", "de": "Göttin"}, {"lat": "Venus", "de": "Venus, Liebesgöttin"}, {"lat": "Cupido", "de": "Cupido, Liebesgott"}, {"lat": "causa", "de": "Ursache, Grund, Sache"}, {"lat": "ars", "de": "Kunst, Fertigkeit"}, {"lat": "opus", "de": "Werk, Mühe"}, {"lat": "carmen", "de": "Lied, Gedicht"}, {"lat": "verbum", "de": "Wort"}, {"lat": "iter", "de": "Weg, Reise"}, {"lat": "domus", "de": "Haus, Heimat"}, {"lat": "porta", "de": "Tor, Tür"}, {"lat": "ianua", "de": "Tür, Eingang"}, {"lat": "lectus", "de": "Bett, Lager"}, {"lat": "torus", "de": "Bett, Polster"}, {"lat": "mensa", "de": "Tisch"}, {"lat": "vinum", "de": "Wein"}, {"lat": "cena", "de": "Mahl, Abendessen"}, {"lat": "convivium", "de": "Gastmahl"}, {"lat": "ludus", "de": "Spiel, Schule"}, {"lat": "munus", "de": "Geschenk, Aufgabe, Pflicht"}, {"lat": "donum", "de": "Geschenk"}, {"lat": "epistula", "de": "Brief"}, {"lat": "littera", "de": "Buchstabe; Pl. Brief"}, {"lat": "tabella", "de": "Täfelchen, Brief"}, {"lat": "flamma", "de": "Flamme, Feuer"}, {"lat": "ignis", "de": "Feuer, Liebesglut"}, {"lat": "vulnus", "de": "Wunde"}, {"lat": "telum", "de": "Geschoss, Waffe"}, {"lat": "hasta", "de": "Speer"}, {"lat": "sagitta", "de": "Pfeil"}, {"lat": "arcus", "de": "Bogen"}, {"lat": "vinculum", "de": "Fessel, Band"}, {"lat": "furtum", "de": "Diebstahl, heimliche Tat"}, {"lat": "fraus", "de": "Betrug, List"}, {"lat": "dolus", "de": "List, Trug"}, {"lat": "culpa", "de": "Schuld, Fehler"}, {"lat": "poena", "de": "Strafe"}, {"lat": "lex", "de": "Gesetz"}, {"lat": "iudex", "de": "Richter"}, {"lat": "testis", "de": "Zeuge"}, {"lat": "fides", "de": "Treue, Glaube, Vertrauen"}, {"lat": "spes", "de": "Hoffnung"}, {"lat": "timor", "de": "Furcht"}, {"lat": "metus", "de": "Furcht, Schrecken"}, {"lat": "gaudium", "de": "Freude"}, {"lat": "dolor", "de": "Schmerz, Kummer"}, {"lat": "cura", "de": "Sorge, Liebe, Pflege"}, {"lat": "vita", "de": "Leben"}, {"lat": "mors", "de": "Tod"}, {"lat": "anima", "de": "Seele, Leben, Hauch"}, {"lat": "fama", "de": "Ruf, Gerücht"}, {"lat": "gloria", "de": "Ruhm"}, {"lat": "honor", "de": "Ehre, Ansehen"}, {"lat": "virtus", "de": "Tugend, Tapferkeit"}, {"lat": "fortuna", "de": "Schicksal, Glück"}, {"lat": "natura", "de": "Natur"}, {"lat": "mundus", "de": "Welt, Schmuck"}, {"lat": "caelum", "de": "Himmel"}, {"lat": "pater", "de": "Vater"}, {"lat": "mater", "de": "Mutter"}, {"lat": "filius", "de": "Sohn"}, {"lat": "filia", "de": "Tochter"}, {"lat": "frater", "de": "Bruder"}, {"lat": "soror", "de": "Schwester"}, {"lat": "uxor", "de": "Ehefrau, Gattin"}, {"lat": "maritus", "de": "Ehemann, Gatte"}, {"lat": "dominus", "de": "Herr, Gebieter"}, {"lat": "domina", "de": "Herrin, Geliebte"}, {"lat": "servus", "de": "Sklave"}, {"lat": "ancilla", "de": "Sklavin, Dienerin"}, {"lat": "comes", "de": "Begleiter"}, {"lat": "amicus", "de": "Freund"}, {"lat": "hospes", "de": "Gastfreund, Gast"}, {"lat": "miles", "de": "Soldat"}, {"lat": "dux", "de": "Führer, Anführer"}, {"lat": "rex", "de": "König"}, {"lat": "regina", "de": "Königin"}, {"lat": "puer", "de": "Knabe"}, {"lat": "senex", "de": "Greis, alter Mann"}, {"lat": "iuvenis", "de": "Jüngling, junger Mann"}, {"lat": "virgo", "de": "Jungfrau, Mädchen"}, {"lat": "matrona", "de": "verheiratete Frau, Dame"}, {"lat": "meretrix", "de": "Dirne"}, {"lat": "lena", "de": "Kupplerin"}, {"lat": "sum", "de": "sein"}, {"lat": "habeo", "de": "haben"}, {"lat": "do", "de": "geben"}, {"lat": "fero", "de": "tragen, bringen"}, {"lat": "video", "de": "sehen"}, {"lat": "audio", "de": "hören"}, {"lat": "dico", "de": "sagen, sprechen"}, {"lat": "facio", "de": "machen, tun"}, {"lat": "venio", "de": "kommen"}, {"lat": "eo", "de": "gehen"}, {"lat": "quaero", "de": "suchen, fragen"}, {"lat": "peto", "de": "streben, bitten"}, {"lat": "capio", "de": "nehmen, ergreifen"}, {"lat": "relinquo", "de": "verlassen, hinterlassen"}, {"lat": "pono", "de": "setzen, legen, stellen"}, {"lat": "ago", "de": "treiben, handeln, tun"}, {"lat": "mitto", "de": "schicken, senden"}, {"lat": "possum", "de": "können"}, {"lat": "volo", "de": "wollen"}, {"lat": "nolo", "de": "nicht wollen"}, {"lat": "malo", "de": "vorziehen, lieber mögen"}, {"lat": "debeo", "de": "schulden, müssen, sollen"}, {"lat": "soleo", "de": "pflegen, gewohnt sein"}, {"lat": "incipio", "de": "beginnen"}, {"lat": "sino", "de": "lassen, erlauben"}, {"lat": "iubeo", "de": "befehlen, heißen"}, {"lat": "veto", "de": "verbieten"}, {"lat": "loquor", "de": "sprechen, reden"}, {"lat": "duco", "de": "führen, ziehen, halten"}, {"lat": "traho", "de": "ziehen, schleppen"}, {"lat": "tango", "de": "berühren, treffen"}, {"lat": "moveo", "de": "bewegen, rühren"}, {"lat": "teneo", "de": "halten, festhalten"}, {"lat": "premo", "de": "drücken, drängen"}, {"lat": "sequor", "de": "folgen"}, {"lat": "credo", "de": "glauben"}, {"lat": "scio", "de": "wissen"}, {"lat": "nescio", "de": "nicht wissen"}, {"lat": "ignoro", "de": "nicht kennen, ignorieren"}, {"lat": "cognosco", "de": "erkennen, kennenlernen"}, {"lat": "invenio", "de": "finden, entdecken"}, {"lat": "accipio", "de": "empfangen, annehmen"}, {"lat": "vinco", "de": "siegen, überwinden"}, {"lat": "cado", "de": "fallen"}, {"lat": "sto", "de": "stehen"}, {"lat": "sedeo", "de": "sitzen"}, {"lat": "iaceo", "de": "liegen"}, {"lat": "curro", "de": "laufen"}, {"lat": "dormio", "de": "schlafen"}, {"lat": "rideo", "de": "lachen"}, {"lat": "fleo", "de": "weinen"}, {"lat": "canto", "de": "singen"}, {"lat": "lego", "de": "lesen, sammeln"}, {"lat": "scribo", "de": "schreiben"}, {"lat": "doceo", "de": "lehren, zeigen"}, {"lat": "disco", "de": "lernen"}, {"lat": "spero", "de": "hoffen"}, {"lat": "timeo", "de": "fürchten"}, {"lat": "maneo", "de": "bleiben"}, {"lat": "erro", "de": "irren, wandern"}, {"lat": "paro", "de": "vorbereiten, beschaffen"}, {"lat": "laudo", "de": "loben"}, {"lat": "nego", "de": "verneinen, verweigern"}, {"lat": "et", "de": "und"}, {"lat": "ac", "de": "und, und zwar"}, {"lat": "atque", "de": "und, und zwar"}, {"lat": "sed", "de": "aber"}, {"lat": "at", "de": "aber, doch"}, {"lat": "autem", "de": "aber, jedoch"}, {"lat": "tamen", "de": "dennoch, doch"}, {"lat": "vero", "de": "aber, wirklich"}, {"lat": "igitur", "de": "also, daher"}, {"lat": "ergo", "de": "also, folglich"}, {"lat": "itaque", "de": "und so, daher"}, {"lat": "enim", "de": "denn, nämlich"}, {"lat": "nam", "de": "denn, nämlich"}, {"lat": "quia", "de": "weil, da"}, {"lat": "quod", "de": "weil, dass"}, {"lat": "ut", "de": "damit, dass, wie"}, {"lat": "si", "de": "wenn, falls"}, {"lat": "nisi", "de": "wenn nicht, außer wenn"}, {"lat": "dum", "de": "während, solange, bis"}, {"lat": "cum", "de": "als, wenn, da, obwohl"}, {"lat": "postquam", "de": "nachdem"}, {"lat": "antequam", "de": "bevor"}, {"lat": "ubi", "de": "als, wo"}, {"lat": "quo", "de": "wohin, womit"}, {"lat": "unde", "de": "woher"}, {"lat": "non", "de": "nicht"}, {"lat": "ne", "de": "nicht, damit nicht"}, {"lat": "nec", "de": "und nicht"}, {"lat": "neque", "de": "und nicht, auch nicht"}, {"lat": "nunquam", "de": "niemals"}, {"lat": "semper", "de": "immer"}, {"lat": "saepe", "de": "oft"}, {"lat": "iam", "de": "schon, jetzt"}, {"lat": "nunc", "de": "jetzt"}, {"lat": "tum", "de": "dann, damals"}, {"lat": "mox", "de": "bald"}, {"lat": "tandem", "de": "endlich, schließlich"}, {"lat": "modo", "de": "nur, eben, gerade"}, {"lat": "vix", "de": "kaum"}, {"lat": "paene", "de": "fast, beinahe"}, {"lat": "nimis", "de": "zu sehr, allzu"}, {"lat": "satis", "de": "genug"}, {"lat": "tam", "de": "so"}, {"lat": "quam", "de": "wie, als"}, {"lat": "ita", "de": "so"}, {"lat": "sic", "de": "so"}, {"lat": "hic", "de": "dieser"}, {"lat": "ille", "de": "jener"}, {"lat": "is", "de": "dieser, er"}, {"lat": "ipse", "de": "selbst, er selbst"}, {"lat": "idem", "de": "derselbe"}, {"lat": "alter", "de": "der andere"}, {"lat": "alius", "de": "ein anderer"}, {"lat": "omnis", "de": "jeder, alle, ganz"}, {"lat": "totus", "de": "ganz, gesamt"}, {"lat": "nullus", "de": "kein"}, {"lat": "solus", "de": "allein, einzig"}, {"lat": "unus", "de": "ein, einzig"}, {"lat": "multus", "de": "viel"}, {"lat": "paucus", "de": "wenig"}, {"lat": "plus", "de": "mehr"}, {"lat": "minus", "de": "weniger"}, {"lat": "magnus", "de": "groß"}, {"lat": "parvus", "de": "klein"}, {"lat": "longus", "de": "lang"}, {"lat": "brevis", "de": "kurz"}, {"lat": "altus", "de": "hoch, tief"}, {"lat": "gravis", "de": "schwer, ernst"}, {"lat": "levis", "de": "leicht"}, {"lat": "novus", "de": "neu"}, {"lat": "vetus", "de": "alt"}, {"lat": "bonus", "de": "gut"}, {"lat": "malus", "de": "schlecht, böse"}, {"lat": "pulcher", "de": "schön"}, {"lat": "turpis", "de": "hässlich, schändlich"}, {"lat": "felix", "de": "glücklich"}, {"lat": "miser", "de": "unglücklich, elend"}, {"lat": "laetus", "de": "froh, erfreut"}, {"lat": "tristis", "de": "traurig"}, {"lat": "iratus", "de": "zornig"}, {"lat": "liber", "de": "frei"}, {"lat": "carus", "de": "teuer, lieb"}, {"lat": "durus", "de": "hart, grausam"}, {"lat": "mollis", "de": "weich, sanft, zärtlich"}, {"lat": "dulcis", "de": "süß, lieblich"}, {"lat": "tener", "de": "zart, weich"}, {"lat": "castus", "de": "keusch, rein"}, {"lat": "lascivus", "de": "ausgelassen, lüstern"}, {"lat": "fallax", "de": "trügerisch, falsch"}, {"lat": "fidus", "de": "treu, zuverlässig"}, {"lat": "perfidus", "de": "treulos, verräterisch"}, {"lat": "callidus", "de": "schlau, listig"}, {"lat": "stultus", "de": "töricht, dumm"}, {"lat": "sapiens", "de": "weise, klug"}, {"lat": "doctus", "de": "gelehrt, erfahren"}, {"lat": "formosus", "de": "schön, wohlgestaltet"}, {"lat": "meus", "de": "mein"}, {"lat": "tuus", "de": "dein"}, {"lat": "suus", "de": "sein, ihr"}, {"lat": "noster", "de": "unser"}, {"lat": "vester", "de": "euer"}, {"lat": "mihi", "de": "mir"}, {"lat": "tibi", "de": "dir"}, {"lat": "sibi", "de": "sich"}, {"lat": "me", "de": "mich"}, {"lat": "te", "de": "dich"}, {"lat": "se", "de": "sich"}, {"lat": "ego", "de": "ich"}, {"lat": "tu", "de": "du"}, {"lat": "nos", "de": "wir"}, {"lat": "vos", "de": "ihr"}, {"lat": "quis", "de": "wer, welcher"}, {"lat": "quid", "de": "was"}, {"lat": "qui", "de": "welcher, der"}, {"lat": "ad", "de": "zu, bei, an"}, {"lat": "in", "de": "in, nach"}, {"lat": "ex", "de": "aus"}, {"lat": "de", "de": "von, aus, über"}, {"lat": "a", "de": "von"}, {"lat": "ab", "de": "von, weg von"}, {"lat": "pro", "de": "für, vor"}, {"lat": "per", "de": "durch, für"}, {"lat": "cum", "de": "mit"}, {"lat": "sine", "de": "ohne"}, {"lat": "sub", "de": "unter"}, {"lat": "super", "de": "über"}, {"lat": "ante", "de": "vor"}, {"lat": "post", "de": "nach"}, {"lat": "inter", "de": "zwischen"}, {"lat": "apud", "de": "bei"}, {"lat": "propter", "de": "wegen"}, {"lat": "contra", "de": "gegen"}, {"lat": "prope", "de": "nahe bei"}, {"lat": "trans", "de": "jenseits, hinüber"}, {"lat": "bene", "de": "gut"}, {"lat": "male", "de": "schlecht"}, {"lat": "recte", "de": "richtig"}, {"lat": "diu", "de": "lange Zeit"}, {"lat": "heri", "de": "gestern"}, {"lat": "hodie", "de": "heute"}, {"lat": "cras", "de": "morgen"}, {"lat": "cupido", "de": "Begierde, Verlangen"}, {"lat": "libido", "de": "Lust, Begier"}, {"lat": "voluptas", "de": "Lust, Vergnügen"}, {"lat": "iocus", "de": "Spaß, Scherz"}, {"lat": "risus", "de": "Lachen"}, {"lat": "lacrimae", "de": "Tränen"}, {"lat": "oscula", "de": "Küsse"}, {"lat": "complexus", "de": "Umarmung"}, {"lat": "bracchium", "de": "Arm"}, {"lat": "cervix", "de": "Nacken, Hals"}, {"lat": "gena", "de": "Wange"}, {"lat": "labium", "de": "Lippe"}, {"lat": "lingua", "de": "Zunge, Sprache"}, {"lat": "crinis", "de": "Haar"}, {"lat": "capillus", "de": "Haar"}, {"lat": "cutis", "de": "Haut"}, {"lat": "toga", "de": "Toga, Kleid"}, {"lat": "vestis", "de": "Kleid, Gewand"}, {"lat": "aurum", "de": "Gold"}, {"lat": "gemma", "de": "Edelstein"}, {"lat": "anulus", "de": "Ring"}, {"lat": "speculum", "de": "Spiegel"}, {"lat": "unguentum", "de": "Salbe, Parfüm"}, {"lat": "rosa", "de": "Rose"}, {"lat": "flos", "de": "Blume, Blüte"}, {"lat": "campus", "de": "Feld, Ebene"}, {"lat": "hortus", "de": "Garten"}, {"lat": "rivus", "de": "Bach"}, {"lat": "litus", "de": "Küste, Ufer"}, {"lat": "portus", "de": "Hafen"}, {"lat": "navis", "de": "Schiff"}, {"lat": "equus", "de": "Pferd"}, {"lat": "agnus", "de": "Lamm"}, {"lat": "columba", "de": "Taube"}, {"lat": "mel", "de": "Honig"}, {"lat": "panis", "de": "Brot"}, {"lat": "Roma", "de": "Rom"}, {"lat": "forum", "de": "Forum, Marktplatz"}, {"lat": "circus", "de": "Circus, Rennbahn"}, {"lat": "theatrum", "de": "Theater"}, {"lat": "templum", "de": "Tempel"}, {"lat": "ara", "de": "Altar"}, {"lat": "turba", "de": "Menge, Gedränge"}, {"lat": "populus", "de": "Volk"}, {"lat": "urbs", "de": "Stadt"}, {"lat": "poeta", "de": "Dichter"}, {"lat": "Musa", "de": "Muse"}, {"lat": "versus", "de": "Vers"}, {"lat": "Mars", "de": "Mars, Kriegsgott"}, {"lat": "Bacchus", "de": "Bacchus, Weingott"}, {"lat": "Apollo", "de": "Apoll"}, {"lat": "Diana", "de": "Diana, Jagdgöttin"}, {"lat": "fatum", "de": "Schicksal"}, {"lat": "remedium", "de": "Heilmittel, Abhilfe"}, {"lat": "morbus", "de": "Krankheit"}, {"lat": "sanus", "de": "gesund"}, {"lat": "sensus", "de": "Gefühl, Sinn, Wahrnehmung"}, {"lat": "ratio", "de": "Vernunft, Plan"}, {"lat": "consilium", "de": "Rat, Plan, Absicht"}, {"lat": "auxilium", "de": "Hilfe"}, {"lat": "lumen", "de": "Licht, Auge"}, {"lat": "umbra", "de": "Schatten"}, {"lat": "imago", "de": "Bild, Vorstellung"}, {"lat": "signum", "de": "Zeichen, Signal"}, {"lat": "nutus", "de": "Wink, Nicken"}, {"lat": "vox", "de": "Stimme, Wort"}, {"lat": "cantus", "de": "Gesang"}, {"lat": "sapientia", "de": "Weisheit"}, {"lat": "experientia", "de": "Erfahrung"}, {"lat": "exemplum", "de": "Beispiel"}, {"lat": "verus", "de": "wahr, wirklich"}, {"lat": "falsus", "de": "falsch, unwahr"}, {"lat": "primus", "de": "erster"}, {"lat": "ultimus", "de": "letzter"}, {"lat": "medius", "de": "mittlerer, mitten"}, {"lat": "summus", "de": "höchster, größter"}, {"lat": "nemo", "de": "niemand"}, {"lat": "nihil", "de": "nichts"}, {"lat": "ubique", "de": "überall"}, {"lat": "aliquando", "de": "einst, manchmal"}, {"lat": "aliquis", "de": "jemand"}, {"lat": "tantus", "de": "so groß"}, {"lat": "talis", "de": "solch, derartig"}, {"lat": "statim", "de": "sofort"}, {"lat": "subito", "de": "plötzlich"}, {"lat": "iterum", "de": "wieder, nochmals"}, {"lat": "rursus", "de": "wieder, zurück"}, {"lat": "semel", "de": "einmal"}, {"lat": "bis", "de": "zweimal"}, {"lat": "etiam", "de": "auch, sogar, noch"}, {"lat": "quoque", "de": "auch"}, {"lat": "forte", "de": "zufällig, vielleicht"}, {"lat": "frustra", "de": "vergebens, umsonst"}, {"lat": "clam", "de": "heimlich"}, {"lat": "palam", "de": "offen, öffentlich"}, {"lat": "simul", "de": "zugleich, sobald"}, {"lat": "aut", "de": "oder"}, {"lat": "vel", "de": "oder, entweder"}, {"lat": "sive", "de": "oder, sei es dass"}, {"lat": "magis", "de": "mehr"}, {"lat": "maxime", "de": "am meisten, sehr"}, {"lat": "potius", "de": "eher, lieber"}, {"lat": "prius", "de": "früher, eher"}, {"lat": "libenter", "de": "gern"}, {"lat": "invitus", "de": "ungern, widerwillig"}, {"lat": "proximus", "de": "nächster, nächstgelegen"}, {"lat": "prior", "de": "früher, ersterer"}, {"lat": "posterior", "de": "späterer"}, {"lat": "maior", "de": "größer"}, {"lat": "minor", "de": "kleiner"}, {"lat": "optimus", "de": "bester"}, {"lat": "pessimus", "de": "schlechtester"}, {"lat": "maximus", "de": "größter"}, {"lat": "minimus", "de": "kleinster"}, {"lat": "melior", "de": "besser"}, {"lat": "peior", "de": "schlechter"}, {"lat": "mitis", "de": "mild, sanft"}, {"lat": "ferus", "de": "wild, grausam"}, {"lat": "placidus", "de": "ruhig, sanft"}, {"lat": "turbidus", "de": "aufgewühlt, stürmisch"}, {"lat": "quietus", "de": "ruhig, still"}, {"lat": "aeger", "de": "krank, leidend"}, {"lat": "validus", "de": "stark, gesund"}, {"lat": "candidus", "de": "weiß, strahlend, aufrichtig"}, {"lat": "niger", "de": "schwarz"}, {"lat": "albus", "de": "weiß"}, {"lat": "rubens", "de": "rot werdend"}, {"lat": "ruber", "de": "rot"}, {"lat": "viridis", "de": "grün"}, {"lat": "caeruleus", "de": "blau, meeresblau"}, {"lat": "flavus", "de": "goldgelb, blond"}, {"lat": "gracilis", "de": "schlank, zart"}, {"lat": "iustus", "de": "gerecht"}, {"lat": "iniustus", "de": "ungerecht"}, {"lat": "pius", "de": "fromm, pflichtbewusst"}, {"lat": "impius", "de": "gottlos"}, {"lat": "sanctus", "de": "heilig"}, {"lat": "sacer", "de": "heilig, geweiht"}, {"lat": "nocens", "de": "schuldig, schädlich"}, {"lat": "innocens", "de": "unschuldig"}, {"lat": "clemens", "de": "milde, gnädig"}, {"lat": "crudelis", "de": "grausam"}, {"lat": "fidelis", "de": "treu, zuverlässig"}, {"lat": "infidelis", "de": "untreu"}, {"lat": "incertus", "de": "unsicher, ungewiss"}, {"lat": "gratus", "de": "angenehm, dankbar"}, {"lat": "ingratus", "de": "undankbar"}, {"lat": "iucundus", "de": "angenehm, erfreulich"}, {"lat": "molestus", "de": "lästig"}, {"lat": "cur", "de": "warum"}, {"lat": "quando", "de": "wann"}, {"lat": "donec", "de": "solange, bis"}, {"lat": "quamvis", "de": "obwohl, wenn auch"}, {"lat": "etsi", "de": "obwohl"}, {"lat": "velut", "de": "gleichwie, als ob"}, {"lat": "tamquam", "de": "gleichsam, wie"}, {"lat": "aequus", "de": "gleich, eben, gerecht"}, {"lat": "iniquus", "de": "ungleich, ungerecht"}, {"lat": "diversus", "de": "verschieden, entgegengesetzt"}, {"lat": "similis", "de": "ähnlich"}, {"lat": "par", "de": "gleich, ebenbürtig"}, {"lat": "notus", "de": "bekannt"}, {"lat": "ignotus", "de": "unbekannt"}, {"lat": "invisus", "de": "verhasst, unsichtbar"}, {"lat": "mirabilis", "de": "wunderbar, erstaunlich"}, {"lat": "ingenuus", "de": "freigeboren, aufrichtig"}, {"lat": "nobilis", "de": "edel, bekannt"}, {"lat": "humilis", "de": "niedrig, bescheiden"}, {"lat": "superbus", "de": "hochmütig, prächtig"}, {"lat": "diligentia", "de": "Sorgfalt, Fleiß"}, {"lat": "labor", "de": "Arbeit, Mühe"}, {"lat": "otium", "de": "Muße, Freizeit"}, {"lat": "negotium", "de": "Beschäftigung, Arbeit"}, {"lat": "pax", "de": "Frieden"}, {"lat": "bellum", "de": "Krieg"}, {"lat": "proelium", "de": "Kampf, Gefecht"}, {"lat": "victoria", "de": "Sieg"}, {"lat": "triumphus", "de": "Triumph"}, {"lat": "imperium", "de": "Herrschaft, Befehl"}, {"lat": "regnum", "de": "Königreich, Herrschaft"}, {"lat": "ius", "de": "Recht, Gesetz"}, {"lat": "libertas", "de": "Freiheit"}, {"lat": "servitus", "de": "Sklaverei, Knechtschaft"}, {"lat": "opes", "de": "Reichtum, Macht"}];
+const SENTS = [{"lat": "Militat omnis amans, et habet sua castra Cupido.", "de": "Jeder Liebende kämpft als Soldat, und Cupido hat sein eigenes Lager."}, {"lat": "Principio, quod amare velis, reperire labora.", "de": "Zunächst mühe dich darum zu finden, was du lieben willst."}, {"lat": "Ars adeo latet arte sua.", "de": "So verbirgt sich die Kunst durch ihre eigene Kunst."}, {"lat": "Iuppiter ex alto periuria ridet amantum.", "de": "Jupiter lacht von oben über die Meineide der Liebenden."}, {"lat": "Cede repugnanti: cedendo victor abibis.", "de": "Weiche dem Widerstrebenden: indem du weichst, wirst du als Sieger gehen."}, {"lat": "Disce bonas artes, moneo, Romana iuventus.", "de": "Lerne die guten Künste, rate ich euch, römische Jugend."}, {"lat": "Si vox est, canta; si mollia bracchia, salta.", "de": "Wenn du eine Stimme hast, singe; wenn du geschmeidige Arme hast, tanze."}, {"lat": "Forma bonum fragile est.", "de": "Schönheit ist ein vergängliches Gut."}, {"lat": "Nec timide promitte: trahunt promissa puellas.", "de": "Und versprich ohne Scheu: Versprechen ziehen die Mädchen an."}, {"lat": "Res est solliciti plena timoris amor.", "de": "Liebe ist eine Sache voller quälender Furcht."}, {"lat": "Quidquid amas, cupias non placuisse nimis.", "de": "Was auch immer du liebst, wünsche dir, nicht zu sehr zu gefallen."}, {"lat": "Nec me deliciae dedecuere meae.", "de": "Auch meine Vergnügungen haben mich nicht entehrt."}, {"lat": "Saepe malum petitur, saepe bonum fugitur.", "de": "Oft wird das Schlechte gesucht, oft flieht man das Gute."}, {"lat": "Non ego divitibus venio praeceptor amandi.", "de": "Ich komme nicht als Lehrer der Liebe für Reiche."}, {"lat": "Est tibi agendus amans, imitandaque vulnera verbis.", "de": "Du musst den Liebenden spielen und mit Worten Wunden nachahmen."}, {"lat": "Dum licet et loris passim potes ire solutis, elige cui dicas: tu mihi sola places.", "de": "Solange du frei bist und überall mit gelösten Zügeln gehen kannst, wähle eine, der du sagst: du allein gefällst mir."}, {"lat": "Qui sapit, innumeris moribus aptus erit.", "de": "Wer klug ist, wird sich an unzählige Verhaltensweisen anpassen."}, {"lat": "Adde quod ingenium vultu celatur in uno.", "de": "Bedenke auch, dass der Verstand in einem einzigen Gesicht verborgen ist."}, {"lat": "Nec corpus nitidae debet negligi puellae.", "de": "Auch der Körper des gepflegten Mädchens darf nicht vernachlässigt werden."}, {"lat": "Dum vires annique sinunt, tolerate labores.", "de": "Solange Kraft und Jahre es erlauben, ertragt die Mühen."}];
+
+// NAV
+function showSec(id){
+  document.getElementById('home').style.display='none';
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+function goHome(){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById('home').style.display='flex';
+  window.scrollTo(0,0);
+}
+
+// TOOL 1
+let queue=[], repeat=[], cur=null, totalDone=0;
+
+function initVocab(){
+  queue=[...VOCAB].sort(()=>Math.random()-.5);
+  repeat=[]; totalDone=0;
+  document.getElementById('vocabBox').style.display='block';
+  document.getElementById('doneBox').style.display='none';
+  nextWord();
+}
+
+function nextWord(){
+  const fb=document.getElementById('vocabFb');
+  const inp=document.getElementById('vocabIn');
+  fb.style.display='none'; inp.value='';
+  inp.className='fill-in';
+  document.getElementById('repInfo').textContent='';
+  const btn=document.getElementById('chkBtn');
+  btn.textContent='Überprüfen'; btn.onclick=checkVocab;
+
+  if(queue.length===0){
+    if(repeat.length===0){
+      document.getElementById('vocabBox').style.display='none';
+      document.getElementById('doneBox').style.display='block';
+      return;
+    }
+    queue=[...repeat].sort(()=>Math.random()-.5);
+    repeat=[];
+  }
+  cur=queue.shift();
+  document.getElementById('latWord').textContent=cur.lat;
+  const total=VOCAB.length;
+  const pct=Math.round((totalDone/total)*100);
+  document.getElementById('vpLabel').textContent=
+    'Wort '+(totalDone+1)+' von '+total+' — '+pct+'% abgeschlossen';
+  document.getElementById('pb').style.width=pct+'%';
+  inp.focus();
+}
+
+function checkVocab(){
+  const inp=document.getElementById('vocabIn');
+  const ans=inp.value.trim().toLowerCase();
+  if(!ans) return;
+  const correct=cur.de.toLowerCase();
+  const mainWord=correct.split(/[,;]/)[0].trim();
+  const kwds=mainWord.split(/\s+/).filter(w=>w.length>2);
+  const match=ans===correct||correct.includes(ans)||
+    kwds.some(k=>ans.includes(k))||lev(ans,mainWord)<=3;
+  const fb=document.getElementById('vocabFb');
+  const btn=document.getElementById('chkBtn');
+  if(match){
+    inp.className='fill-in ok';
+    fb.className='fb ok';
+    fb.innerHTML='&#10003; Richtig! <em>'+cur.de+'</em>';
+    fb.style.display='block';
+    totalDone++;
+    btn.textContent='Weiter &#8594;';
+    btn.onclick=nextWord;
+  } else {
+    inp.className='fill-in bad';
+    fb.className='fb bad';
+    fb.innerHTML='&#10007; Falsch. Richtig wäre: <strong>'+cur.de+'</strong>';
+    fb.style.display='block';
+    repeat.push(cur);
+    btn.textContent='Weiter (Fehler vorgemerkt)';
+    btn.onclick=nextWord;
+  }
+}
+
+function lev(a,b){
+  const m=a.length,n=b.length;
+  const d=Array.from({length:m+1},(_,i)=>Array.from({length:n+1},(_,j)=>i?j?0:i:j));
+  for(let i=1;i<=m;i++)for(let j=1;j<=n;j++)
+    d[i][j]=a[i-1]===b[j-1]?d[i-1][j-1]:1+Math.min(d[i-1][j],d[i][j-1],d[i-1][j-1]);
+  return d[m][n];
+}
+
+function restartVocab(){
+  document.getElementById('vocabBox').style.display='block';
+  document.getElementById('doneBox').style.display='none';
+  initVocab();
+}
+
+document.getElementById('vocabIn').addEventListener('keydown',e=>{
+  if(e.key==='Enter') document.getElementById('chkBtn').click();
+});
+
+// TOOL 2
+let sentIdx=0;
+
+function loadSent(){
+  const s=SENTS[sentIdx];
+  document.getElementById('sentLat').textContent=s.lat;
+  document.getElementById('sentNum').textContent='Satz '+(sentIdx+1)+' von '+SENTS.length;
+  document.getElementById('transIn').value='';
+  document.getElementById('transRes').style.display='none';
+  document.getElementById('transLoad').style.display='none';
+}
+
+function nextSent(){ sentIdx=(sentIdx+1)%SENTS.length; loadSent(); }
+function prevSent(){ sentIdx=(sentIdx-1+SENTS.length)%SENTS.length; loadSent(); }
+
+async function evalTrans(){
+  const ut=document.getElementById('transIn').value.trim();
+  if(!ut){alert('Bitte zuerst eine Übersetzung eingeben.');return;}
+  const s=SENTS[sentIdx];
+  document.getElementById('transLoad').style.display='block';
+  document.getElementById('transRes').style.display='none';
+  const sys=`Du bist ein erfahrener Latein-Lehrer der 10. Klasse. Ein Schüler hat versucht, einen Satz aus Ovids Ars Amatoria ins Deutsche zu übersetzen.
+
+Bewerte die Übersetzung nach diesen Punkten:
+1. Note (1-6) mit kurzer Begründung
+2. Was wurde richtig übersetzt
+3. Welche Fehler gibt es (mit Erklärung)
+4. Musterlösung
+5. Ein konkreter Lerntipp
+
+Formuliere freundlich und motivierend. Antworte auf Deutsch.`;
+  const um=`Lateinischer Satz: "${s.lat}"
+
+Schülerübersetzung: "${ut}"
+
+Referenzübersetzung (intern): "${s.de}"`;
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','anthropic-version':'2023-06-01'},
+      body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:700,system:sys,messages:[{role:'user',content:um}]})
+    });
+    const d=await r.json();
+    const txt=d.content&&d.content[0]?d.content[0].text:'Fehler bei der Bewertung.';
+    document.getElementById('transRes').textContent=txt;
+    document.getElementById('transRes').style.display='block';
+  }catch(e){
+    document.getElementById('transRes').textContent='Verbindungsfehler: '+e.message;
+    document.getElementById('transRes').style.display='block';
+  }
+  document.getElementById('transLoad').style.display='none';
+}
+
+// INIT
+initVocab();
+loadSent();
+</script>
+</body>
+</html>
